@@ -323,7 +323,7 @@ GUARDAR Y CONTINUAR 🚀
 <option value="">Seleccione país...</option>
 </select>
 </div>
-<div class="space-y-1">
+<div id="bloque-region" class="space-y-1">
 <label class="text-[9px] font-bold uppercase text-gray-400">Región / Sector</label>
 <input type="text" id="region" name="region" placeholder="Urbanización / Sector" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
 </div>
@@ -508,6 +508,7 @@ esEntregaLocal = ciudad === CIUDAD_LOCAL;
 document.getElementById('nombre-ciudad-local').innerText = CIUDAD_LOCAL;
 document.getElementById('bloque-delivery-local').classList.toggle('hidden', !esEntregaLocal);
 document.getElementById('bloque-empresas-envio').classList.toggle('hidden', esEntregaLocal);
+document.getElementById('bloque-region').classList.toggle('hidden', esEntregaLocal);
 }
 window.usarMiUbicacion = function() {
 if (!navigator.geolocation) { alert("Tu teléfono no permite compartir la ubicación desde aquí. Pega el enlace de Google Maps."); return; }
@@ -993,7 +994,7 @@ if(carrito.length === 0) { alert("Agrega productos primero."); return; }
 const paisVal = document.getElementById('pais').value;
 const ciudadVal = document.getElementById('ciudad').value;
 const regionVal = document.getElementById('region').value.trim();
-if(!paisVal || !ciudadVal || !regionVal) {
+if(!paisVal || !ciudadVal || (!regionVal && !esEntregaLocal)) {
 alert("Por favor selecciona el país, la ciudad y escribe tu región o sector de destino.");
 return;
 }
