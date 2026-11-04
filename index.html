@@ -1056,7 +1056,7 @@ detalles_pedido: carrito.map(i => i.titulo), // Envío correcto como formato arr
 total: totalGeneral,
 monto_total: totalGeneral,
 metodo_pago: metodo,
-ubicacion_entrega: `${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}${esEntregaLocal ? ' / DELIVERY: ' + ubicacionMaps : ''}`,
+ubicacion_entrega: `${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}${esEntregaLocal ? ' / DELIVERY: ' + ubicacionMaps : ' / AGENCIA: ' + empresaEncomiendaSeleccionada}`,
 codigo_referido: codigoReferidoCliente,
 referencia: ref,
 referencia_bancaria: ref,

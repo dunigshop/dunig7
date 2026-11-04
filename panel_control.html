@@ -994,6 +994,7 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
                         productosHTML = `<span class="text-red-400">Error al procesar productos</span>`;
                     }
 
+                    window.__ubicOrden = window.__ubicOrden || {}; window.__ubicOrden[o.id] = o.ubicacion_entrega || "";
                     let estadoHtml = "";
                     if (o.estado === 'verificado') {
                         estadoHtml = `
@@ -1032,6 +1033,18 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
             }
         }
 
+        function mensajeConfirmacionPedido(idOrden) {
+            const ubic = String((window.__ubicOrden || {})[idOrden] || '');
+            const esLocal = /DELIVERY/i.test(ubic);
+            if (esLocal) {
+                return `Hola, soy Mr Santos. ¡Gracias por tu compra! ✅\n\nTu pedido *#${idOrden}* fue confirmado y ya recibí tu dirección. 📍\n\nEn este momento estoy empacando tu pedido para llevártelo por delivery. Como estás dentro de la ciudad, la entrega tarda de 30 minutos a 1 hora aproximadamente. 🛵\n\nTe escribo por aquí cuando vaya en camino.\n\nCualquier duda, respóndeme este mensaje y con gusto te atiendo.\n\nUn abrazo,\nMr Santos 🍬`;
+            }
+            const m = ubic.match(/AGENCIA:\s*([^/]+)/i);
+            let agencia = m ? m[1].replace(/\(.*?\)/g, '').trim() : '';
+            const txtAgencia = agencia ? `a la agencia ${agencia}` : 'a la agencia de envío que elegiste';
+            return `Hola, soy Mr Santos. ¡Gracias por tu compra! ✅\n\nTu pedido *#${idOrden}* fue confirmado y ya recibí tus datos de envío. 📦\n\nEn este momento estoy empacando tu pedido. Lo entrego ${txtAgencia} el próximo día hábil y te paso el número de guía por aquí apenas lo despache.\n\nDesde ese momento, la agencia suele tardar de 1 a 3 días hábiles en llevarlo a tu ciudad, según el destino (no cuentan fines de semana ni feriados).\n\nCualquier duda, respóndeme este mensaje y con gusto te atiendo.\n\nUn abrazo,\nMr Santos 🍬`;
+        }
+
         async function confirmarYEnviarPedido(idOrden, telefonoCliente, codigoPremio) {
             if (!idOrden) return;
 
@@ -1055,7 +1068,7 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
             }
 
             const numeroLimpio = telefonoCliente.replace(/[^0-9]/g, "");
-            const mensaje = `Hola, soy Mr Santos. ¡Gracias por tu compra! ✅\n\nTu pedido *#${idOrden}* fue recibido y confirmado correctamente. Ya lo estoy preparando para el despacho.\n\nTe aviso por aquí mismo cuando salga, con los datos de entrega o el número de guía de la agencia.\n\nCualquier duda, respóndeme este mensaje y con gusto te atiendo.\n\nUn abrazo,\nMr Santos 🍬`;
+            const mensaje = mensajeConfirmacionPedido(idOrden);
 
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroLimpio}&text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
@@ -1069,7 +1082,7 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
             }
 
             const numeroLimpio = telefono.replace(/[^0-9]/g, "");
-            const mensaje = `Hola, soy Mr Santos. ¡Gracias por tu compra! ✅\n\nTu pedido *#${idOrden}* fue recibido y confirmado correctamente. Ya lo estoy preparando para el despacho.\n\nTe aviso por aquí mismo cuando salga, con los datos de entrega o el número de guía de la agencia.\n\nCualquier duda, respóndeme este mensaje y con gusto te atiendo.\n\nUn abrazo,\nMr Santos 🍬`;
+            const mensaje = mensajeConfirmacionPedido(idOrden);
 
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroLimpio}&text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
