@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Referidos · DUNIGSHOP</title>
+    <title>Registro de Referidos · Mr Santos</title>
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <h1 class="text-base sm:text-lg font-black tracking-[0.15em] text-white font-futurista">
-                        DUNIG<span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-500">SHOP</span>
+                        MR <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-amber-500">SANTOS</span>
                     </h1>
                     <p class="text-[8px] text-amber-500/70 uppercase tracking-[0.25em] font-bold font-futurista">
                         PROGRAMA DE REFERIDOS
@@ -107,17 +107,17 @@
             <div class="bg-stone-900/60 border border-stone-800 rounded-xl p-3.5 text-[11px] text-stone-400 leading-relaxed space-y-1">
                 <p><strong class="text-amber-400">Cómo ganas:</strong> tu cliente compra en la app y coloca tu código. Bronce 10% (1-9 ventas), Plata 12% (10-24), Oro 15% (25+) + premio del mes. La comisión es sobre el producto, sin el envío.</p>
                 <p><strong class="text-amber-400">Pagos:</strong> los viernes por Pago Móvil o Binance, mínimo $5.</p>
-                <p><strong class="text-amber-400">Reglas:</strong> respeta los precios, nada de spam, nunca recibas pagos a tu nombre (el cliente paga directo a DUNIGSHOP) y no prometas tiempos de entrega.</p>
+                <p><strong class="text-amber-400">Reglas:</strong> respeta los precios, nada de spam, nunca recibas pagos a tu nombre (el cliente paga directo a Mr Santos) y no prometas tiempos de entrega.</p>
             </div>
             <div class="grid gap-2.5">
                 <a id="btn-mi-wa" target="_blank" rel="noopener" class="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-futurista font-black py-3.5 rounded-xl text-[11px] uppercase tracking-[0.12em] flex items-center justify-center gap-2"><i data-lucide="message-circle" class="w-4 h-4"></i> Guardar mi kit en mi WhatsApp</a>
-                <a id="btn-avisar" target="_blank" rel="noopener" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-black font-futurista font-black py-3.5 rounded-xl text-[11px] uppercase tracking-[0.12em] flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Confirmar registro con DUNIGSHOP</a>
+                <a id="btn-avisar" target="_blank" rel="noopener" class="w-full bg-gradient-to-r from-amber-400 to-amber-500 text-black font-futurista font-black py-3.5 rounded-xl text-[11px] uppercase tracking-[0.12em] flex items-center justify-center gap-2"><i data-lucide="send" class="w-4 h-4"></i> Confirmar registro con Mr Santos</a>
                 <button type="button" onclick="copiarKit()" id="btn-copiar" class="w-full border border-amber-500/30 text-amber-400 font-futurista font-bold py-3 rounded-xl text-[11px] uppercase tracking-[0.12em] flex items-center justify-center gap-2"><i data-lucide="copy" class="w-4 h-4"></i> Copiar todo</button>
             </div>
         </div>
     </main>
 
-    <footer class="border-t border-stone-950 bg-black/60 p-4 text-center text-[10px] text-stone-600 font-mono tracking-widest">© 2026 DUNIGSHOP · <a href="https://dunigshop.github.io/dunig7/terminos.html" target="_blank" rel="noopener" class="text-amber-500 underline">Términos y Condiciones</a></footer>
+    <footer class="border-t border-stone-950 bg-black/60 p-4 text-center text-[10px] text-stone-600 font-mono tracking-widest">© 2026 Mr Santos · <a href="https://dunigshop.github.io/dunig7/terminos.html" target="_blank" rel="noopener" class="text-amber-500 underline">Términos y Condiciones</a></footer>
 
     <script>
         const SUPABASE_URL = "https://mkewwlmeikixpvfayisj.supabase.co"; 
@@ -175,7 +175,7 @@
             mostrarKit(nombre, cedula, telefono, ciudad, codigoGenerado, linkGenerado, fechaAcepta);
         }
 
-        const WA_DUNIGSHOP = "584221494236";
+        const WA_Mr Santos = "584221494236";
         let textoKit = "";
 
         function telefonoInternacional(t) {
@@ -188,7 +188,7 @@
 
         function mostrarKit(nombre, cedula, telefono, ciudad, codigo, link, fecha) {
             textoKit =
-`*KIT DE REFERIDO DUNIGSHOP*
+`*KIT DE REFERIDO Mr Santos*
 Nombre: ${nombre}
 Código: *${codigo}*
 
@@ -207,10 +207,10 @@ https://dunigshop.github.io/dunig7/terminos.html
 Cómo ganas: tu cliente compra en la app y coloca tu código. Bronce 10% (1-9 ventas), Plata 12% (10-24), Oro 15% (25+) + premio del mes. Comisión sobre el producto, sin envío.
 Pagos: viernes por Pago Móvil o Binance, mínimo $5.
 Reglas: respeta los precios, nada de spam, nunca recibas pagos a tu nombre y no prometas tiempos de entrega.
-Eres afiliado independiente: no existe relación laboral con DUNIGSHOP.`;
+Eres afiliado independiente: no existe relación laboral con Mr Santos.`;
 
             const aviso =
-`Hola DUNIGSHOP, me acabo de registrar como referido.
+`Hola Mr Santos, me acabo de registrar como referido.
 Nombre: ${nombre}
 Cédula: ${cedula}
 Teléfono: ${telefono}
@@ -223,7 +223,7 @@ Acepté los Términos y Condiciones v1.0 el ${new Date(fecha).toLocaleString('es
             const a = document.getElementById('kit-link'); a.href = link; a.innerText = link;
             const tel = telefonoInternacional(telefono);
             document.getElementById('btn-mi-wa').href = `https://wa.me/${tel}?text=${encodeURIComponent(textoKit)}`;
-            document.getElementById('btn-avisar').href = `https://wa.me/${WA_DUNIGSHOP}?text=${encodeURIComponent(aviso)}`;
+            document.getElementById('btn-avisar').href = `https://wa.me/${WA_Mr Santos}?text=${encodeURIComponent(aviso)}`;
             document.querySelector('#form-referido').closest('.glass-panel').classList.add('hidden');
             document.getElementById('kit').classList.remove('hidden');
             lucide.createIcons();
