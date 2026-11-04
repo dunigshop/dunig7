@@ -153,7 +153,6 @@ Cerrar
 <div class="space-y-1">
 <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Número de WhatsApp *</label>
 <input type="tel" id="reg-whatsapp" name="tel" autocomplete="tel" inputmode="tel" required placeholder="Ej. +584120000000" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
-<button type="button" id="btn-numero-auto" onclick="pedirNumeroTelefono()" class="hidden w-full mt-1 bg-[#1f1f1f] border border-amber-500/40 text-amber-400 text-xs font-bold py-2.5 rounded-xl">📱 Usar el número de este teléfono</button>
 <div class="flex gap-2 items-start p-2.5 mt-1 bg-amber-500/10 border border-amber-500/40 rounded-xl"><span class="text-base leading-none">⚠️</span><p class="text-[10px] text-amber-300 leading-relaxed"><b>Revisa bien tu número de WhatsApp.</b> Por ahí te llega la verificación de tu pedido y todos los avisos de envío. Si está mal escrito, no podremos contactarte. Escríbelo con el código del país, ej. +58 412 000 0000.</p></div>
 </div>
 <div class="space-y-1">
@@ -1106,7 +1105,7 @@ document.addEventListener('pointerout',function(e){var t=e.target.closest&&e.tar
     if (!plugin()) return;
     const b = document.getElementById('btn-numero-auto'); if (b) b.classList.remove('hidden');
     const inp = document.getElementById('reg-whatsapp');
-    if (inp) { let pedido = false; inp.addEventListener('focus', function(){ if (!pedido && !inp.value) { pedido = true; pedirNumeroTelefono(); } }); }
+    if (false) { let pedido = false; inp.addEventListener('focus', function(){ if (!pedido && !inp.value) { pedido = true; pedirNumeroTelefono(); } }); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
