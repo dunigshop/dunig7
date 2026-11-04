@@ -153,6 +153,7 @@ Cerrar
 <div class="space-y-1">
 <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Número de WhatsApp *</label>
 <input type="tel" id="reg-whatsapp" name="tel" autocomplete="tel" inputmode="tel" required placeholder="Ej. +584120000000" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
+<button type="button" id="btn-numero-auto" onclick="pedirNumeroTelefono()" class="hidden w-full mt-1 bg-[#1f1f1f] border border-amber-500/40 text-amber-400 text-xs font-bold py-2.5 rounded-xl">📱 Usar el número de este teléfono</button>
 <div class="flex gap-2 items-start p-2.5 mt-1 bg-amber-500/10 border border-amber-500/40 rounded-xl"><span class="text-base leading-none">⚠️</span><p class="text-[10px] text-amber-300 leading-relaxed"><b>Revisa bien tu número de WhatsApp.</b> Por ahí te llega la verificación de tu pedido y todos los avisos de envío. Si está mal escrito, no podremos contactarte. Escríbelo con el código del país, ej. +58 412 000 0000.</p></div>
 </div>
 <div class="space-y-1">
@@ -580,7 +581,7 @@ window.registrarClienteUnico = async function(event) {
 if (event && event.preventDefault) event.preventDefault();
 const nombre = document.getElementById('reg-nombre').value.trim();
 const whatsapp = document.getElementById('reg-whatsapp').value.trim();
-const correo = document.getElementById('reg-correo').value.trim();
+const correo = document.getElementById('reg-correo').value.trim().toLowerCase();
 const inputRef = document.getElementById('input-referido');
 const codigoReferido = inputRef ? inputRef.value.trim().toUpperCase() : 'NINGUNO';
 const msgReg = document.getElementById('registro-mensaje');
@@ -607,7 +608,13 @@ if (!baseProductos || baseProductos.length === 0) descargarCatalogoDeSupabase();
 try {
 const conRef = { nombre, whatsapp, correo, codigo_referido: codigoReferido || 'NINGUNO' };
 const sinRef = { nombre, whatsapp, correo };
-if (clienteAnterior.correo) {
+// Una sola cuenta por correo: si el correo ya existe, se actualiza en vez de crear otra
+let correoExistente = null;
+try { const q = await supabaseClient.from('clientes_vip').select('correo').ilike('correo', correo).limit(1); if (!q.error && q.data && q.data.length) correoExistente = q.data[0].correo; } catch (e) {}
+if (correoExistente) {
+let r = await supabaseClient.from('clientes_vip').update(conRef).eq('correo', correoExistente);
+if (r.error) await supabaseClient.from('clientes_vip').update(sinRef).eq('correo', correoExistente);
+} else if (clienteAnterior.correo) {
 let r = await supabaseClient.from('clientes_vip').update(conRef).eq('correo', clienteAnterior.correo);
 if (r.error) r = await supabaseClient.from('clientes_vip').update(sinRef).eq('correo', clienteAnterior.correo);
 if (r.error) { r = await supabaseClient.from('clientes_vip').insert([conRef]); if (r.error) await supabaseClient.from('clientes_vip').insert([sinRef]); }
@@ -1085,6 +1092,23 @@ for(var i=0;i<38;i++)p.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()
 // Inclinación 3D de tarjetas de producto
 document.addEventListener('pointermove',function(e){var t=e.target.closest&&e.target.closest('#grid-productos-vitrina>div');if(!t)return;var b=t.getBoundingClientRect(),px=(e.clientX-b.left)/b.width-.5,py=(e.clientY-b.top)/b.height-.5;t.style.transform='perspective(700px) rotateY('+(px*8)+'deg) rotateX('+(-py*8)+'deg) translateY(-4px)';});
 document.addEventListener('pointerout',function(e){var t=e.target.closest&&e.target.closest('#grid-productos-vitrina>div');if(t&&!t.contains(e.relatedTarget))t.style.transform='';});
+})();
+</script>
+<script>
+// App Android Mr Santos: tomar el número de la SIM con Google (Phone Number Hint)
+(function(){
+  function plugin(){ try { return window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform() && Capacitor.Plugins && Capacitor.Plugins.PhoneHint; } catch(e){ return null; } }
+  window.pedirNumeroTelefono = async function(){
+    const p = plugin(); if (!p) return;
+    try { const r = await p.request(); if (r && r.phone) { const inp = document.getElementById('reg-whatsapp'); inp.value = r.phone; inp.dispatchEvent(new Event('input')); } } catch(e) { console.log('PhoneHint', e); }
+  };
+  function init(){
+    if (!plugin()) return;
+    const b = document.getElementById('btn-numero-auto'); if (b) b.classList.remove('hidden');
+    const inp = document.getElementById('reg-whatsapp');
+    if (inp) { let pedido = false; inp.addEventListener('focus', function(){ if (!pedido && !inp.value) { pedido = true; pedirNumeroTelefono(); } }); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
 </body>
