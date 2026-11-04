@@ -148,16 +148,16 @@ Cerrar
 <div id="form-registro-cliente" class="space-y-4">
 <div class="space-y-1">
 <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Nombre y Apellido *</label>
-<input type="text" id="reg-nombre" required placeholder="Ej. Carlos Pérez" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white">
+<input type="text" id="reg-nombre" name="name" autocomplete="name" required placeholder="Ej. Carlos Pérez" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white">
 </div>
 <div class="space-y-1">
 <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Número de WhatsApp *</label>
-<input type="tel" id="reg-whatsapp" required placeholder="Ej. +584120000000" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
+<input type="tel" id="reg-whatsapp" name="tel" autocomplete="tel" inputmode="tel" required placeholder="Ej. +584120000000" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
 <div class="flex gap-2 items-start p-2.5 mt-1 bg-amber-500/10 border border-amber-500/40 rounded-xl"><span class="text-base leading-none">⚠️</span><p class="text-[10px] text-amber-300 leading-relaxed"><b>Revisa bien tu número de WhatsApp.</b> Por ahí te llega la verificación de tu pedido y todos los avisos de envío. Si está mal escrito, no podremos contactarte. Escríbelo con el código del país, ej. +58 412 000 0000.</p></div>
 </div>
 <div class="space-y-1">
 <label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Correo Electrónico *</label>
-<input type="email" id="reg-correo" required placeholder="tucorreo@dominio.com" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
+<input type="email" id="reg-correo" name="email" autocomplete="email" required placeholder="tucorreo@dominio.com" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
 </div>
 <!-- CAMPO DE REFERIDO EDITABLE -->
 <div class="space-y-1">
