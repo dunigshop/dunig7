@@ -175,7 +175,7 @@
             mostrarKit(nombre, cedula, telefono, ciudad, codigoGenerado, linkGenerado, fechaAcepta);
         }
 
-        const WA_Mr Santos = "584221494236";
+        const WA_MRSANTOS = "584221494236";
         let textoKit = "";
 
         function telefonoInternacional(t) {
@@ -223,7 +223,7 @@ Acepté los Términos y Condiciones v1.0 el ${new Date(fecha).toLocaleString('es
             const a = document.getElementById('kit-link'); a.href = link; a.innerText = link;
             const tel = telefonoInternacional(telefono);
             document.getElementById('btn-mi-wa').href = `https://wa.me/${tel}?text=${encodeURIComponent(textoKit)}`;
-            document.getElementById('btn-avisar').href = `https://wa.me/${WA_Mr Santos}?text=${encodeURIComponent(aviso)}`;
+            document.getElementById('btn-avisar').href = `https://wa.me/${WA_MRSANTOS}?text=${encodeURIComponent(aviso)}`;
             document.querySelector('#form-referido').closest('.glass-panel').classList.add('hidden');
             document.getElementById('kit').classList.remove('hidden');
             lucide.createIcons();
