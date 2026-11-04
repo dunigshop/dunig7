@@ -148,7 +148,7 @@
                             <option value="pago_movil">Pago Móvil</option>
                             <option value="zelle">Zelle</option>
                             <option value="nequi">Nequi</option>
-                            <option value="efectivo">Efectivo</option>
+                            
                         </select>
                     </div>
 
@@ -1052,8 +1052,7 @@
             }
 
             const numeroLimpio = telefonoCliente.replace(/[^0-9]/g, "");
-            const linkCuponera = "https://dunigshop.github.io/cuponera/cuponera.html";
-            const mensaje = `¡Hola! Tu orden VIP #${idOrden} ha sido *verificada y confirmada* con éxito. 🎉\n\nTu código exclusivo para el sorteo y acceso a la cuponera es:\n📌 *${codigoPremio}*\n\n🎟️ *Ingresa a nuestra cuponera aquí:* \n${linkCuponera}\n\n¡Guarda muy bien este código para participar y desbloquear tus beneficios! Gracias por tu compra.`;
+            const mensaje = `Hola, soy Mr Santos. ¡Gracias por tu compra! ✅\n\nTu pedido *#${idOrden}* fue recibido y confirmado correctamente. Ya lo estoy preparando para el despacho.\n\nTe aviso por aquí mismo cuando salga, con los datos de entrega o el número de guía de la agencia.\n\nCualquier duda, respóndeme este mensaje y con gusto te atiendo.\n\nUn abrazo,\nMr Santos 🍬`;
 
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroLimpio}&text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');
@@ -1067,8 +1066,7 @@
             }
 
             const numeroLimpio = telefono.replace(/[^0-9]/g, "");
-            const linkCuponera = "https://dunigshop.github.io/cuponera/cuponera.html";
-            const mensaje = `¡Hola! Tu orden VIP #${idOrden} ha sido verificada y confirmada con éxito. 🎉\n\nTu código exclusivo para el sorteo y acceso a la cuponera es:\n📌 *${codigo}*\n\n🎟️ *Ingresa a nuestra cuponera aquí:* \n${linkCuponera}\n\n¡Guarda muy bien este código para participar y desbloquear tus beneficios! Gracias por tu compra.`;
+            const mensaje = `Hola, soy Mr Santos. ¡Gracias por tu compra! ✅\n\nTu pedido *#${idOrden}* fue recibido y confirmado correctamente. Ya lo estoy preparando para el despacho.\n\nTe aviso por aquí mismo cuando salga, con los datos de entrega o el número de guía de la agencia.\n\nCualquier duda, respóndeme este mensaje y con gusto te atiendo.\n\nUn abrazo,\nMr Santos 🍬`;
 
             const urlWhatsApp = `https://api.whatsapp.com/send?phone=${numeroLimpio}&text=${encodeURIComponent(mensaje)}`;
             window.open(urlWhatsApp, '_blank');

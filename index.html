@@ -329,7 +329,13 @@ GUARDAR Y CONTINUAR 🚀
 </div>
 </div>
 </div>
-<div class="space-y-2 pt-2">
+<div id="bloque-delivery-local" class="hidden space-y-2 pt-2 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
+<p class="text-xs font-bold text-amber-400 uppercase">🛵 Delivery en <span id="nombre-ciudad-local">tu ciudad</span></p>
+<p class="text-[11px] text-gray-300">Estás en nuestra ciudad: te lo llevamos a tu puerta, sin agencia de envío. Pega aquí tu ubicación exacta de Google Maps.</p>
+<input type="text" id="input-ubicacion-maps" placeholder="Enlace de Google Maps (Compartir ubicación)" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
+<button type="button" onclick="usarMiUbicacion()" class="w-full bg-[#1f1f1f] border border-amber-500/40 text-amber-400 text-xs font-bold py-2.5 rounded-xl">📍 Usar mi ubicación actual</button>
+</div>
+<div id="bloque-empresas-envio" class="space-y-2 pt-2">
 <label class="text-[10px] uppercase text-white font-bold tracking-wider block">Selecciona Empresa de Encomiendas</label>
 <div id="grid-empresas-encomienda" class="grid grid-cols-3 gap-2"></div>
 <div id="badge-empresa-seleccionada" class="text-xs font-mono text-amber-400 bg-amber-500/10 p-2 rounded-lg border border-amber-500/20 hidden">
@@ -351,7 +357,6 @@ Agencia: <span id="texto-agencia-activa" class="font-bold">Ninguna</span>
 <option value="zelle">Zelle</option>
 <option value="pago_movil">Pago Móvil</option>
 <option value="binance">Binance</option>
-<option value="efectivo">Efectivo</option>
 </select>
 </div>
 <div id="info-metodo-pago" class="hidden p-3 bg-[#1a1a1a] border border-[#262626] rounded-xl space-y-1 text-xs font-mono">
@@ -489,9 +494,27 @@ ciudadSelect.innerHTML += `<option value="${c}">${c}</option>`;
 ciudadSelect.innerHTML = '<option value="">Seleccione primero un país...</option>';
 }
 }
+// Ciudad donde hacemos delivery propio (cámbiala aquí si te mudas)
+const CIUDAD_LOCAL = "Mérida";
+let esEntregaLocal = false;
 window.actualizarRegiones = function() {
 const regionInput = document.getElementById('region');
 if (regionInput) regionInput.value = '';
+actualizarModoEntrega();
+}
+window.actualizarModoEntrega = function() {
+const ciudad = document.getElementById('ciudad').value;
+esEntregaLocal = ciudad === CIUDAD_LOCAL;
+document.getElementById('nombre-ciudad-local').innerText = CIUDAD_LOCAL;
+document.getElementById('bloque-delivery-local').classList.toggle('hidden', !esEntregaLocal);
+document.getElementById('bloque-empresas-envio').classList.toggle('hidden', esEntregaLocal);
+}
+window.usarMiUbicacion = function() {
+if (!navigator.geolocation) { alert("Tu teléfono no permite compartir la ubicación desde aquí. Pega el enlace de Google Maps."); return; }
+navigator.geolocation.getCurrentPosition(pos => {
+const { latitude, longitude } = pos.coords;
+document.getElementById('input-ubicacion-maps').value = `https://maps.google.com/?q=${latitude.toFixed(6)},${longitude.toFixed(6)}`;
+}, () => alert("No pudimos leer tu ubicación. Pega el enlace de Google Maps."), { enableHighAccuracy: true, timeout: 15000 });
 }
 async function cargarEmpresasEncomiendaSupabase() {
 const grid = document.getElementById('grid-empresas-encomienda');
@@ -974,6 +997,11 @@ if(!paisVal || !ciudadVal || !regionVal) {
 alert("Por favor selecciona el país, la ciudad y escribe tu región o sector de destino.");
 return;
 }
+let ubicacionMaps = '';
+if (esEntregaLocal) {
+ubicacionMaps = document.getElementById('input-ubicacion-maps').value.trim();
+if (!ubicacionMaps) { alert("Por favor pega tu ubicación de Google Maps o toca \"Usar mi ubicación actual\"."); document.getElementById('input-ubicacion-maps').focus(); return; }
+}
 const metodo = document.getElementById('tipoMetodoPago').value;
 if(!metodo) { alert("Por favor selecciona un método de pago."); return; }
 let ref = "";
@@ -1003,7 +1031,7 @@ wsNum = data.valor.replace(/[^0-9]/g, "");
 }
 } catch (err) {}
 let mensajeMesaExtra = metodo === 'efectivo' ? `📝 *OBSERVACIÓN EFECTIVO:* ${numeroMesa}\n` : '';
-const mensaje = `📦 *PEDIDO NACIONAL - DUNIGSHOP* 📦\n\n👤 *CLIENTE:* ${clienteLocal.nombre || 'N/A'}\n📱 *WHATSAPP:* ${clienteLocal.whatsapp || 'N/A'}\n🎁 *REF. CLIENTE:* ${codigoReferidoCliente}\n\n${lista}\n\n💵 *TOTAL PRODUCTOS:* $${totalGeneral.toFixed(2)}\n📍 *DESTINO:* ${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}\n🚚 *AGENCIA DE ENCOMIENDA:* ${empresaEncomiendaSeleccionada} (Cobro a Destino)\n🏦 *MÉTODO DE Pago:* ${metodo.toUpperCase()}\n${mensajeMesaExtra}🔢 *REF:* ${ref}`;
+const mensaje = `🍬 *NUEVO PEDIDO - MR SANTOS* 🍬\n\n👤 *CLIENTE:* ${clienteLocal.nombre || 'N/A'}\n📱 *WHATSAPP:* ${clienteLocal.whatsapp || 'N/A'}\n🎁 *REF. CLIENTE:* ${codigoReferidoCliente}\n\n${lista}\n\n💵 *TOTAL PRODUCTOS:* $${totalGeneral.toFixed(2)}\n📍 *DESTINO:* ${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}\n${esEntregaLocal ? `🛵 *ENTREGA:* Delivery en ${CIUDAD_LOCAL}\n🗺️ *UBICACIÓN:* ${ubicacionMaps}\n` : `🚚 *AGENCIA DE ENCOMIENDA:* ${empresaEncomiendaSeleccionada} (Cobro a Destino)\n`}🏦 *MÉTODO DE Pago:* ${metodo.toUpperCase()}\n${mensajeMesaExtra}🔢 *REF:* ${ref}`;
 // Generación de UUID único obligatorio para el campo id (text)
 const generatedId = 'ord-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7);
 // Inserción completa y corregida en Supabase con todos los campos requeridos
@@ -1018,7 +1046,7 @@ detalles_pedido: carrito.map(i => i.titulo), // Envío correcto como formato arr
 total: totalGeneral,
 monto_total: totalGeneral,
 metodo_pago: metodo,
-ubicacion_entrega: `${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}`,
+ubicacion_entrega: `${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}${esEntregaLocal ? ' / DELIVERY: ' + ubicacionMaps : ''}`,
 codigo_referido: codigoReferidoCliente,
 referencia: ref,
 referencia_bancaria: ref,
@@ -1029,7 +1057,7 @@ if (insertError) {
 console.error("Error al registrar en ordenes_vip:", insertError.message);
 }
 await guardarOrdenEnCentral({
-nombre: `DUNIGSHOP - Envío por ${empresaEncomiendaSeleccionada}`,
+nombre: esEntregaLocal ? `Mr Santos - Delivery en ${CIUDAD_LOCAL}` : `Mr Santos - Envío por ${empresaEncomiendaSeleccionada}`,
 detalles: carrito.map(i => i.titulo).join(', ')
 });
 carrito = [];
