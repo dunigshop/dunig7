@@ -1128,14 +1128,18 @@ const l=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(l);gl.vertexAt
 tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);[gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);return true;}
 function fit(c,v){const dpr=Math.min(window.devicePixelRatio||1,2),W=innerWidth,H=innerHeight,ar=(v.videoWidth/2)/v.videoHeight||0.5625;let w=W,h=W/ar;if(h>H){h=H;w=H*ar;}c.style.width=w+'px';c.style.height=h+'px';c.style.left=((W-w)/2)+'px';c.style.top=((H-h)/2)+'px';c.style.inset='auto';const pw=Math.round(w*dpr),ph=Math.round(h*dpr);if(c.width!==pw||c.height!==ph){c.width=pw;c.height=ph;}gl.viewport(0,0,pw,ph);}
 function loop(c,v){if(v.readyState>=2){fit(c,v);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,v);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}raf=requestAnimationFrame(()=>loop(c,v));}
-window.verPasos=function(n){const o=document.getElementById('holo'),c=document.getElementById('holoC'),v=document.getElementById('holoS');
+window.verPasos=function(n){const o=document.getElementById('holo'),c=document.getElementById('holoC');
 if(ok===null)ok=initGL(c);
 if(!ok){o.classList.remove('sb');const vv=document.getElementById('holoV');document.getElementById('holoT').textContent='Paso '+n;vv.src='pj-paso'+n+'.webm';vv.classList.add('full');vv.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};vv.muted=false;o.classList.add('on');const p=vv.play();if(p&&p.catch)p.catch(()=>{vv.muted=true;vv.play().catch(()=>{})});return;}
 document.getElementById('holoT').textContent='Paso '+n+' de 4';o.classList.add('sb','on');
-v.src='sb-paso'+n+'.mp4';v.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};v.onerror=()=>{v.onerror=null;n<4?verPasos(n+1):cerrarHolo()};v.muted=false;
+if(!window.__pv){window.__pv=[];for(let i=1;i<=4;i++){const e=document.createElement('video');e.playsInline=true;e.setAttribute('webkit-playsinline','');e.preload='auto';e.src='ct-paso'+i+'.mp4';e.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';o.appendChild(e);e.load();window.__pv[i]=e;}}
+const old=document.getElementById('holoS');if(old){old.pause();old.onended=null;}
+o.querySelectorAll('video[data-cur]').forEach(e=>{e.pause();e.onended=null;e.removeAttribute('data-cur');});
+const v=window.__pv[n];v.setAttribute('data-cur','1');v.currentTime=0;
+v.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};v.onerror=()=>{v.onerror=null;n<4?verPasos(n+1):cerrarHolo()};v.muted=false;
 const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{})});
-cancelAnimationFrame(raf);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);loop(c,v);};
-window.__stopSB=function(){cancelAnimationFrame(raf);const v=document.getElementById('holoS');v.pause();v.onended=null;document.getElementById('holo').classList.remove('sb');};
+cancelAnimationFrame(raf);loop(c,v);};
+window.__stopSB=function(){cancelAnimationFrame(raf);document.querySelectorAll('#holo video').forEach(e=>{e.pause();e.onended=null;});document.getElementById('holo').classList.remove('sb');};
 })();
 window.cerrarHolo=function(){const o=document.getElementById('holo'),v=document.getElementById('holoV');o.classList.remove('on');v.pause();if(window.__stopSB)__stopSB();};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarHolo();});
