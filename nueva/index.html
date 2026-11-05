@@ -230,13 +230,8 @@ input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd
 </div></section>
 
 <section><div class="wrap">
-<div class="sh reveal"><h2>Así de fácil <span class="gtxt">se pide</span></h2><button class="pasobtn pasoall" data-p="all" hidden onclick="verPasos(1)">▶ Mr Santos te lo explica</button></div>
-<div class="feats">
-<div class="ft reveal"><span class="ic">🛍️</span><h3>1. Elige</h3><button class="pasobtn" data-p="1" hidden onclick="verPasos(1,1)">▶ Ver</button><p>Toca el producto, mira los detalles y agrégalo a tu bolsa.</p></div>
-<div class="ft reveal"><span class="ic">📍</span><h3>2. Tu destino</h3><button class="pasobtn" data-p="2" hidden onclick="verPasos(2,1)">▶ Ver</button><p>En Valencia te lo llevamos a tu puerta. Al resto del país, por MRW, Domesa o Tealca con cobro a destino.</p></div>
-<div class="ft reveal"><span class="ic">💳</span><h3>3. Paga</h3><button class="pasobtn" data-p="3" hidden onclick="verPasos(3,1)">▶ Ver</button><p>Pago móvil, Zelle o Binance. Escribe tu número de referencia.</p></div>
-<div class="ft reveal"><span class="ic">💬</span><h3>4. Confirma</h3><button class="pasobtn" data-p="4" hidden onclick="verPasos(4,1)">▶ Ver</button><p>Tu pedido se abre en WhatsApp para confirmarlo con nosotros.</p></div>
-</div>
+<div class="sh reveal"><h2>Así de fácil <span class="gtxt">se pide</span></h2></div>
+<button class="pasobig reveal" onclick="verPasos(1)"><span class="pb-play">▶</span><span class="pb-t">Mr Santos te enseña a comprar<small>Mira cómo se pide en 40 segundos</small></span></button>
 <div class="duo" style="margin-top:22px">
 <div class="ph-card reveal"><img src="elab-1-guantes.jpg" alt="Gomitas hechas a mano con guantes" loading="lazy"><div class="cap"><h3>Hechas a mano, con guantes</h3><p>Receta artesanal Mr Santos con gelatina vegetal (agar), sin gelatina animal.</p></div></div>
 </div>
@@ -1109,16 +1104,40 @@ window.agregarMayor=function(i){const m=MAYOR[i];if(!window.__pushCarrito)return
 .holo video.full{left:0;top:0;bottom:auto;width:100%;height:100%;object-fit:contain;transform:scale(.9)}
 .holo.on video.full{transform:scale(1)}
 .holo .ht{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:4;padding:8px 18px;border-radius:30px;background:rgba(0,0,0,.6);border:1px solid #d4af37;font-weight:800;font-size:18px;color:#fff;white-space:nowrap}
+.pasobig{display:flex;align-items:center;gap:16px;width:100%;max-width:520px;margin:6px auto 0;padding:18px 22px;border-radius:22px;border:1.5px solid #d4af37;background:linear-gradient(135deg,rgba(212,175,55,.22),rgba(212,175,55,.06));color:#fff;font:700 19px Poppins,sans-serif;text-align:left;cursor:pointer;box-shadow:0 10px 30px rgba(212,175,55,.18)}
+.pasobig .pb-play{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#f5d97a,#d4af37);color:#111;font-size:24px;padding-left:4px;animation:pbp 1.8s infinite}
+.pasobig small{display:block;font-weight:500;font-size:13px;color:#f5d97a;margin-top:3px}
+@keyframes pbp{0%{box-shadow:0 0 0 0 rgba(212,175,55,.6)}70%{box-shadow:0 0 0 16px rgba(212,175,55,0)}100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}}
+#holoC{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
+.holo.sb #holoC{display:block}.holo.sb #holoV{display:none}
 .pasobtn{margin-top:10px;padding:7px 14px;border-radius:30px;border:1px solid #d4af37;background:rgba(212,175,55,.12);color:#f5d97a;font:600 13px Poppins,sans-serif;cursor:pointer}
 .pasoall{display:block;margin:12px auto 0}
 .holo .hx{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:1px solid #d4af37;background:rgba(0,0,0,.6);color:#fff;font-size:20px;z-index:5}
 </style>
-<div class="holo" id="holo" onclick="cerrarHolo()"><button class="hx" onclick="cerrarHolo()" aria-label="Cerrar">✕</button><div class="ht" id="holoT"></div><video id="holoV" playsinline preload="none"></video></div>
+<div class="holo" id="holo" onclick="cerrarHolo()"><button class="hx" onclick="cerrarHolo()" aria-label="Cerrar">✕</button><div class="ht" id="holoT"></div><video id="holoV" playsinline preload="none"></video><canvas id="holoC"></canvas><video id="holoS" playsinline webkit-playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video></div>
 <script>
 window.abrirHolo=function(n,k){const o=document.getElementById('holo'),v=document.getElementById('holoV');document.getElementById('holoT').textContent=n;v.src='pj-'+k+'.webm';v.classList.toggle('full',k==='menta');v.onended=cerrarHolo;v.muted=false;o.classList.add('on');const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});};
-window.verPasos=function(n,solo){const o=document.getElementById('holo'),v=document.getElementById('holoV');document.getElementById('holoT').textContent='Paso '+n;v.src='pj-paso'+n+'.webm';v.classList.add('full');v.onended=function(){if(!solo&&n<4)verPasos(n+1);else cerrarHolo();};v.onerror=function(){v.onerror=null;if(!solo&&n<4)verPasos(n+1);else cerrarHolo();};v.muted=false;o.classList.add('on');const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});};
-fetch('pj-paso1.webm',{method:'HEAD'}).then(r=>{if(r.ok)document.querySelectorAll('.pasobtn').forEach(b=>{if(b.dataset.p==='all'||true)b.hidden=false;});}).catch(()=>{});
-window.cerrarHolo=function(){const o=document.getElementById('holo'),v=document.getElementById('holoV');o.classList.remove('on');v.pause();};
+(function(){let gl,prog,tex,raf=0,ok=null;
+function initGL(c){try{gl=c.getContext('webgl',{premultipliedAlpha:true,alpha:true})||c.getContext('experimental-webgl',{premultipliedAlpha:true,alpha:true});}catch(e){gl=null}if(!gl)return false;
+const vs='attribute vec2 p;varying vec2 u;void main(){u=vec2((p.x+1.)*.5,(1.-p.y)*.5);gl_Position=vec4(p,0.,1.);}';
+const fs='precision mediump float;varying vec2 u;uniform sampler2D t;void main(){vec3 c=texture2D(t,vec2(u.x*.5,u.y)).rgb;float a=texture2D(t,vec2(u.x*.5+.5,u.y)).r;a=clamp((a-.04)/.92,0.,1.);gl_FragColor=vec4(c*a,a);}';
+function sh(t,src){const s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);return s;}
+prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const l=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);[gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);return true;}
+function fit(c,v){const dpr=Math.min(window.devicePixelRatio||1,2),W=innerWidth,H=innerHeight,ar=(v.videoWidth/2)/v.videoHeight||0.5625;let w=W,h=W/ar;if(h>H){h=H;w=H*ar;}c.style.width=w+'px';c.style.height=h+'px';c.style.left=((W-w)/2)+'px';c.style.top=((H-h)/2)+'px';c.style.inset='auto';const pw=Math.round(w*dpr),ph=Math.round(h*dpr);if(c.width!==pw||c.height!==ph){c.width=pw;c.height=ph;}gl.viewport(0,0,pw,ph);}
+function loop(c,v){if(v.readyState>=2){fit(c,v);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,v);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}raf=requestAnimationFrame(()=>loop(c,v));}
+window.verPasos=function(n){const o=document.getElementById('holo'),c=document.getElementById('holoC'),v=document.getElementById('holoS');
+if(ok===null)ok=initGL(c);
+if(!ok){o.classList.remove('sb');const vv=document.getElementById('holoV');document.getElementById('holoT').textContent='Paso '+n;vv.src='pj-paso'+n+'.webm';vv.classList.add('full');vv.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};vv.muted=false;o.classList.add('on');const p=vv.play();if(p&&p.catch)p.catch(()=>{vv.muted=true;vv.play().catch(()=>{})});return;}
+document.getElementById('holoT').textContent='Paso '+n+' de 4';o.classList.add('sb','on');
+v.src='sb-paso'+n+'.mp4';v.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};v.onerror=()=>{v.onerror=null;n<4?verPasos(n+1):cerrarHolo()};v.muted=false;
+const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{})});
+cancelAnimationFrame(raf);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);loop(c,v);};
+window.__stopSB=function(){cancelAnimationFrame(raf);const v=document.getElementById('holoS');v.pause();v.onended=null;document.getElementById('holo').classList.remove('sb');};
+})();
+window.cerrarHolo=function(){const o=document.getElementById('holo'),v=document.getElementById('holoV');o.classList.remove('on');v.pause();if(window.__stopSB)__stopSB();};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarHolo();});
 </script>
 </body>
