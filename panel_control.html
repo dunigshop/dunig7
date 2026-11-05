@@ -295,35 +295,6 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
             </div>
         </div>
 
-        <!-- VISTA GLOBAL AMPLIADA: Todo lo que se carga en la tabla ordenes_vip -->
-        <div class="glass-panel p-6 rounded-3xl border border-stone-900 shadow-2xl space-y-4">
-            <div class="flex justify-between items-center border-b border-stone-800 pb-4">
-                <div class="flex items-center gap-2 text-amber-400">
-                    <i data-lucide="database" class="w-5 h-5"></i>
-                    <h3 class="font-futurista font-black text-xs uppercase tracking-[0.2em] text-white">Vista Global y Auditoría Completa de Órdenes VIP</h3>
-                </div>
-                <button onclick="descargarVistaTotalOrdenesExtras()" class="px-3 py-1.5 bg-stone-900 border border-stone-800 text-amber-400 hover:bg-stone-800 rounded-xl text-[10px] font-bold uppercase font-futurista cursor-pointer flex items-center gap-1">
-                    <i data-lucide="refresh-cw" class="w-3 h-3"></i> Sincronizar Vista
-                </button>
-            </div>
-            <div class="overflow-x-auto max-h-[500px] overflow-y-auto">
-                <table class="w-full text-left text-xs">
-                    <thead>
-                        <tr class="border-b border-stone-900 text-stone-500 uppercase tracking-widest text-[9px] font-futurista">
-                            <th class="p-3">#ID</th>
-                            <th class="p-3">Fecha y Hora</th>
-                            <th class="p-3">Cliente / Teléfono</th>
-                            <th class="p-3">Contenido del Pedido</th>
-                            <th class="p-3">Total ($)</th>
-                            <th class="p-3">Referencia</th>
-                            <th class="p-3">Codigo sorteo</th>
-                            <th class="p-3 text-right">Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tabla-vista-total-extras-body"></tbody>
-                </table>
-            </div>
-        </div>
     </main>
 
     <footer class="border-t border-stone-950 bg-black/60 p-4 text-center text-[10px] text-stone-600 font-mono tracking-widest mt-12">© 2026 MR SANTOS PANEL. TODOS LOS DERECHOS RESERVADOS.</footer>
@@ -400,63 +371,7 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
             if (target === 'ordenes') descargarHistorialDeOrdenes();
             if (target === 'extras') {
                 descargarAjusteWhatsApp();
-                descargarVistaTotalOrdenesExtras();
             }
-        }
-
-        async function descargarVistaTotalOrdenesExtras() {
-            const { data, error } = await supabaseClient
-                .from('ordenes_vip')
-                .select('*')
-                .order('created_at', { ascending: false });
-
-            const tbody = document.getElementById('tabla-vista-total-extras-body');
-            if (!tbody) return;
-            tbody.innerHTML = "";
-
-            if (error || !data || data.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="8" class="p-6 text-center text-stone-600 font-mono text-xs">No hay registros globales en la tabla ordenes_vip.</td></tr>`;
-                return;
-            }
-
-            data.forEach(o => {
-                const fecha = new Date(o.created_at).toLocaleString();
-                const tlf = o.cliente_telefono || o.telefono || o.whatsapp || o.whatsapp_cliente || 'N/A';
-                const clienteNombre = o.cliente_nombre || o.nombre || 'Cliente VIP';
-                const codigoSorteo = o.codigo_sorteo_asignado || o.codigo_premio || o.codigo || `VIP-${o.id}`;
-                const referenciaBancaria = o.referencia || o.referencia_bancaria || 'N/A';
-                
-                let productosTexto = "";
-                try {
-                    let detalles = typeof o.detalles_pedido === 'string' ? JSON.parse(o.detalles_pedido) : o.detalles_pedido;
-                    if (Array.isArray(detalles)) {
-                        productosTexto = detalles.map(i => `${i.cantidad || i.qty || 1}x ${i.nombre_producto || i.nombre || i.titulo || 'Item'}`).join(', ');
-                    } else if (typeof detalles === 'object' && detalles !== null) {
-                        productosTexto = `${detalles.cantidad || 1}x ${detalles.nombre_producto || detalles.nombre || 'Item'}`;
-                    } else {
-                        productosTexto = o.detalles_pedido || 'Detalle no disponible';
-                    }
-                } catch(e) {
-                    productosTexto = o.detalles_pedido || 'Detalle no disponible';
-                }
-
-                let badgeEstado = `<span class="text-amber-400 font-bold uppercase">${o.estado || 'Pendiente'}</span>`;
-                if(o.estado === 'verificado') badgeEstado = `<span class="text-green-400 font-bold uppercase">Verificado</span>`;
-                if(o.estado === 'cancelado') badgeEstado = `<span class="text-red-400 font-bold uppercase">Cancelado</span>`;
-
-                tbody.innerHTML += `
-                    <tr class="border-b border-stone-900/40 hover:bg-stone-900/20 transition-colors">
-                        <td class="p-3 font-mono text-amber-400 font-bold">#${o.id}</td>
-                        <td class="p-3 text-stone-400 text-[10px] font-mono">${fecha}</td>
-                        <td class="p-3 font-mono text-stone-300 text-[11px]"><b>${clienteNombre}</b><br><span class="text-amber-500/80">Tlf: ${tlf}</span></td>
-                        <td class="p-3 text-stone-200 truncate max-w-xs" title="${productosTexto}">${productosTexto}</td>
-                        <td class="p-3 font-mono font-bold text-amber-400">$${parseFloat(o.total || o.monto_total || 0).toFixed(2)}</td>
-                        <td class="p-3 font-mono text-stone-300 text-[11px]">${referenciaBancaria}</td>
-                        <td class="p-3 font-mono text-amber-300 font-bold text-[11px]">${codigoSorteo}</td>
-                        <td class="p-3 text-right">${badgeEstado}</td>
-                    </tr>`;
-            });
-            lucide.createIcons();
         }
 
         async function descargarCatalogoDeSupabase() {

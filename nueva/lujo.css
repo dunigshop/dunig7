@@ -39,8 +39,8 @@ nav.top .sp{flex:1}
 .marquee .tr{display:flex;gap:14px;width:max-content;animation:mq 28s linear infinite}
 .marquee img{width:120px;height:120px;border-radius:16px;object-fit:cover;border:1px solid var(--line)}
 @keyframes mq{to{transform:translateX(-50%)}}
-section{padding:80px 0}
-.sh{text-align:center;margin-bottom:40px}.sh h2{font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:-.5px}.sh p{color:var(--mut);margin-top:8px}
+section{padding:36px 0}
+.sh{text-align:center;margin-bottom:18px}.sh h2{font-size:clamp(28px,6vw,44px);font-weight:800;letter-spacing:-.5px}.sh p{color:var(--mut);margin-top:8px}
 /* productos */
 .prods{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px}
 @media(min-width:700px){.prods{grid-template-columns:repeat(4,1fr);gap:22px}}
@@ -128,3 +128,6 @@ label{font-size:12px;color:var(--mut);font-weight:500}
 .podio .p1{height:170px;border-color:var(--g3);box-shadow:0 0 40px rgba(255,190,0,.3)}.podio .p2{height:130px}.podio .p3{height:100px}
 .podio b{display:block;font-size:30px}
 .note{color:var(--mut);font-size:12px;text-align:center;margin-top:16px}
+
+/* compacto */
+.hero{min-height:72vh!important;padding-top:90px!important;padding-bottom:40px!important}.marquee{margin:0!important}.sh p{margin-top:4px}.note{margin-top:10px}
