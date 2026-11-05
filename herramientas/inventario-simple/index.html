@@ -1,0 +1,76 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Inventario Simple · DUNIGSHOP</title><meta name="theme-color" content="#0b0b0b">
+<style>
+  :root{--negro:#0b0b0b;--panel:#151515;--borde:#2a2414;--oro:#d4af37;--oro2:#f3d77a;--texto:#eee;--gris:#a8a08a}
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--negro);color:var(--texto);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.45}
+  header{text-align:center;padding:22px 14px 10px;border-bottom:1px solid var(--borde)}
+  header .marca{color:var(--oro);letter-spacing:4px;font-size:12px;font-weight:700}
+  h1{margin:6px 0 4px;font-size:24px;color:var(--oro2)}
+  header p{margin:0;color:var(--gris);font-size:14px}
+  main{max-width:640px;margin:0 auto;padding:12px}
+  .card{background:var(--panel);border:1px solid var(--borde);border-radius:12px;padding:14px;margin:12px 0}
+  h2{font-size:17px;color:var(--oro);margin:0 0 10px}
+  label{display:block;font-size:14px;color:var(--gris);margin:8px 0 3px}
+  input,select{width:100%;padding:11px;border-radius:8px;border:1px solid #3a3320;background:#0f0f0f;color:var(--texto);font-size:16px}
+  input:focus,select:focus{outline:2px solid var(--oro);border-color:var(--oro)}
+  .fila{display:flex;gap:8px}
+  .fila>div{flex:1;min-width:0}
+  .mat{display:grid;grid-template-columns:1fr 70px 80px 36px;gap:6px;align-items:center;margin-bottom:6px}
+  .mat input{padding:9px;font-size:15px}
+  .mat input::-webkit-outer-spin-button,.mat input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+  .mat input[type=number]{-moz-appearance:textfield}
+  .mat .x{background:#2a1a1a;color:#e88;border:1px solid #4a2a2a;border-radius:8px;height:40px;font-size:18px;cursor:pointer}
+  .cab{display:grid;grid-template-columns:1fr 70px 80px 36px;gap:6px;font-size:12px;color:var(--gris);margin-bottom:4px}
+  button.btn{width:100%;padding:13px;border:0;border-radius:10px;background:linear-gradient(180deg,var(--oro2),var(--oro));color:#111;font-weight:700;font-size:16px;cursor:pointer;margin-top:8px}
+  button.sec{background:transparent;border:1px solid var(--oro);color:var(--oro2)}
+  .res{border-color:var(--oro)}
+  .linea{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px dashed #2c2c2c;font-size:15px}
+  .linea{gap:10px;align-items:flex-start}.linea span:last-child{font-weight:600;text-align:right;white-space:nowrap}.linea small{display:block;font-weight:400;color:var(--gris);font-size:13px}
+  .grande{text-align:center;margin:14px 0 4px}
+  .grande .usd{font-size:38px;font-weight:800;color:var(--oro2)}
+  .grande .bs{font-size:18px;color:var(--gris)}
+  .tag{display:inline-block;font-size:12px;padding:2px 8px;border-radius:20px;border:1px solid var(--oro);color:var(--oro);margin-top:6px}
+  .aviso{font-size:13px;color:var(--gris);margin-top:8px}
+  textarea{width:100%;min-height:150px;background:#0f0f0f;color:var(--texto);border:1px solid #3a3320;border-radius:8px;padding:10px;font-size:14px;font-family:inherit}
+  .tips li{margin-bottom:6px;font-size:14px}
+  footer{text-align:center;color:var(--oro);font-size:13px;padding:22px 10px 30px;border-top:1px solid var(--borde);margin-top:20px}
+  @media (max-width:360px){h1{font-size:21px}.mat,.cab{grid-template-columns:1fr 56px 68px 32px}}
+  .scan{border-color:var(--oro)}
+  .scan .bot{display:flex;gap:8px}.scan .bot button{flex:1}
+  #prev{display:none;width:100%;max-height:280px;object-fit:contain;border-radius:10px;margin-top:10px;background:#000}
+  #scanRes{font-size:14px;color:var(--texto);margin-top:8px}
+  #scanRes b{color:var(--oro2)}
+  input[type=file]{display:none}
+</style>
+<style>.it{border:1px solid var(--borde);border-radius:10px;padding:10px;margin-bottom:8px}.it.bajo{border-color:#c0392b}.it b{color:var(--oro2)}.it .m{display:flex;gap:6px;margin-top:8px}.it .m button{flex:1;padding:10px;border-radius:8px;border:1px solid var(--oro);background:transparent;color:var(--oro2);font-size:15px}.it small{color:var(--gris);display:block}.al{color:#ff8a7a;font-weight:700}</style></head><body>
+<header><div class="marca">DUNIGSHOP</div><h1>Inventario Simple</h1><p>Controla tu stock, avisa cuando se acaba y calcula tu ganancia. Todo queda en tu teléfono.</p></header>
+<main>
+<section class="card"><h2>Agregar producto</h2>
+<label for="n">Nombre (ej: Gorra negra)</label><input id="n">
+<div class="fila"><div><label for="s">Cantidad</label><input id="s" type="number" inputmode="numeric"></div><div><label for="mi">Avisar si queda ≤</label><input id="mi" type="number" inputmode="numeric" value="2"></div></div>
+<div class="fila"><div><label for="c">Costo $ c/u</label><input id="c" type="number" inputmode="decimal"></div><div><label for="p">Precio $ c/u</label><input id="p" type="number" inputmode="decimal"></div></div>
+<button class="btn" id="add" type="button">Guardar producto</button></section>
+<section class="card res"><h2>Resumen</h2><div id="res"></div></section>
+<section class="card"><h2>Productos</h2><div id="lista"></div>
+<button class="btn sec" id="cp" type="button">Copiar lista de stock</button><p class="aviso" id="msg"></p></section>
+</main><footer>DUNIGSHOP · Herramientas gratis para emprendedores</footer>
+<script>
+var K="dunig_inv",D=[];try{D=JSON.parse(localStorage.getItem(K)||"[]")}catch(e){D=[]}
+function $(i){return document.getElementById(i)}
+function g(i){var v=parseFloat($(i).value);return isNaN(v)?0:v}
+function m(x){return "$"+x.toFixed(2)}
+function esc(t){return t.replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function save(){try{localStorage.setItem(K,JSON.stringify(D))}catch(e){}draw()}
+function draw(){var h="",inv=0,vta=0,bajos=0,i,p;
+for(i=0;i<D.length;i++){p=D[i];inv+=p.s*p.c;vta+=p.s*p.p;var b=p.s<=p.mi;if(b)bajos++;
+h+='<div class="it'+(b?' bajo':'')+'"><b>'+esc(p.n)+'</b> — '+p.s+' en stock'+(b?' <span class="al">¡Poco stock!</span>':'')+'<small>Costo '+m(p.c)+' · Precio '+m(p.p)+' · Ganas '+m(p.p-p.c)+' por unidad</small><div class="m"><button onclick="mv('+i+',-1)">Vendí 1</button><button onclick="mv('+i+',1)">+1</button><button onclick="del('+i+')">Borrar</button></div></div>'}
+$("lista").innerHTML=h||'<p class="aviso">Aún no hay productos.</p>';
+$("res").innerHTML='<div class="linea"><span>Productos</span><span>'+D.length+'</span></div><div class="linea"><span>Dinero invertido en stock</span><span>'+m(inv)+'</span></div><div class="linea"><span>Si vendes todo</span><span>'+m(vta)+'</span></div><div class="linea"><span>Ganancia posible</span><span>'+m(vta-inv)+'</span></div><div class="linea"><span>Con poco stock</span><span>'+bajos+'</span></div>'}
+function mv(i,d){D[i].s=Math.max(0,D[i].s+d);save()}
+function del(i){if(confirm("¿Borrar este producto?")){D.splice(i,1);save()}}
+$("add").onclick=function(){var n=$("n").value.replace(/^\s+|\s+$/g,"");if(!n){$("msg").textContent="Escribe el nombre del producto.";return}
+D.push({n:n,s:Math.floor(g("s")),mi:Math.floor(g("mi")),c:g("c"),p:g("p")});$("n").value="";$("s").value="";$("c").value="";$("p").value="";$("msg").textContent="Guardado.";save()};
+$("cp").onclick=function(){var t="Stock DUNIGSHOP:\n",i;for(i=0;i<D.length;i++)t+="• "+D[i].n+": "+D[i].s+"\n";
+if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){$("msg").textContent="Lista copiada."})}else{$("msg").textContent=t}};
+draw();
+</script></body></html>
