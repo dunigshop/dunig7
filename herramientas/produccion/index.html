@@ -1,0 +1,148 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Prueba de Producción · Mr Santos</title><meta name="theme-color" content="#0b0b0b">
+<style>
+:root{--negro:#0b0b0b;--panel:#151515;--borde:#2a2414;--oro:#d4af37;--oro2:#f3d77a;--texto:#eee;--gris:#a8a08a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--negro);color:var(--texto);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.45}
+header{text-align:center;padding:22px 14px 10px;border-bottom:1px solid var(--borde)}
+header .marca{color:var(--oro);letter-spacing:4px;font-size:12px;font-weight:700}
+h1{margin:6px 0 4px;font-size:24px;color:var(--oro2)}
+header p{margin:0;color:var(--gris);font-size:14px}
+main{max-width:640px;margin:0 auto;padding:12px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:12px;padding:14px;margin:12px 0}
+h2{font-size:17px;color:var(--oro);margin:0 0 10px}
+label{display:block;font-size:14px;color:var(--gris);margin:8px 0 3px}
+input{width:100%;padding:11px;border-radius:8px;border:1px solid #3a3320;background:#0f0f0f;color:var(--texto);font-size:16px}
+input:focus{outline:2px solid var(--oro);border-color:var(--oro)}
+.fila{display:flex;gap:8px}.fila>div{flex:1;min-width:0}
+.etapa{display:grid;grid-template-columns:1fr 90px 96px;gap:8px;align-items:end;margin-bottom:6px}
+.etapa .crono{padding:11px 4px;border-radius:8px;border:1px solid var(--oro);background:transparent;color:var(--oro2);font-weight:700;font-size:14px;cursor:pointer}
+.etapa .crono.on{background:#3a1515;border-color:#e66;color:#fbb}
+.etapa .nom{font-size:15px;padding-bottom:10px}
+.etapa .t{font-size:12px;color:var(--gris);display:block}
+button.btn{width:100%;padding:13px;border:0;border-radius:10px;background:linear-gradient(180deg,var(--oro2),var(--oro));color:#111;font-weight:700;font-size:16px;cursor:pointer;margin-top:10px}
+button.sec{background:transparent;border:1px solid var(--oro);color:var(--oro2)}
+.linea{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px dashed #2c2c2c;font-size:15px}
+.linea span:last-child{font-weight:700;text-align:right;white-space:nowrap;color:var(--oro2)}
+.linea small{display:block;color:var(--gris);font-size:13px;font-weight:400}
+.grande{text-align:center;margin:10px 0}
+.grande .n{font-size:40px;font-weight:800;color:var(--oro2)}
+.grande .d{color:var(--gris);font-size:14px}
+.tanda{border:1px solid #2c2c2c;border-radius:10px;padding:10px;margin:8px 0;font-size:14px}
+.tanda b{color:var(--oro2)}
+.tanda .x{float:right;background:#2a1a1a;color:#e88;border:1px solid #4a2a2a;border-radius:8px;padding:4px 10px;cursor:pointer}
+.aviso{font-size:13px;color:var(--gris);margin-top:8px}
+.vacio{color:var(--gris);text-align:center;padding:10px}
+</style></head><body>
+<header><div class="marca">MR SANTOS</div><h1>Prueba de Producción</h1><p>Anota cada tanda y mira cuánto rinde 1 persona, 2 personas y el empacador.</p></header>
+<main>
+
+<div class="card">
+<h2>1. Nueva tanda</h2>
+<div class="fila"><div><label>Fecha</label><input type="date" id="fecha"></div><div><label>Quién la hizo</label><input id="persona" placeholder="Ej: David"></div></div>
+<label>Kg de mezcla preparada</label><input type="number" id="kg" inputmode="decimal" step="0.1" placeholder="Ej: 4.5">
+<p class="aviso">Toca ▶ al empezar cada parte y ■ al terminar. También puedes escribir los minutos a mano.</p>
+<div class="etapa"><div class="nom">Cocinar<span class="t">desde que prendes hasta que está lista</span></div><input type="number" id="m_cocinar" inputmode="numeric" placeholder="min"><button class="crono" data-e="cocinar">▶ Iniciar</button></div>
+<div class="etapa"><div class="nom">Llenar moldes</div><input type="number" id="m_llenar" inputmode="numeric" placeholder="min"><button class="crono" data-e="llenar">▶ Iniciar</button></div>
+<div class="etapa"><div class="nom">Desmoldar y poner en rejillas</div><input type="number" id="m_desmoldar" inputmode="numeric" placeholder="min"><button class="crono" data-e="desmoldar">▶ Iniciar</button></div>
+<div class="fila"><div><label>Gomitas buenas</label><input type="number" id="buenas" inputmode="numeric" placeholder="Ej: 560"></div><div><label>Gomitas dañadas</label><input type="number" id="malas" inputmode="numeric" placeholder="Ej: 15"></div></div>
+<label>Horas de secado en rejilla (cuando lo sepas)</label><input type="number" id="secado" inputmode="decimal" step="0.5" placeholder="Ej: 36">
+<button class="btn" id="guardar">Guardar tanda</button>
+</div>
+
+<div class="card">
+<h2>2. Prueba de empaque</h2>
+<p class="aviso" style="margin-top:0">Empaca durante un rato (ideal 30 minutos) y anota cuántas bolsitas armaste, pesadas o contadas, con sticker y selladas.</p>
+<div class="fila"><div><label>Bolsitas armadas</label><input type="number" id="bols" inputmode="numeric" placeholder="Ej: 40"></div><div><label>En cuántos minutos</label><input type="number" id="bolsMin" inputmode="numeric" placeholder="30"></div></div>
+<button class="btn sec" id="guardarEmp">Guardar prueba de empaque</button>
+</div>
+
+<div class="card">
+<h2>3. Resultados</h2>
+<div class="fila"><div><label>Horas de trabajo al día</label><input type="number" id="horas" inputmode="decimal" step="0.5" value="7"></div><div><label>Gomitas por bolsita</label><input type="number" id="porBolsa" inputmode="numeric" value="10"></div></div>
+<div id="res"></div>
+<button class="btn sec" id="compartir">Copiar resumen para WhatsApp</button>
+<p class="aviso">Son cuentas con lo que anotaste. Con 3 tandas o más el número es más confiable; la primera siempre sale lenta.</p>
+</div>
+
+<div class="card">
+<h2>Tandas guardadas</h2>
+<div id="lista"></div>
+</div>
+
+</main>
+<script>
+const K='mrsantosProduccion';
+let D=JSON.parse(localStorage.getItem(K)||'{"tandas":[],"empaque":[],"crono":{}}');
+D.crono=D.crono||{};D.empaque=D.empaque||[];
+const $=id=>document.getElementById(id);
+const save=()=>localStorage.setItem(K,JSON.stringify(D));
+$('fecha').value=new Date().toISOString().slice(0,10);
+const ultimo=localStorage.getItem(K+'_persona');if(ultimo)$('persona').value=ultimo;
+const n=v=>parseFloat(String(v).replace(',','.'))||0;
+const f=(v,d=0)=>v.toLocaleString('es-VE',{maximumFractionDigits:d,minimumFractionDigits:d});
+
+function pintarCronos(){document.querySelectorAll('.crono').forEach(b=>{const e=b.dataset.e,t=D.crono[e];
+ if(t){const m=Math.floor((Date.now()-t)/60000);b.classList.add('on');b.textContent='■ '+m+' min';}else{b.classList.remove('on');b.textContent='▶ Iniciar';}});}
+document.querySelectorAll('.crono').forEach(b=>b.onclick=()=>{const e=b.dataset.e;
+ if(D.crono[e]){const m=Math.max(1,Math.round((Date.now()-D.crono[e])/60000));$('m_'+e).value=n($('m_'+e).value)+m;delete D.crono[e];}
+ else D.crono[e]=Date.now();save();pintarCronos();});
+setInterval(pintarCronos,15000);
+
+$('guardar').onclick=()=>{
+ const t={id:Date.now(),fecha:$('fecha').value,persona:$('persona').value.trim()||'—',kg:n($('kg').value),
+  cocinar:n($('m_cocinar').value),llenar:n($('m_llenar').value),desmoldar:n($('m_desmoldar').value),
+  buenas:n($('buenas').value),malas:n($('malas').value),secado:n($('secado').value)};
+ if(!t.buenas||!(t.cocinar+t.llenar+t.desmoldar)){alert('Anota al menos las gomitas buenas y los minutos.');return;}
+ localStorage.setItem(K+'_persona',t.persona);
+ D.tandas.push(t);D.crono={};save();
+ ['kg','m_cocinar','m_llenar','m_desmoldar','buenas','malas','secado'].forEach(i=>$(i).value='');
+ pintarCronos();pintar();alert('Tanda guardada ✔');};
+
+$('guardarEmp').onclick=()=>{const b=n($('bols').value),m=n($('bolsMin').value)||30;
+ if(!b){alert('Anota cuántas bolsitas armaste.');return;}
+ D.empaque.push({id:Date.now(),fecha:$('fecha').value,bolsitas:b,min:m});save();$('bols').value='';pintar();alert('Prueba de empaque guardada ✔');};
+
+['horas','porBolsa'].forEach(i=>$(i).oninput=pintar);
+
+function calc(){
+ const T=D.tandas;if(!T.length&&!D.empaque.length)return null;
+ const horas=n($('horas').value)||7,pb=n($('porBolsa').value)||10;
+ const min=T.reduce((s,t)=>s+t.cocinar+t.llenar+t.desmoldar,0),buenas=T.reduce((s,t)=>s+t.buenas,0),malas=T.reduce((s,t)=>s+t.malas,0),kg=T.reduce((s,t)=>s+t.kg,0);
+ const gh=min?buenas/(min/60):0;
+ const sec=T.filter(t=>t.secado);const secado=sec.length?sec.reduce((s,t)=>s+t.secado,0)/sec.length:0;
+ const eb=D.empaque.reduce((s,e)=>s+e.bolsitas,0),em=D.empaque.reduce((s,e)=>s+e.min,0);
+ const bh=em?eb/(em/60):0;
+ const uno=gh*horas/pb,dos=uno*1.8,emp=bh*horas;
+ return{T,horas,pb,gh,uno,dos,emp,bh,merma:buenas+malas?malas/(buenas+malas)*100:0,gkg:kg?buenas/kg:0,secado,
+  empNec:emp?Math.ceil(dos/emp):0};}
+
+function pintar(){
+ const c=calc(),r=$('res');
+ if(!c){r.innerHTML='<p class="vacio">Guarda tu primera tanda para ver los números.</p>';}
+ else{let h='';
+  if(c.T.length){h+=`<div class="grande"><div class="n">${f(c.dos)}</div><div class="d">bolsitas al día con 2 personas preparando</div></div>
+  <div class="linea"><span>1 persona preparando<small>${f(c.gh)} gomitas por hora × ${f(c.horas,1)} h</small></span><span>${f(c.uno)} bolsitas/día</span></div>
+  <div class="linea"><span>2 personas preparando<small>casi el doble (×1,8) porque comparten ollas y moldes</small></span><span>${f(c.dos)} bolsitas/día</span></div>
+  <div class="linea"><span>A la semana (6 días), 2 personas</span><span>${f(c.dos*6)} bolsitas</span></div>
+  <div class="linea"><span>Gomitas por kg de mezcla</span><span>${c.gkg?f(c.gkg):'—'}</span></div>
+  <div class="linea"><span>Gomitas dañadas</span><span>${f(c.merma,1)} %</span></div>
+  <div class="linea"><span>Secado promedio</span><span>${c.secado?f(c.secado,1)+' h':'—'}</span></div>
+  <div class="linea"><span>Rejillas ocupadas a la vez<small>gomitas de ${c.secado?f(Math.ceil(c.secado/24)):'2'} día(s) secando</small></span><span>${f(c.dos*c.pb*(c.secado?Math.ceil(c.secado/24):2))} gomitas</span></div>`;}
+  if(c.emp){h+=`<div class="linea"><span>1 empacador<small>${f(c.bh)} bolsitas por hora × ${f(c.horas,1)} h</small></span><span>${f(c.emp)} bolsitas/día</span></div>`;
+   if(c.T.length)h+=`<div class="linea"><span>Empacadores que necesitas para 2 preparando</span><span>${c.empNec}</span></div>`;}
+  else h+='<p class="aviso">Falta la prueba de empaque para saber si 1 empacador alcanza.</p>';
+  r.innerHTML=h;}
+ const L=$('lista');
+ if(!D.tandas.length&&!D.empaque.length){L.innerHTML='<p class="vacio">Todavía no hay tandas.</p>';return;}
+ L.innerHTML=D.tandas.slice().reverse().map(t=>`<div class="tanda"><button class="x" data-t="${t.id}">✕</button><b>${t.fecha}</b> · ${t.persona}<br>${t.kg?t.kg+' kg · ':''}${t.buenas} buenas${t.malas?', '+t.malas+' dañadas':''}<br>Cocinar ${t.cocinar} min · Llenar ${t.llenar} min · Desmoldar ${t.desmoldar} min${t.secado?' · Secado '+t.secado+' h':''}</div>`).join('')
+ +D.empaque.slice().reverse().map(e=>`<div class="tanda"><button class="x" data-e="${e.id}">✕</button><b>${e.fecha}</b> · Empaque<br>${e.bolsitas} bolsitas en ${e.min} min</div>`).join('');
+ L.querySelectorAll('.x').forEach(b=>b.onclick=()=>{if(!confirm('¿Borrar este registro?'))return;
+  if(b.dataset.t)D.tandas=D.tandas.filter(t=>t.id!=b.dataset.t);else D.empaque=D.empaque.filter(e=>e.id!=b.dataset.e);save();pintar();});}
+
+$('compartir').onclick=()=>{const c=calc();if(!c){alert('Todavía no hay datos.');return;}
+ const txt=`Prueba de producción Mr Santos\nTandas: ${c.T.length}\nGomitas por hora (1 persona): ${f(c.gh)}\n1 persona: ${f(c.uno)} bolsitas/día\n2 personas: ${f(c.dos)} bolsitas/día\nSemana (6 días): ${f(c.dos*6)} bolsitas\n`+(c.emp?`1 empacador: ${f(c.emp)} bolsitas/día\nEmpacadores necesarios: ${c.empNec}\n`:'')+`Dañadas: ${f(c.merma,1)} %`;
+ (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>alert('Resumen copiado ✔ Pégalo en WhatsApp o aquí en el chat.')).catch(()=>prompt('Copia este resumen:',txt));};
+
+pintarCronos();pintar();
+</script>
+</body></html>
