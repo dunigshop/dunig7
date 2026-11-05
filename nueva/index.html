@@ -221,11 +221,11 @@ input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd
 <section style="background:var(--bg2)"><div class="wrap">
 <div class="sh reveal"><h2>Cinco <span class="gtxt">sabores</span></h2><p>Gomitas de muñequitos en bolsitas de 80 g.</p></div>
 <div class="sabs">
-<div class="ph-card reveal"><img src="sabor80-fresa.jpg" alt="Gomitas de fresa" loading="lazy"><div class="cap"><h3>🍓 Fresa</h3></div></div>
-<div class="ph-card reveal"><img src="sabor80-limon.jpg" alt="Gomitas de limón" loading="lazy"><div class="cap"><h3>🍋 Limón</h3></div></div>
-<div class="ph-card reveal"><img src="sabor80-mora.jpg" alt="Gomitas de mora" loading="lazy"><div class="cap"><h3>🫐 Mora</h3></div></div>
-<div class="ph-card reveal"><img src="sabor80-naranja.jpg" alt="Gomitas de naranja" loading="lazy"><div class="cap"><h3>🍊 Naranja</h3></div></div>
-<div class="ph-card reveal"><img src="sabor80-menta.jpg" alt="Gomitas de menta" loading="lazy"><div class="cap"><h3>🌿 Menta</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🍓 Fresa',0)" style="cursor:pointer"><img src="sabor80-fresa.jpg" alt="Gomitas de fresa" loading="lazy"><div class="cap"><h3>🍓 Fresa</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🍋 Limón',55)" style="cursor:pointer"><img src="sabor80-limon.jpg" alt="Gomitas de limón" loading="lazy"><div class="cap"><h3>🍋 Limón</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🫐 Mora',260)" style="cursor:pointer"><img src="sabor80-mora.jpg" alt="Gomitas de mora" loading="lazy"><div class="cap"><h3>🫐 Mora</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🍊 Naranja',30)" style="cursor:pointer"><img src="sabor80-naranja.jpg" alt="Gomitas de naranja" loading="lazy"><div class="cap"><h3>🍊 Naranja</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🌿 Menta',120)" style="cursor:pointer"><img src="sabor80-menta.jpg" alt="Gomitas de menta" loading="lazy"><div class="cap"><h3>🌿 Menta</h3></div></div>
 </div>
 </div></section>
 
@@ -1100,6 +1100,27 @@ const BASE_IMG='https://dunigshop.github.io/dunig7/nueva/';
 (function(){const g=document.getElementById('prods-mayor');if(!g)return;
 g.innerHTML=MAYOR.map((m,i)=>`<div class="pc">${m.tag?`<span class="tag">${m.tag}</span>`:''}<div class="ph"><img src="${m.img}" alt="${m.n}" loading="lazy"></div><div class="bd"><h3 style="white-space:normal">${m.n}</h3><small>${m.d}</small><div class="pr gtxt">$${m.p.toFixed(2)}</div><div class="gana">${m.g}</div><button class="btn sm full" onclick="agregarMayor(${i})">Agregar</button></div></div>`).join('');})();
 window.agregarMayor=function(i){const m=MAYOR[i];if(!window.__pushCarrito)return;const n=window.__pushCarrito({titulo:'AL MAYOR · '+m.n,precio:m.p,imagen_url:BASE_IMG+m.img});const b=document.getElementById('contador-carrito-badge');if(b)b.innerText=n;if(window.toastMS)window.toastMS('Agregado a tu bolsa 🛍️');};
+</script>
+<style>
+.holo{position:fixed;inset:0;z-index:90;display:flex;align-items:center;justify-content:center;background:rgba(0,8,14,.72);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .3s}
+.holo.on{opacity:1;pointer-events:auto}
+.holo .hb{position:relative;width:min(72vw,340px);aspect-ratio:9/16;border-radius:18px;overflow:hidden;transform:perspective(900px) rotateX(8deg) scale(.6);transition:transform .5s cubic-bezier(.2,1.4,.3,1);border:1.5px solid rgba(120,240,255,.75);box-shadow:0 0 18px rgba(80,230,255,.8),0 0 60px rgba(80,230,255,.35),inset 0 0 30px rgba(80,230,255,.35);animation:holoFl 3s infinite}
+.holo.on .hb{transform:perspective(900px) rotateX(8deg) scale(1)}
+.holo video{width:100%;height:100%;object-fit:cover;opacity:.92;mix-blend-mode:screen}
+.holo .hb::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:repeating-linear-gradient(to bottom,rgba(120,240,255,.12) 0 2px,transparent 2px 5px);animation:holoScan 4s linear infinite}
+.holo .hb::after{content:'';position:absolute;left:0;right:0;height:30%;z-index:3;pointer-events:none;background:linear-gradient(to bottom,transparent,rgba(140,250,255,.22),transparent);animation:holoBar 2.4s linear infinite}
+.holo .base{position:absolute;left:50%;bottom:calc(50% - min(64vw,302px) - 34px);width:min(80vw,380px);height:40px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse,rgba(110,240,255,.75),rgba(110,240,255,0) 70%);filter:blur(2px)}
+.holo .ht{position:absolute;top:12px;left:0;right:0;z-index:4;text-align:center;font-weight:800;font-size:20px;color:#dffcff;text-shadow:0 0 10px #4fe6ff,0 0 22px #4fe6ff}
+.holo .hx{position:absolute;top:18px;right:18px;width:42px;height:42px;border-radius:50%;border:1px solid rgba(120,240,255,.7);background:rgba(0,20,30,.6);color:#dffcff;font-size:20px;z-index:5}
+@keyframes holoScan{to{background-position:0 50px}}
+@keyframes holoBar{0%{top:-30%}100%{top:100%}}
+@keyframes holoFl{0%,100%{opacity:1}46%{opacity:1}48%{opacity:.75}50%{opacity:1}92%{opacity:.88}}
+</style>
+<div class="holo" id="holo" onclick="if(event.target===this)cerrarHolo()"><button class="hx" onclick="cerrarHolo()" aria-label="Cerrar">✕</button><div class="base"></div><div class="hb"><div class="ht" id="holoT"></div><video id="holoV" src="sabor-video.mp4" poster="sabor-video.jpg" playsinline loop preload="metadata"></video></div></div>
+<script>
+window.abrirHolo=function(n,h){const o=document.getElementById('holo'),v=document.getElementById('holoV');document.getElementById('holoT').textContent=n;v.style.filter=h?`hue-rotate(${h}deg) saturate(1.2)`:'none';v.currentTime=0;v.muted=false;o.classList.add('on');const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});};
+window.cerrarHolo=function(){const o=document.getElementById('holo'),v=document.getElementById('holoV');o.classList.remove('on');v.pause();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarHolo();});
 </script>
 </body>
 </html>
