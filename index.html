@@ -2,17 +2,16 @@
 <html lang="es">
 <head>
 <script>
-window.alert=function(m){try{var d=document.createElement('div');d.setAttribute('style','position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:24px');d.innerHTML='<div style="background:#141414;border:1px solid rgba(245,158,11,.5);border-radius:18px;max-width:360px;width:100%;padding:22px;font-family:system-ui,sans-serif;color:#f5f5f5;text-align:center"><div style="color:#f59e0b;font-weight:800;letter-spacing:2px;font-size:13px;margin-bottom:10px">MR SANTOS</div><div style="font-size:15px;line-height:1.45;white-space:pre-line"></div><button style="margin-top:18px;background:#f59e0b;color:#111;border:0;border-radius:12px;padding:10px 26px;font-weight:800;font-size:14px">Aceptar</button></div>';d.querySelector('div div:nth-child(2)').textContent=String(m);d.querySelector('button').onclick=function(){d.remove()};(document.body||document.documentElement).appendChild(d);}catch(e){}};
+window.alert=function(m){try{var d=document.createElement('div');d.setAttribute('style','position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:24px');d.innerHTML='<div style="background:#0f0f14;border:1px solid rgba(255,210,63,.5);border-radius:22px;max-width:360px;width:100%;padding:24px;font-family:Poppins,system-ui,sans-serif;color:#fbf8ef;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.6)"><div style="color:#ffd23f;font-weight:800;letter-spacing:2px;font-size:13px;margin-bottom:10px">MR SANTOS</div><div style="font-size:15px;line-height:1.5;white-space:pre-line"></div><button style="margin-top:18px;background:linear-gradient(110deg,#f5a300,#ffd23f,#fff3b0);color:#1a1200;border:0;border-radius:999px;padding:12px 30px;font-weight:700;font-size:14px;font-family:inherit">Aceptar</button></div>';d.querySelector('div div:nth-child(2)').textContent=String(m);d.querySelector('button').onclick=function(){d.remove()};(document.body||document.documentElement).appendChild(d);}catch(e){}};
 </script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mr Santos - Tienda online con envíos a toda Venezuela</title>
-<link rel="icon" type="image/png" href="favicon-ms.png">
-<link rel="apple-touch-icon" href="favicon-ms.png">
-<meta name="description" content="Mr Santos: gorras, franelas, calzado, gafas y más. Envíos a toda Venezuela por MRW, Domesa y Tealca, cobro a destino.">
-<meta name="theme-color" content="#0a0907">
-<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-<script src="https://unpkg.com/lucide@latest"></script>
+<title>Mr Santos · Gomitas artesanales con envíos a toda Venezuela</title>
+<link rel="icon" type="image/png" href="https://dunigshop.github.io/dunig7/favicon-ms.png">
+<link rel="apple-touch-icon" href="https://dunigshop.github.io/dunig7/favicon-ms.png">
+<meta name="description" content="Mr Santos: gomitas artesanales hechas a mano. Despachamos desde Valencia: delivery en Valencia y envíos a toda Venezuela por MRW, Domesa y Tealca, cobro a destino.">
+<meta name="theme-color" content="#07070a">
+<meta property="og:image" content="https://dunigshop.github.io/dunig7/nueva/hero-consumidor.jpg">
 <script>
 // Almacenamiento seguro: si el navegador bloquea localStorage (vista previa, archivo abierto local, modo restringido) usa memoria
 (function(){
@@ -23,386 +22,383 @@ getItem:function(k){try{if(ok)return window.localStorage.getItem(k);}catch(e){}r
 setItem:function(k,v){mem[k]=String(v);try{if(ok)window.localStorage.setItem(k,String(v));}catch(e){}},
 removeItem:function(k){delete mem[k];try{if(ok)window.localStorage.removeItem(k);}catch(e){}}
 };
+// Íconos: esta versión usa emojis; se deja la función para que el código de la tienda siga igual
+window.lucide=window.lucide||{createIcons:function(){}};
 })();
 </script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<!-- Librería para generar códigos QR de forma automática -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="lujo.css">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
-body {
-font-family: 'Plus Jakarta Sans', sans-serif;
-background-color: #0b0b0b;
-color: #f3f4f6;
-overflow-x: hidden;
-padding-bottom: 70px;
-}
-.glass-panel {
-background: #141414;
-border: 1px solid #262626;
-}
-.btn-oro-flotante {
-background: linear-gradient(135deg, #1f1f1f 0%, #2f2f2f 100%);
-box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-transition: all 0.3s ease;
-}
-.btn-oro-flotante:hover { transform: scale(1.05); }
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-thumb { background: #333333; border-radius: 10px; }
-.category-pill { transition: all 0.2s ease; }
-.category-pill:hover { transform: translateY(-2px); }
-.carrusel-contenedor {
-display: flex;
-transition: transform 0.5s ease-in-out;
-width: 100%;
-}
-.carrusel-slide {
-min-width: 100%;
-box-sizing: border-box;
-}
-/* ===== TEMA LUJO Mr Santos (negro y oro) ===== */
-:root{--oro1:#F5D77A;--oro2:#D4AF37;--oro3:#9C7A1C;--naranja:#F57C00;--oro-borde:rgba(212,175,55,.28);}
-body{background:radial-gradient(1200px 600px at 50% -10%,rgba(212,175,55,.10),transparent 60%),radial-gradient(800px 500px at 100% 100%,rgba(245,124,0,.07),transparent 60%),#0a0907 !important;}
-h1,h2,h3{letter-spacing:.01em}
-h2.text-xl,h2.text-lg,#detalle-titulo{font-family:'Playfair Display',serif !important;}
-.lux-gold-text,.lux-brand{background:linear-gradient(110deg,var(--oro3) 0%,var(--oro1) 25%,#fff6d6 40%,var(--oro2) 55%,var(--oro3) 75%,var(--oro1) 100%);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:var(--oro2);-webkit-text-fill-color:transparent;animation:luxShine 5s linear infinite;}
-.lux-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;letter-spacing:.06em;}
-.lux-brand-accent{background:inherit;-webkit-background-clip:text;background-clip:text;}
-@keyframes luxShine{to{background-position:-250% center}}
-/* Paneles y tarjetas */
-.bg-\[\#141414\],.bg-\[\#121212\]{background:linear-gradient(160deg,rgba(28,24,16,.92),rgba(14,13,11,.95)) !important;}
-.border-\[\#262626\],.border-\[\#222222\],.border-\[\#333333\],.border-\[\#3d3d3d\]{border-color:var(--oro-borde) !important;}
-header{box-shadow:0 1px 0 rgba(212,175,55,.35),0 10px 30px rgba(0,0,0,.6);backdrop-filter:blur(10px);}
-.sticky.top-0{background:rgba(10,9,7,.92) !important;backdrop-filter:blur(12px);}
-.text-amber-400,.text-amber-500{color:var(--oro1) !important;}
-.bg-amber-400{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;}
-input:focus,select:focus{border-color:var(--oro2) !important;box-shadow:0 0 0 3px rgba(212,175,55,.18) !important;}
-/* Botones 3D dorados */
-button.bg-white,button.bg-amber-400{position:relative;overflow:hidden;background:linear-gradient(180deg,#FFE9A3 0%,var(--oro2) 55%,#B8901F 100%) !important;color:#1a1305 !important;border:1px solid #f7dd8a !important;box-shadow:0 6px 0 #7a5d12,0 12px 24px rgba(212,175,55,.35),inset 0 1px 0 rgba(255,255,255,.7) !important;transform:translateY(0);transition:transform .15s ease,box-shadow .15s ease,filter .2s !important;text-shadow:0 1px 0 rgba(255,255,255,.4);}
-button.bg-white:hover,button.bg-amber-400:hover{filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 8px 0 #7a5d12,0 18px 34px rgba(212,175,55,.45),inset 0 1px 0 rgba(255,255,255,.7) !important;}
-button.bg-white:active,button.bg-amber-400:active{transform:translateY(5px);box-shadow:0 1px 0 #7a5d12,0 4px 10px rgba(212,175,55,.3),inset 0 1px 0 rgba(255,255,255,.5) !important;}
-button.bg-white::after,button.bg-amber-400::after{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:luxSweep 3.2s ease-in-out infinite;}
-@keyframes luxSweep{0%,60%{left:-75%}100%{left:130%}}
-/* Botones redondos del header */
-header button{box-shadow:0 3px 0 rgba(0,0,0,.6),0 0 0 1px rgba(212,175,55,.25),0 6px 16px rgba(0,0,0,.5);transition:transform .15s,box-shadow .2s !important;}
-header button:hover{box-shadow:0 3px 0 rgba(0,0,0,.6),0 0 0 1px var(--oro2),0 0 18px rgba(212,175,55,.35);}
-header button:active{transform:translateY(2px);}
-header .bg-white.p-2{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;box-shadow:0 4px 14px rgba(212,175,55,.4);}
-#contador-carrito-badge{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;color:#1a1305 !important;}
-/* Carrusel con movimiento */
-#carrusel-slider-track img{animation:luxKen 12s ease-in-out infinite alternate;transform-origin:center;}
-@keyframes luxKen{from{transform:scale(1)}to{transform:scale(1.14) translate(-2%,-2%)}}
-#carrusel-slider-track h2{font-family:'Playfair Display',serif;text-shadow:0 2px 12px rgba(0,0,0,.7);}
-#carrusel-puntos button{background:rgba(245,215,122,.45) !important;}
-#carrusel-puntos button.bg-white{background:var(--oro1) !important;box-shadow:0 0 10px var(--oro2) !important;border:none !important;}
-#carrusel-puntos button::after{display:none}
-#carrusel-puntos button.bg-white{transform:none !important;}
-.rounded-2xl.overflow-hidden.relative.bg-black{box-shadow:0 0 0 1px rgba(212,175,55,.35),0 20px 40px rgba(0,0,0,.6),0 0 40px rgba(212,175,55,.08);}
-/* Tarjetas de producto con efecto 3D */
-#grid-productos-vitrina>div{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s !important;transform-style:preserve-3d;animation:luxUp .6s ease backwards;}
-#grid-productos-vitrina>div:hover{border-color:var(--oro2) !important;box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 24px rgba(212,175,55,.25);}
-#grid-productos-vitrina .font-mono{color:var(--oro1) !important;}
-#grid-productos-vitrina h3{letter-spacing:.04em}
-@keyframes luxUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
-#detalle-precio{color:var(--oro1) !important;}
-.encomienda-card.border-white{border-color:var(--oro2) !important;box-shadow:0 0 16px rgba(212,175,55,.35);background:rgba(212,175,55,.08) !important;}
-.encomienda-card:hover{border-color:var(--oro2) !important;}
-/* Navegación inferior */
-nav[aria-label="Navegación inferior"]{background:rgba(14,12,9,.92) !important;backdrop-filter:blur(14px);box-shadow:0 -1px 0 rgba(212,175,55,.35),0 -10px 30px rgba(0,0,0,.6);}
-nav[aria-label="Navegación inferior"] button:hover,nav[aria-label="Navegación inferior"] a:hover{color:var(--oro1) !important;}
-nav[aria-label="Navegación inferior"] button::after{display:none}
-/* Destellos dorados de fondo */
-#lux-particulas{position:fixed;inset:0;pointer-events:none;z-index:0;}
-/* Modal de registro y QR */
-#modal-registro-cliente>div,#modal-qr>div{box-shadow:0 0 0 1px rgba(212,175,55,.35),0 30px 60px rgba(0,0,0,.7),0 0 60px rgba(212,175,55,.12) !important;}
-#modal-registro-cliente h2{font-family:'Playfair Display',serif;}
-#modal-registro-cliente .bg-white.w-12{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;}
-::-webkit-scrollbar-thumb{background:var(--oro3) !important;}
-@media (prefers-reduced-motion:reduce){*{animation:none !important}}
-.registro-logo{box-shadow:0 0 0 2px rgba(212,175,55,.55),0 14px 40px rgba(255,140,0,.35),0 0 30px rgba(212,175,55,.25);animation:logoFlota 3.2s ease-in-out infinite;}
-@keyframes logoFlota{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.03)}}
+.hidden{display:none!important}
+body.lock{overflow:hidden}
+.text-white{color:#fff}.font-bold{font-weight:700}
+nav.top .ib{width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,210,63,.35);background:rgba(20,20,27,.7);color:var(--txt);display:grid;place-items:center;font-size:17px;cursor:pointer;flex:0 0 auto}
+nav.top .ib:hover{border-color:var(--g2);box-shadow:0 0 16px rgba(255,200,0,.35)}
+nav.top .brand span{font-size:17px}
+.hero{min-height:92vh}
+.hero .bg{background-image:url(hero-consumidor.jpg)}
+.trust b{font-size:20px}
+/* buscador */
+.buscar{display:flex;align-items:center;gap:8px;max-width:520px;margin:0 auto 26px;background:var(--card);border:1px solid var(--line);border-radius:999px;padding:4px 6px 4px 16px}
+.buscar:focus-within{border-color:var(--g3);box-shadow:0 0 0 3px rgba(255,190,0,.15)}
+.buscar input{margin:0;border:0;background:transparent;padding:11px 4px}
+.buscar button{width:36px;height:36px;border-radius:50%;border:0;background:#22222b;color:var(--txt);cursor:pointer;flex:0 0 auto}
+.precio-ref{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:-8px 0 26px}
+.precio-ref span{padding:8px 14px;border-radius:999px;border:1px solid rgba(255,210,63,.4);background:rgba(255,210,63,.08);color:var(--g1);font-size:13px;font-weight:600}
+.pc{cursor:pointer}
+.pc .tag{max-width:calc(100% - 20px);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-transform:uppercase;font-size:10px;letter-spacing:.5px}
+.pc h3{text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.estado{grid-column:1/-1;text-align:center;color:var(--mut);padding:30px 0;font-size:14px}
+.estado.err{color:var(--bad)}
+.cargando{grid-column:1/-1;display:flex;justify-content:center;padding:30px 0}
+.cargando i{width:34px;height:34px;border-radius:50%;border:3px solid #2a2a33;border-top-color:var(--g2);animation:gira 1s linear infinite}
+@keyframes gira{to{transform:rotate(360deg)}}
+/* sabores */
+.sabs{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(min-width:700px){.sabs{grid-template-columns:repeat(5,1fr)}}
+.sabs .ph-card{aspect-ratio:1}
+.sabs .ph-card img{object-position:40% center}
+.sabs .ph-card:last-child:nth-child(odd){grid-column:1/-1;aspect-ratio:2/1}
+@media(min-width:700px){.sabs .ph-card:last-child:nth-child(odd){grid-column:auto;aspect-ratio:1}}
+.vender{display:grid;gap:22px;align-items:center}
+@media(min-width:800px){.vender{grid-template-columns:1.1fr 1fr}}
+.vender .txt h2{font-size:clamp(28px,6vw,42px);font-weight:800;line-height:1.1;margin-bottom:12px}
+.vender .txt p{color:#e6e1d3;margin-bottom:20px;line-height:1.55}
+footer a.lk{color:var(--g2);text-decoration:none;border:1px solid rgba(255,210,63,.45);border-radius:999px;padding:7px 14px;display:inline-block}
+footer .lks{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin:12px 0 10px}
+/* carrito flotante */
+.fab .ct.cero{display:none}
+/* ventanas (detalle y carrito) */
+.ovl{position:fixed;inset:0;z-index:60;display:flex;align-items:flex-end;justify-content:center}
+.ovl .ov,.side .ov{position:absolute;inset:0;background:rgba(0,0,0,.72);backdrop-filter:blur(6px)}
+.ovl .bx{position:relative;width:min(560px,100%);max-height:94vh;overflow-y:auto;background:var(--bg2);border:1px solid var(--line);border-radius:26px 26px 0 0;animation:sube .35s ease}
+@media(min-width:760px){.ovl{align-items:center}.ovl .bx{border-radius:26px;width:min(900px,94%)}.det{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:22px}.det .vis{border-radius:18px}}
+@keyframes sube{from{transform:translateY(100%)}}
+.ovl .x,.side .x{position:absolute;top:12px;right:12px;z-index:5;background:rgba(0,0,0,.6);cursor:pointer}
+.vis{position:relative;aspect-ratio:1;overflow:hidden;background:#0a0a0e;cursor:zoom-in}
+.vis img{width:100%;height:100%;object-fit:cover}
+.vis .zoom{position:absolute;right:12px;bottom:12px;background:rgba(0,0,0,.65);border:0;color:#fff;width:38px;height:38px;border-radius:50%;cursor:pointer}
+.mini{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;padding:10px 16px 0}
+@media(min-width:760px){.mini{padding:10px 0 0}}
+.mini div{aspect-ratio:1;border-radius:10px;overflow:hidden;border:1px solid var(--line);cursor:pointer}
+.mini img{width:100%;height:100%;object-fit:cover}
+.det .info{padding:14px 20px 24px;display:flex;flex-direction:column;gap:10px}
+@media(min-width:760px){.det .info{padding:6px 0}}
+.det .pill{align-self:flex-start;background:rgba(255,210,63,.12);color:var(--g2);text-transform:uppercase}
+.det h2{font-size:26px;font-weight:800;line-height:1.15}
+.det .precio{font-size:30px;font-weight:800}
+.det h4{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.det p.desc{color:#ddd;font-size:15px;line-height:1.55;white-space:pre-line}
+.adic{background:#0a0a0e;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+.adic summary{list-style:none;padding:13px 14px;font-size:13px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between}
+.adic summary::-webkit-details-marker{display:none}
+.adic[open] summary span:last-child{transform:rotate(180deg)}
+.adic .op{display:flex;align-items:center;gap:10px;padding:10px 14px;border-top:1px solid var(--line);cursor:pointer;color:var(--txt);font-size:14px}
+.adic .op small{margin-left:auto;color:var(--g2);font-weight:600}
+input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd23f;flex:0 0 auto}
+/* carrito lateral */
+.side{position:fixed;inset:0;z-index:60}
+.side .pn{position:absolute;right:0;top:0;bottom:0;width:min(480px,100%);background:var(--bg2);border-left:1px solid var(--line);display:flex;flex-direction:column;animation:sl .35s ease}
+.side .cab{display:flex;align-items:center;justify-content:space-between;padding:18px 20px;border-bottom:1px solid var(--line)}
+.side .cab h3{font-size:18px}
+.side .cab .x{position:static}
+.side .cuerpo{flex:1;overflow-y:auto;padding:6px 20px 30px}
+.li img{width:52px;height:52px}
+.li h4{font-size:13px;font-weight:600;text-transform:uppercase;line-height:1.3}
+.li .del{background:none;border:0;color:var(--bad);font:500 12px inherit;font-family:inherit;padding:2px 0;cursor:pointer}
+.li .mon{font-weight:700;white-space:nowrap}
+.vacio{text-align:center;color:var(--mut);padding:30px 0}
+.bloque{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:16px}
+.bloque h5{font-size:14px;font-weight:700;margin-bottom:10px;display:flex;gap:8px;align-items:center}
+.bloque label{display:block}
+.bloque input,.bloque select{margin:5px 0 10px}
+.local{background:rgba(255,210,63,.08);border-color:rgba(255,210,63,.4)}
+.local p{font-size:13px;color:#e6e1d3;margin-bottom:6px;line-height:1.5}
+.encs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.encomienda-card{background:#0a0a0e;border:1.5px solid var(--line);border-radius:14px;padding:8px;text-align:center;cursor:pointer;transition:.2s}
+.encomienda-card:hover{border-color:rgba(255,210,63,.6)}
+.encomienda-card.sel{border-color:var(--g2);background:rgba(255,210,63,.1);box-shadow:0 0 18px rgba(255,200,0,.3)}
+.encomienda-card .ei{height:46px;border-radius:9px;overflow:hidden;background:#fff;margin-bottom:6px}
+.encomienda-card .ei img{width:100%;height:100%;object-fit:cover}
+.encomienda-card span{font-size:11px;font-weight:700;text-transform:uppercase}
+.badge-ag{margin-top:10px;font-size:13px;color:var(--g1);background:rgba(255,210,63,.08);border:1px solid rgba(255,210,63,.3);border-radius:12px;padding:9px 12px}
+#info-metodo-pago{margin:0 0 10px}
+#info-metodo-pago p{margin-top:3px}
+.ok-note{font-size:12px;color:var(--mut);text-align:center;margin-top:10px;line-height:1.5}
+/* lightbox */
+#modal-lightbox{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.95);display:flex;align-items:center;justify-content:center;padding:16px;cursor:zoom-out}
+#modal-lightbox img{max-width:100%;max-height:100%;object-fit:contain;border-radius:12px}
+/* registro y QR */
+.regm{position:fixed;inset:0;z-index:90;background:rgba(5,5,8,.9);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+.regm .bx{position:relative;width:min(440px,100%);background:var(--bg2);border:1px solid rgba(255,210,63,.35);border-radius:26px;padding:26px 22px;box-shadow:0 30px 80px rgba(0,0,0,.7),0 0 60px rgba(255,190,0,.12);margin:auto}
+.regm .x{position:absolute;top:12px;right:12px;cursor:pointer}
+.registro-logo{width:96px;height:96px;margin:0 auto 12px;border-radius:24px;object-fit:cover;box-shadow:0 0 0 2px rgba(255,210,63,.55),0 14px 40px rgba(255,160,0,.35);animation:flota 3.2s ease-in-out infinite}
+@keyframes flota{50%{transform:translateY(-6px) scale(1.03)}}
+.regm h2{text-align:center;font-size:22px;font-weight:800;line-height:1.2}
+.regm .sub{text-align:center;color:var(--mut);font-size:13px;margin:6px 0 16px}
+.aviso{display:flex;gap:8px;align-items:flex-start;padding:10px 12px;margin:-4px 0 12px;background:rgba(255,190,0,.08);border:1px solid rgba(255,190,0,.35);border-radius:12px;font-size:12px;color:#ffe08a;line-height:1.45}
+#input-referido{color:var(--g2);text-transform:uppercase}
+#registro-mensaje{color:var(--bad);font-size:13px;text-align:center;font-weight:600;margin-bottom:10px}
+.legal{font-size:11px;color:var(--mut);text-align:center;margin-top:12px;line-height:1.5}
+.legal a{color:var(--g2);text-decoration:underline}
+#modal-qr{position:fixed;inset:0;z-index:95;background:rgba(0,0,0,.8);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;padding:16px}
+#modal-qr .bx{width:min(320px,100%);background:var(--bg2);border:1px solid rgba(255,210,63,.35);border-radius:22px;padding:22px;text-align:center}
+#contenedor-qr{background:#fff;padding:14px;border-radius:14px;width:fit-content;margin:14px auto}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
 </style>
 </head>
-<body class="antialiased min-h-screen flex flex-col justify-between relative">
+<body>
 <!-- MODAL PARA MOSTRAR EL CÓDIGO QR -->
-<div id="modal-qr" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] hidden flex items-center justify-center p-4">
-<div class="bg-[#1f1f1f] border border-[#333333] w-full max-w-xs rounded-2xl p-6 text-center shadow-2xl space-y-4">
-<h3 class="text-white font-bold text-base flex items-center justify-center gap-2">
-<i data-lucide="qr-code" class="w-5 h-5 text-amber-400"></i> Escanea para descargar
-</h3>
-<p class="text-xs text-gray-400">Apunta con la cámara de tu teléfono para descargar la app de Mr Santos.</p>
-<!-- Contenedor donde se dibuja el QR -->
-<div id="contenedor-qr" class="bg-white p-4 rounded-xl flex items-center justify-center mx-auto w-fit"></div>
-<button onclick="cerrarModalQr()" class="w-full bg-amber-400 text-black font-bold py-2.5 rounded-xl text-xs hover:bg-amber-300 transition-colors cursor-pointer">
-Cerrar
-</button>
+<div id="modal-qr" class="hidden">
+<div class="bx">
+<h3 style="font-size:17px">📲 Escanea para descargar</h3>
+<p class="mut" style="margin-top:6px">Apunta con la cámara de tu teléfono para descargar la app de Mr Santos.</p>
+<div id="contenedor-qr"></div>
+<button onclick="cerrarModalQr()" class="btn full">Cerrar</button>
 </div>
 </div>
+
 <!-- MODAL / PANTALLA DE REGISTRO INICIAL Y EDICIÓN OBLIGATORIOS -->
-<div id="modal-registro-cliente" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
-<div class="bg-[#141414] w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-6 relative border border-[#262626]">
-<button type="button" onclick="cerrarModalRegistroSiEsValido()" id="btn-cerrar-modal" class="hidden absolute top-4 right-4 text-gray-400 hover:text-white cursor-pointer">
-<i data-lucide="x" class="w-5 h-5"></i>
-</button>
-<div class="text-center space-y-2">
-<img src="logo-mrsantos.jpg" alt="Mr Santos" class="registro-logo w-28 h-28 mx-auto rounded-3xl object-cover">
-<h2 class="text-xl font-extrabold text-white tracking-tight">¡REGISTRO OBLIGATORIO VIP!</h2>
-<p class="text-xs text-gray-400">Debes ingresar tus datos obligatoriamente para poder continuar y guardar tu progreso.</p>
-</div>
-<div id="form-registro-cliente" class="space-y-4">
-<div class="space-y-1">
-<label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Nombre y Apellido *</label>
-<input type="text" id="reg-nombre" name="name" autocomplete="name" required placeholder="Ej. Carlos Pérez" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white">
-</div>
-<div class="space-y-1">
-<label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Número de WhatsApp *</label>
-<input type="tel" id="reg-whatsapp" name="tel" autocomplete="tel" inputmode="tel" required placeholder="Ej. +584120000000" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
-<div class="flex gap-2 items-start p-2.5 mt-1 bg-amber-500/10 border border-amber-500/40 rounded-xl"><span class="text-base leading-none">⚠️</span><p class="text-[10px] text-amber-300 leading-relaxed"><b>Revisa bien tu número de WhatsApp.</b> Por ahí te llega la verificación de tu pedido y todos los avisos de envío. Si está mal escrito, no podremos contactarte. Escríbelo con el código del país, ej. +58 412 000 0000.</p></div>
-</div>
-<div class="space-y-1">
-<label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Correo Electrónico *</label>
-<input type="email" id="reg-correo" name="email" autocomplete="email" required placeholder="tucorreo@dominio.com" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
-</div>
-<!-- CAMPO DE REFERIDO EDITABLE -->
-<div class="space-y-1">
-<label class="text-[10px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
-<i data-lucide="gift" class="w-3.5 h-3.5"></i> Código de Referido (Editable)
-</label>
-<input type="text" id="input-referido" placeholder="Ej. REF-123456 o NINGUNO" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-amber-400 p-3.5 rounded-xl font-mono focus:outline-none focus:border-white">
-</div>
-<p id="registro-mensaje" class="hidden text-[11px] text-center font-semibold text-red-400"></p>
-<button type="button" id="btn-registro-guardar" onclick="registrarClienteUnico(event)" class="w-full bg-white hover:bg-gray-200 text-black font-bold py-4 rounded-xl text-xs uppercase tracking-widest cursor-pointer shadow-lg transition-all">
-GUARDAR Y CONTINUAR 🚀
-</button>
-<p class="text-[10px] text-center text-gray-500 leading-relaxed">Al continuar aceptas los <a href="https://dunigshop.github.io/dunig7/terminos.html" target="_blank" rel="noopener" class="underline text-amber-400">Términos y Condiciones y la Política de privacidad</a> de Mr Santos.</p>
+<div id="modal-registro-cliente" class="regm">
+<div class="bx">
+<button type="button" onclick="cerrarModalRegistroSiEsValido()" id="btn-cerrar-modal" class="x hidden" aria-label="Cerrar">✕</button>
+<img src="https://dunigshop.github.io/dunig7/logo-mrsantos.jpg" alt="Mr Santos" class="registro-logo">
+<h2>¡Registro <span class="gtxt">VIP</span> obligatorio!</h2>
+<p class="sub">Debes ingresar tus datos obligatoriamente para poder continuar y guardar tu progreso.</p>
+<div id="form-registro-cliente">
+<label for="reg-nombre">Nombre y apellido *</label>
+<input type="text" id="reg-nombre" name="name" autocomplete="name" required placeholder="Ej. Carlos Pérez">
+<label for="reg-whatsapp">Número de WhatsApp *</label>
+<input type="tel" id="reg-whatsapp" name="tel" autocomplete="tel" inputmode="tel" required placeholder="Ej. +584120000000">
+<div class="aviso"><span>⚠️</span><p><b>Revisa bien tu número de WhatsApp.</b> Por ahí te llega la verificación de tu pedido y todos los avisos de envío. Si está mal escrito, no podremos contactarte. Escríbelo con el código del país, ej. +58 412 000 0000.</p></div>
+<label for="reg-correo">Correo electrónico *</label>
+<input type="email" id="reg-correo" name="email" autocomplete="email" required placeholder="tucorreo@dominio.com">
+<label for="input-referido" style="color:var(--g2)">🎁 Código de referido (editable)</label>
+<input type="text" id="input-referido" placeholder="Ej. REF-123456 o NINGUNO">
+<p id="registro-mensaje" class="hidden"></p>
+<button type="button" id="btn-registro-guardar" onclick="registrarClienteUnico(event)" class="btn full">GUARDAR Y CONTINUAR 🚀</button>
+<p class="legal">Al continuar aceptas los <a href="https://dunigshop.github.io/dunig7/terminos.html" target="_blank" rel="noopener">Términos y Condiciones y la Política de privacidad</a> de Mr Santos.</p>
 </div>
 </div>
 </div>
-<!-- CONTENEDOR FIJO AL ESCROLEAR (HEADER + BUSCADOR MÓVIL + PORTADA) -->
-<div class="sticky top-0 z-50 bg-[#0b0b0b] shadow-md">
-<!-- HEADER ESTILO APP MODERNA -->
-<header class="bg-[#121212] border-b border-[#222222] px-4">
-<div class="max-w-7xl mx-auto h-16 flex items-center justify-between gap-2">
-<div class="flex items-center gap-2 cursor-pointer" onclick="cambiarPantalla('vitrina')">
-<div class="bg-white p-2 rounded-xl text-black shadow-sm">
-<i data-lucide="store" class="w-5 h-5"></i>
-</div>
-<div>
-<h1 class="text-sm font-black tracking-tight text-white">
-<span class="lux-brand">MR <span class="lux-brand-accent">SANTOS</span></span>
-</h1>
-<p class="text-[8px] text-gray-400 uppercase tracking-widest font-semibold">VENEZUELA</p>
-</div>
-</div>
-<!-- BUSCADOR SUPERIOR COMPACTO (DESKTOP) -->
-<div class="flex-1 max-w-md mx-2 hidden md:flex items-center bg-[#1b1b1b] rounded-full px-3 py-1.5 border border-[#333333] focus-within:border-white transition-all">
-<i data-lucide="search" class="w-4 h-4 text-gray-400 mr-2"></i>
-<input type="text" id="input-buscador-vitrina-desktop" placeholder="Buscar productos..." oninput="document.getElementById('input-buscador-vitrina').value=this.value;filtrarProductosVitrina();" class="w-full bg-transparent text-xs text-white focus:outline-none">
-</div>
-<div class="flex items-center gap-2">
-<!-- BOTÓN DE CÓDIGO QR PARA EL APK -->
-<button onclick="mostrarQrApk()" class="bg-[#2a2a2a] border border-[#3d3d3d] hover:border-white text-amber-400 text-xs font-bold py-2 px-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all" title="Ver Código QR para descargar APK">
-<i data-lucide="qr-code" class="w-4 h-4"></i>
-<span class="text-[10px] uppercase hidden sm:inline">Código QR</span>
-</button>
-<button onclick="abrirModalEdicionDatos()" class="bg-[#1b1b1b] border border-[#333333] hover:border-white p-2 rounded-full flex items-center justify-center cursor-pointer transition-all text-gray-300" title="Editar mis datos">
-<i data-lucide="settings" class="w-4 h-4"></i>
-</button>
-<button onclick="cambiarPantalla('carrito')" class="relative bg-[#1b1b1b] border border-[#333333] p-2 rounded-full flex items-center justify-center hover:border-white cursor-pointer">
-<i data-lucide="shopping-bag" class="w-4 h-4 text-gray-200"></i>
-<span id="contador-carrito-badge" class="absolute -top-1 -right-1 bg-white text-black font-mono text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
-</button>
-</div>
+
+<nav class="top" id="nav"><div class="wrap">
+<a class="brand" href="#" onclick="cambiarPantalla('vitrina')"><img src="logo-ms.jpg" alt="Mr Santos" style="width:34px;height:34px;border-radius:10px;object-fit:cover"><span>Mr Santos</span></a>
+<span class="sp"></span>
+
+<button class="ib" onclick="mostrarQrApk()" title="Código QR para descargar la app" aria-label="Descargar app">📲</button>
+<button class="ib" onclick="abrirModalEdicionDatos()" title="Editar mis datos" aria-label="Editar mis datos">⚙️</button>
+</div></nav>
+
+<!-- VISTA VITRINA -->
+<main id="vista-vitrina">
+<header class="hero">
+<div class="bg"></div><div class="shade"></div><canvas id="sparks"></canvas>
+<div class="wrap in">
+<span class="kicker"><b></b> Mr Santos · tienda al detal</span>
+<h1>Gomitas artesanales<br><span class="gtxt">hechas a mano</span></h1>
+<p class="lead">Bolsitas de 80 g con gomitas de muñequitos en cinco sabores. Despachamos desde Valencia: delivery en Valencia y envíos a toda Venezuela por MRW, Domesa y Tealca.</p>
+<div class="ctas"><a class="btn" href="#catalogo">🛍️ Ver catálogo</a><a class="btn ghost" href="#vender">💼 Quiero vender</a></div>
+
 </div>
 </header>
-<!-- ZONA FIJA SUPERIOR: BUSCADOR MÓVIL Y CARRUSEL / PORTADA -->
-<div class="max-w-7xl w-full mx-auto px-4 py-3 space-y-3 bg-[#0b0b0b] border-b border-[#222222]">
-<!-- BARRA DE BÚSQUEDA MÓVIL -->
-<div class="w-full md:hidden">
-<div class="relative flex items-center bg-[#141414] border border-[#262626] rounded-full px-4 py-2 shadow-xs">
-<i data-lucide="search" class="w-4 h-4 text-gray-400 mr-2"></i>
-<input type="text" id="input-buscador-vitrina" placeholder="Buscar especialidades o categorías..." oninput="filtrarProductosVitrina()" class="w-full bg-transparent text-xs text-white focus:outline-none">
-<button onclick="limpiarBuscadorVitrina()" class="text-gray-400 hover:text-white">
-<i data-lucide="x" class="w-4 h-4"></i>
-</button>
+
+<div class="marquee"><div class="tr" id="mq"></div></div>
+
+<section id="catalogo"><div class="wrap">
+<div class="sh reveal"><h2>Nuestro <span class="gtxt">catálogo</span></h2><p>Toca un producto para verlo y agregarlo a tu bolsa.</p></div>
+<div class="buscar">
+<span>🔎</span>
+<input type="text" id="input-buscador-vitrina" placeholder="Buscar productos o categorías..." oninput="filtrarProductosVitrina()">
+<button onclick="limpiarBuscadorVitrina()" aria-label="Limpiar búsqueda">✕</button>
 </div>
+
+<div id="grid-productos-vitrina" class="prods"><div class="cargando"><i></i></div></div>
+</div></section>
+
+<section style="background:var(--bg2)"><div class="wrap">
+<div class="sh reveal"><h2>Cinco <span class="gtxt">sabores</span></h2><p>Gomitas de muñequitos en bolsitas de 80 g.</p></div>
+<div class="sabs">
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🍓 Fresa','fresa')" style="cursor:pointer"><img src="sabor80-fresa.jpg" alt="Gomitas de fresa" loading="lazy"><div class="cap"><h3>🍓 Fresa</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🍋 Limón','limon')" style="cursor:pointer"><img src="sabor80-limon.jpg" alt="Gomitas de limón" loading="lazy"><div class="cap"><h3>🍋 Limón</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🫐 Mora','mora')" style="cursor:pointer"><img src="sabor80-mora.jpg" alt="Gomitas de mora" loading="lazy"><div class="cap"><h3>🫐 Mora</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🍊 Naranja','naranja')" style="cursor:pointer"><img src="sabor80-naranja.jpg" alt="Gomitas de naranja" loading="lazy"><div class="cap"><h3>🍊 Naranja</h3></div></div>
+<div class="ph-card reveal holo-trigger" onclick="abrirHolo('🌿 Menta','menta')" style="cursor:pointer"><img src="sabor80-menta.jpg" alt="Gomitas de menta" loading="lazy"><div class="cap"><h3>🌿 Menta</h3></div></div>
 </div>
-<!-- CARRUSEL DE IMÁGENES EN MOVIMIENTO (PORTADA CORREGIDA) -->
-<div class="w-full rounded-2xl overflow-hidden shadow-sm relative bg-black text-white border border-[#262626]">
-<div class="w-full h-40 sm:h-56 relative overflow-hidden">
-<div id="carrusel-slider-track" class="carrusel-contenedor h-full">
-<div class="carrusel-slide relative h-full flex-shrink-0">
-<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Banner 1" class="w-full h-full object-cover opacity-75">
-<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-4 space-y-1">
-<span class="text-[9px] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full w-max font-bold uppercase tracking-widest text-amber-400">Exclusivo VIP</span>
-<h2 class="text-lg sm:text-2xl font-extrabold tracking-tight uppercase lux-gold-text">Mr Santos</h2>
-<p class="text-[11px] text-gray-300">Tu tienda preferida, con envíos a toda Venezuela.</p>
+</div></section>
+
+<section><div class="wrap">
+<div class="sh reveal"><h2>Así de fácil <span class="gtxt">se pide</span></h2></div>
+<button class="pasobig reveal" onclick="verPasos(1)"><span class="pb-play">▶</span><span class="pb-t">Mr Santos te enseña a comprar<small>Mira cómo se pide en 40 segundos</small></span></button>
+<div class="duo" style="margin-top:22px">
+<div class="ph-card reveal"><img src="elab-1-guantes.jpg" alt="Gomitas hechas a mano con guantes" loading="lazy"><div class="cap"><h3>Hechas a mano, con guantes</h3><p>Receta artesanal Mr Santos con gelatina vegetal (agar), sin gelatina animal.</p></div></div>
 </div>
+</div></section>
+
+<section id="mayor" style="background:var(--bg2)"><div class="wrap">
+<div class="sh reveal"><span class="kicker"><b></b> Para emprendedores</span><h2>Compra <span class="gtxt">al mayor</span></h2><p>Revende cada bolsita y gana. Se agrega a la misma bolsa y pagas igual que al detal.</p></div>
+<div class="prods" id="prods-mayor"></div>
+<p class="note">Bolsitas de 80 g. Ganancias calculadas revendiendo al precio sugerido.</p>
+</div></section>
+
+<footer><div class="wrap">
+<span class="gtxt" style="font-weight:700">El momento es hoy · #GomitasMrSantos</span>
+<div class="lks">
+<a class="lk" href="https://www.instagram.com/mr.santos_ve/" target="_blank" rel="noopener">📸 Instagram</a>
+<a class="lk" href="https://www.tiktok.com/@mr.santos_ve" target="_blank" rel="noopener">🎬 TikTok</a>
+<a class="lk" href="https://www.youtube.com/@mr.santos_ve" target="_blank" rel="noopener">▶️ YouTube</a>
 </div>
-<div class="carrusel-slide relative h-full flex-shrink-0">
-<img src="https://images.unsplash.com/photo-1526738549149-8e07eca6c147?q=80&w=1000&auto=format&fit=crop" alt="Banner 2" class="w-full h-full object-cover opacity-75">
-<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-4 space-y-1">
-<span class="text-[9px] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full w-max font-bold uppercase tracking-widest text-amber-400">Envíos Nacionales</span>
-<h2 class="text-lg sm:text-2xl font-extrabold tracking-tight uppercase">MRW, DOMESA Y TEALCA</h2>
-<p class="text-[11px] text-gray-300">Despachos seguros a nivel nacional con cobro a destino.</p>
+<div class="lks">
+
+<a class="lk" href="https://dunigshop.github.io/dunig7/terminos.html" target="_blank" rel="noopener">📄 Términos</a>
 </div>
-</div>
-<div class="carrusel-slide relative h-full flex-shrink-0">
-<img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000&auto=format&fit=crop" alt="Banner 3" class="w-full h-full object-cover opacity-75">
-<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-4 space-y-1">
-<span class="text-[9px] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full w-max font-bold uppercase tracking-widest text-amber-400">Calidad Garantizada</span>
-<h2 class="text-lg sm:text-2xl font-extrabold tracking-tight uppercase">HECHAS A MANO</h2>
-<p class="text-[11px] text-gray-300">Gomitas artesanales en cinco sabores, empacadas con guantes.</p>
-</div>
-</div>
-</div>
-<div class="absolute bottom-3 right-4 flex gap-1.5 z-10" id="carrusel-puntos">
-<button onclick="irASlide(0)" class="w-2 h-2 rounded-full bg-white/50 cursor-pointer transition-all"></button>
-<button onclick="irASlide(1)" class="w-2 h-2 rounded-full bg-white/50 cursor-pointer transition-all"></button>
-<button onclick="irASlide(2)" class="w-2 h-2 rounded-full bg-white/50 cursor-pointer transition-all"></button>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- VISTA VITRINA -->
-<main id="vista-vitrina" class="max-w-7xl w-full mx-auto px-4 py-4 flex-grow space-y-4 relative z-10">
-<div id="grid-productos-vitrina" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"></div>
+<span style="opacity:.8">@mr.santos_ve en todas mis redes</span><br>© 2026 Mr Santos. Imágenes ilustrativas creadas con IA. Precios en dólares.
+</div></footer>
 </main>
-<!-- VISTA DETALLE -->
-<main id="vista-detalle" class="hidden max-w-5xl w-full mx-auto px-4 py-6 flex-grow relative z-10">
-<button onclick="cambiarPantalla('vitrina')" class="mb-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-white cursor-pointer transition-colors">
-<i data-lucide="arrow-left" class="w-4 h-4"></i> Volver
-</button>
-<div class="bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
-<div class="space-y-3">
-<div class="relative rounded-xl overflow-hidden bg-[#1f1f1f] aspect-square flex items-center justify-center border border-[#262626]">
-<div id="contenedor-media-principal" class="w-full h-full flex items-center justify-center bg-[#1a1a1a] cursor-zoom-in" onclick="amplificarFotoActual()">
-<img id="detalle-visor-principal" src="" alt="Visor Principal" class="w-full h-full object-cover">
+
+<!-- VISTA DETALLE (ventana) -->
+<div id="vista-detalle" class="ovl hidden">
+<div class="ov" onclick="cambiarPantalla('vitrina')"></div>
+<div class="bx">
+<button class="x" onclick="cambiarPantalla('vitrina')" aria-label="Volver">✕</button>
+<div class="det">
+<div>
+<div class="vis" id="contenedor-media-principal" onclick="amplificarFotoActual()">
+<img id="detalle-visor-principal" src="" alt="Foto del producto">
+<button class="zoom" onclick="event.stopPropagation();amplificarFotoActual()" aria-label="Ampliar">⤢</button>
 </div>
-<button onclick="amplificarFotoActual()" class="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md text-white p-2 rounded-full text-xs shadow-md cursor-pointer hover:bg-black">
-<i data-lucide="maximize-2" class="w-4 h-4"></i>
-</button>
+<div id="detalle-contenedor-miniaturas" class="mini"></div>
 </div>
-<div id="detalle-contenedor-miniaturas" class="grid grid-cols-5 gap-2"></div>
-</div>
-<div class="space-y-4 flex flex-col justify-between">
-<div class="space-y-3">
-<span id="detalle-categoria" class="text-[9px] uppercase tracking-wider font-bold bg-[#222222] text-gray-300 px-2.5 py-1 rounded-md">CATEGORÍA</span>
-<h2 id="detalle-titulo" class="text-xl sm:text-2xl font-black text-white tracking-tight">Título del Producto</h2>
-<p id="detalle-precio" class="text-xl font-mono text-white font-extrabold">$0.00</p>
-<div class="border-t border-[#262626] pt-3 space-y-1">
-<h4 class="text-[9px] uppercase tracking-wider text-gray-400 font-bold">Descripción:</h4>
-<p id="detalle-descripcion" class="text-xs text-gray-400 leading-relaxed">Cargando...</p>
-</div>
-<div id="contenedor-adicionales" class="w-full pt-2"></div>
-</div>
-<button onclick="agregarDetalleAlCarritoYVolver()" class="w-full bg-white hover:bg-gray-200 text-black font-bold py-3.5 px-6 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all">
-<i data-lucide="shopping-bag" class="w-4 h-4"></i> AÑADIR A LA BOLSA VIP
-</button>
+<div class="info">
+<span id="detalle-categoria" class="pill">CATEGORÍA</span>
+<h2 id="detalle-titulo">Producto</h2>
+<p id="detalle-precio" class="precio gtxt">$0.00</p>
+<h4>Descripción</h4>
+<p id="detalle-descripcion" class="desc">Cargando...</p>
+<div id="contenedor-adicionales"></div>
+<button onclick="agregarDetalleAlCarritoYVolver()" class="btn full" style="margin-top:8px">🛍️ AÑADIR A LA BOLSA VIP</button>
+<button onclick="cambiarPantalla('vitrina')" class="btn dark full">← Seguir viendo</button>
 </div>
 </div>
-</main>
-<!-- VISTA CARRITO -->
-<main id="vista-carrito" class="hidden max-w-5xl w-full mx-auto px-4 py-6 flex-grow relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-<section class="lg:col-span-2 bg-[#141414] border border-[#262626] p-5 rounded-2xl space-y-4 shadow-xs">
-<h2 class="text-base font-extrabold text-white uppercase tracking-tight flex items-center gap-2 border-b border-[#262626] pb-3">
-<i data-lucide="shopping-basket" class="w-5 h-5 text-amber-500"></i> Bolsa de Pedidos VIP
-</h2>
-<div id="lista-items-carrito" class="divide-y divide-[#262626]"></div>
-<div class="space-y-3 pt-4 border-t border-[#262626] bg-[#1a1a1a] p-4 rounded-xl">
-<h3 class="text-xs font-bold text-white uppercase flex items-center gap-1.5">
-<i data-lucide="map-pin" class="w-4 h-4 text-amber-500"></i> Destino y Logística de Encomienda
-</h3>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
-<div class="space-y-1">
-<label class="text-[9px] font-bold uppercase text-gray-400">País</label>
-<select id="pais" name="pais" onchange="actualizarCiudades()" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
+</div>
+</div>
+
+<!-- VISTA CARRITO (panel lateral) -->
+<div id="vista-carrito" class="side hidden">
+<div class="ov" onclick="cambiarPantalla('vitrina')"></div>
+<div class="pn">
+<div class="cab"><h3>🛍️ Bolsa de pedidos <span class="gtxt">VIP</span></h3><button class="x" onclick="cambiarPantalla('vitrina')" aria-label="Cerrar">✕</button></div>
+<div class="cuerpo">
+<div id="lista-items-carrito"></div>
+<div class="tot"><span>Total productos (<span id="cantidad-items-abajo">0</span>)</span><span class="gtxt" id="carrito-monto-total">$0.00</span></div>
+
+<div class="bloque">
+<h5>📍 Destino y envío</h5>
+<label for="pais">País</label>
+<select id="pais" name="pais" onchange="actualizarCiudades()" required>
 <option value="">Seleccione...</option>
 <option value="venezuela">Venezuela</option>
 </select>
-</div>
-<div class="space-y-1">
-<label class="text-[9px] font-bold uppercase text-gray-400">Ciudad</label>
-<select id="ciudad" name="ciudad" onchange="actualizarRegiones()" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
+<label for="ciudad">Ciudad</label>
+<select id="ciudad" name="ciudad" onchange="actualizarRegiones()" required>
 <option value="">Seleccione país...</option>
 </select>
-</div>
-<div id="bloque-region" class="space-y-1">
-<label class="text-[9px] font-bold uppercase text-gray-400">Región / Sector</label>
-<input type="text" id="region" name="region" placeholder="Urbanización / Sector" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
-</div>
+<div id="bloque-region">
+<label for="region">Región / sector</label>
+<input type="text" id="region" name="region" placeholder="Urbanización / sector" required>
 </div>
 </div>
-<div id="bloque-delivery-local" class="hidden space-y-2 pt-2 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
-<p class="text-xs font-bold text-amber-400 uppercase">🛵 Delivery en <span id="nombre-ciudad-local">tu ciudad</span></p>
-<p class="text-[11px] text-gray-300">Estás en nuestra ciudad: te lo llevamos a tu puerta, sin agencia de envío. Pega aquí tu ubicación exacta de Google Maps.</p>
-<input type="text" id="input-ubicacion-maps" placeholder="Enlace de Google Maps (Compartir ubicación)" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
-<button type="button" onclick="usarMiUbicacion()" class="w-full bg-[#1f1f1f] border border-amber-500/40 text-amber-400 text-xs font-bold py-2.5 rounded-xl">📍 Usar mi ubicación actual</button>
+
+<div id="bloque-delivery-local" class="bloque local hidden">
+<h5>🛵 Delivery en <span id="nombre-ciudad-local">tu ciudad</span></h5>
+<p>Estás en nuestra ciudad: te lo llevamos a tu puerta, sin agencia de envío. Pega aquí tu ubicación exacta de Google Maps.</p>
+<input type="text" id="input-ubicacion-maps" placeholder="Enlace de Google Maps (Compartir ubicación)">
+<button type="button" onclick="usarMiUbicacion()" class="btn ghost full">📍 Usar mi ubicación actual</button>
 </div>
-<div id="bloque-empresas-envio" class="space-y-2 pt-2">
-<label class="text-[10px] uppercase text-white font-bold tracking-wider block">Selecciona Empresa de Encomiendas</label>
-<div id="grid-empresas-encomienda" class="grid grid-cols-3 gap-2"></div>
-<div id="badge-empresa-seleccionada" class="text-xs font-mono text-amber-400 bg-amber-500/10 p-2 rounded-lg border border-amber-500/20 hidden">
-Agencia: <span id="texto-agencia-activa" class="font-bold">Ninguna</span>
+
+<div id="bloque-empresas-envio" class="bloque">
+<h5>🚚 Empresa de encomiendas</h5>
+<div id="grid-empresas-encomienda" class="encs"></div>
+<div id="badge-empresa-seleccionada" class="badge-ag hidden">Agencia: <b id="texto-agencia-activa">Ninguna</b></div>
 </div>
-</div>
-</section>
-<section class="bg-[#141414] border border-[#262626] p-5 rounded-2xl shadow-xs space-y-4">
-<h3 class="text-sm font-extrabold text-white uppercase border-b border-[#262626] pb-2">Resumen de Orden</h3>
-<div class="flex justify-between items-center text-xs text-gray-400">
-<span>Total Productos (<span id="cantidad-items-abajo" class="font-bold font-mono">0</span>):</span>
-<span class="text-white font-extrabold font-mono text-base" id="carrito-monto-total">$0.00</span>
-</div>
-<div class="space-y-3 pt-2 border-t border-[#262626]">
-<div class="space-y-1">
-<label class="text-[9px] uppercase text-gray-400 font-bold block">Método de Pago</label>
-<select id="tipoMetodoPago" onchange="gestionarCamposPagoCart()" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl focus:outline-none focus:border-white">
+
+<div class="bloque">
+<h5>💳 Pago</h5>
+<label for="tipoMetodoPago">Método de pago</label>
+<select id="tipoMetodoPago" onchange="gestionarCamposPagoCart()">
 <option value="">Seleccione...</option>
 <option value="zelle">Zelle</option>
 <option value="pago_movil">Pago Móvil</option>
 <option value="binance">Binance</option>
 </select>
+<div id="info-metodo-pago" class="pinfo hidden">
+<b id="titulo-metodo-pago" style="color:var(--g2)">Datos para pagar</b>
+<div id="detalle-datos-pago"></div>
 </div>
-<div id="info-metodo-pago" class="hidden p-3 bg-[#1a1a1a] border border-[#262626] rounded-xl space-y-1 text-xs font-mono">
-<div class="flex items-center justify-between font-bold text-white border-b border-[#333333] pb-1 mb-1">
-<span id="titulo-metodo-pago">Datos</span>
+<div id="contenedorNumeroMesaCart" class="hidden">
+<label for="input-num-mesa">Observación del pago en efectivo</label>
+<input type="text" id="input-num-mesa" placeholder="Ej. Pago en efectivo en dólares">
 </div>
-<div id="detalle-datos-pago" class="text-gray-300 space-y-0.5"></div>
+<div id="contenedorReferenciaCart" class="hidden">
+<label for="input-ref-pago">Número de referencia</label>
+<input type="text" id="input-ref-pago" placeholder="Código de referencia">
 </div>
-<div id="contenedorNumeroMesaCart" class="space-y-1 hidden">
-<label class="text-[9px] uppercase text-white font-bold block">Observación del pago en efectivo</label>
-<input type="text" id="input-num-mesa" placeholder="Ej. Pago en efectivo en dólares" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
+<button onclick="enviarPedidoWhatsApp()" class="btn full">💬 Enviar por WhatsApp</button>
+<p class="ok-note">Al enviar se abre WhatsApp con tu pedido para confirmarlo.</p>
 </div>
-<div id="contenedorReferenciaCart" class="space-y-1 hidden">
-<label class="text-[9px] uppercase text-white font-bold block">Número de Referencia</label>
-<input type="text" id="input-ref-pago" placeholder="Código de referencia" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
 </div>
-<button onclick="enviarPedidoWhatsApp()" class="w-full bg-white hover:bg-gray-200 text-black font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md flex items-center justify-center gap-2 transition-all">
-<i data-lucide="send" class="w-4 h-4"></i> Enviar por WhatsApp
-</button>
 </div>
-</section>
-</main>
-<!-- NAVEGACIÓN INFERIOR FIJA -->
-<nav aria-label="Navegación inferior" class="fixed bottom-0 left-0 right-0 bg-[#121212] border-t border-[#222222] z-40 px-6 py-2 flex items-center justify-around shadow-lg">
-<button onclick="cambiarPantalla('vitrina')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white cursor-pointer">
-<i data-lucide="home" class="w-5 h-5"></i>
-<span class="text-[10px] font-bold uppercase tracking-wide">Comprar</span>
-</button>
-<button onclick="cambiarPantalla('carrito')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white cursor-pointer relative">
-<i data-lucide="shopping-cart" class="w-5 h-5"></i>
-<span class="text-[10px] font-bold uppercase tracking-wide">Cesta</span>
-</button>
-</nav>
+</div>
+
+<!-- CARRITO FLOTANTE -->
+<div class="fab"><button onclick="cambiarPantalla('carrito')" id="fCart" aria-label="Ver mi bolsa">🛍️<span class="ct cero" id="contador-carrito-badge">0</span></button></div>
+<div class="toast" id="toast"></div>
+
 <!-- LIGHTBOX -->
-<div id="modal-lightbox" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 cursor-zoom-out" onclick="cerrarAmplificacion()">
-<button class="absolute top-4 right-4 text-white p-2">
-<i data-lucide="x" class="w-6 h-6"></i>
-</button>
-<img id="lightbox-imagen-completa" src="" class="max-w-full max-h-full object-contain rounded-lg">
+<div id="modal-lightbox" class="hidden" onclick="cerrarAmplificacion()">
+<button class="x" style="position:absolute;top:16px;right:16px" aria-label="Cerrar">✕</button>
+<img id="lightbox-imagen-completa" src="" alt="Foto ampliada">
 </div>
+
+<script>
+// Efectos del estilo vendedores: chispas, marquesina, aparición al hacer scroll, aviso (toast) y contador del carrito
+(function(){
+var $=function(s){return document.querySelector(s);};
+window.toastMS=function(t){var el=$('#toast');if(!el)return;el.textContent=t;el.classList.add('show');clearTimeout(el._t);el._t=setTimeout(function(){el.classList.remove('show');},2600);};
+function observar(){
+if(!('IntersectionObserver' in window)){document.querySelectorAll('.reveal').forEach(function(e){e.classList.add('on');});return;}
+var io=window._io||(window._io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('on');io.unobserve(e.target);}});},{threshold:.12}));
+document.querySelectorAll('.reveal:not(.on)').forEach(function(el){io.observe(el);});
+}
+window.observarReveal=observar;
+function marquee(){
+var fotos=['sabor80-fresa.jpg','sabor80-limon.jpg','sabor80-mora.jpg','sabor80-naranja.jpg','sabor80-menta.jpg','hero-consumidor.jpg','elab-1-guantes.jpg'];
+var h=fotos.map(function(f){return '<img src="'+f+'" alt="Gomitas Mr Santos" loading="lazy">';}).join('');
+var mq=$('#mq');if(mq)mq.innerHTML=h+h+h;
+}
+function chispas(){
+var c=$('#sparks');if(!c)return;var x=c.getContext('2d'),W,H,ps=[];
+var rs=function(){W=c.width=c.offsetWidth;H=c.height=c.offsetHeight;};rs();addEventListener('resize',rs);
+for(var i=0;i<60;i++)ps.push({x:Math.random(),y:Math.random(),r:Math.random()*2+.5,v:Math.random()*.0015+.0005,a:Math.random()*6});
+(function f(){x.clearRect(0,0,W,H);ps.forEach(function(p){p.y-=p.v;p.a+=.03;if(p.y<0){p.y=1;p.x=Math.random();}
+x.globalAlpha=.4+Math.sin(p.a)*.4;x.fillStyle='#ffd23f';x.shadowColor='#ffd23f';x.shadowBlur=8;
+x.beginPath();x.arc(p.x*W,p.y*H,p.r,0,7);x.fill();});requestAnimationFrame(f);})();
+}
+function contador(){
+var b=$('#contador-carrito-badge'),f=$('#fCart');if(!b)return;var prev=0;
+new MutationObserver(function(){var n=parseInt(b.textContent,10)||0;b.classList.toggle('cero',n===0);
+if(n>prev&&f){f.classList.remove('ring');void f.offsetWidth;f.classList.add('ring');}prev=n;}).observe(b,{childList:true,characterData:true,subtree:true});
+}
+function nav(){var n=$('#nav');if(n)n.classList.toggle('solid',scrollY>40);}
+addEventListener('scroll',nav);
+function init(){marquee();chispas();observar();contador();nav();
+var g=$('#grid-productos-vitrina');if(g)new MutationObserver(observar).observe(g,{childList:true});}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
+addEventListener('keydown',function(e){if(e.key==='Escape'){var l=$('#modal-lightbox');if(l&&!l.classList.contains('hidden')){l.classList.add('hidden');return;}if(window.cambiarPantalla&&window.almacenDunig.getItem('dunig_cliente_registrado'))window.cambiarPantalla('vitrina');}});
+})();
+</script>
 <script type="module">
 let App = null;
 try {
@@ -415,6 +411,7 @@ const SUPABASE_URL = "https://mkewwlmeikixpvfayisj.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rZXd3bG1laWtpeHB2ZmF5aXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3Mzg5NTAsImV4cCI6MjEwNTMxNDk1MH0.xUm7b8j4EGjHtsrBP9DgBURKRhrsPwOxhwKLCAMxZ1o";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storage: window.almacenDunig } });
 let carrito = [];
+window.__pushCarrito = (it) => { carrito.push(it); return carrito.length; };
 let baseProductos = [];
 let productoSeleccionado = null;
 let fotoSeleccionadaForLightbox = "";
@@ -497,7 +494,7 @@ ciudadSelect.innerHTML = '<option value="">Seleccione primero un país...</optio
 }
 }
 // Ciudad donde hacemos delivery propio (cámbiala aquí si te mudas)
-const CIUDAD_LOCAL = "Mérida";
+const CIUDAD_LOCAL = "Valencia";
 let esEntregaLocal = false;
 window.actualizarRegiones = function() {
 const regionInput = document.getElementById('region');
@@ -527,11 +524,9 @@ if (!error && data && data.length > 0) {
 grid.innerHTML = "";
 data.forEach(emp => {
 grid.innerHTML += `
-<div onclick="seleccionarEmpresaEncomienda('${emp.codigo}', '${emp.nombre_largo}')" id="encomienda-${emp.codigo.toLowerCase()}" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
-<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]">
-<img src="${emp.imagen_url}" alt="${emp.codigo}" class="w-full h-full object-cover">
-</div>
-<span class="text-[10px] font-bold text-white uppercase">${emp.codigo}</span>
+<div onclick="seleccionarEmpresaEncomienda('${emp.codigo}', '${emp.nombre_largo}')" id="encomienda-${emp.codigo.toLowerCase()}" class="encomienda-card">
+<div class="ei"><img src="${emp.imagen_url}" alt="${emp.codigo}"></div>
+<span>${emp.codigo}</span>
 </div>`;
 });
 } else {
@@ -544,30 +539,28 @@ seleccionarEmpresaEncomienda('MRW', '📦 MRW (Cobro a Destino)');
 }
 function renderizarEmpresasFallback(grid) {
 grid.innerHTML = `
-<div onclick="seleccionarEmpresaEncomienda('MRW', '📦 MRW (Cobro a Destino)')" id="encomienda-mrw" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
-<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=200&auto=format&fit=crop" alt="MRW" class="w-full h-full object-cover"></div>
-<span class="text-[10px] font-bold text-white uppercase">MRW</span>
+<div onclick="seleccionarEmpresaEncomienda('MRW', '📦 MRW (Cobro a Destino)')" id="encomienda-mrw" class="encomienda-card">
+<div class="ei"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=200&auto=format&fit=crop" alt="MRW"></div>
+<span>MRW</span>
 </div>
-<div onclick="seleccionarEmpresaEncomienda('DOMESA', '🏢 DOMESA')" id="encomienda-domesa" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
-<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]"><img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=200&auto=format&fit=crop" alt="DOMESA" class="w-full h-full object-cover"></div>
-<span class="text-[10px] font-bold text-white uppercase">DOMESA</span>
+<div onclick="seleccionarEmpresaEncomienda('DOMESA', '🏢 DOMESA')" id="encomienda-domesa" class="encomienda-card">
+<div class="ei"><img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=200&auto=format&fit=crop" alt="DOMESA"></div>
+<span>DOMESA</span>
 </div>
-<div onclick="seleccionarEmpresaEncomienda('TEALCA', '🚚 Tealca Express')" id="encomienda-tealca" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
-<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]"><img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=200&auto=format&fit=crop" alt="TEALCA" class="w-full h-full object-cover"></div>
-<span class="text-[10px] font-bold text-white uppercase">TEALCA</span>
+<div onclick="seleccionarEmpresaEncomienda('TEALCA', '🚚 Tealca Express')" id="encomienda-tealca" class="encomienda-card">
+<div class="ei"><img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=200&auto=format&fit=crop" alt="TEALCA"></div>
+<span>TEALCA</span>
 </div>
 `;
 }
 window.seleccionarEmpresaEncomienda = function(codigo, nombreLargo) {
 empresaEncomiendaSeleccionada = nombreLargo;
 document.querySelectorAll('.encomienda-card').forEach(el => {
-el.classList.remove('border-white', 'bg-white/10');
-el.classList.add('border-[#262626]', 'bg-[#1a1a1a]');
+el.classList.remove('sel');
 });
 const cardActiva = document.getElementById(`encomienda-${codigo.toLowerCase()}`);
 if (cardActiva) {
-cardActiva.classList.remove('border-[#262626]', 'bg-[#1a1a1a]');
-cardActiva.classList.add('border-white', 'bg-white/10');
+cardActiva.classList.add('sel');
 }
 const badge = document.getElementById('badge-empresa-seleccionada');
 const textoAgencia = document.getElementById('texto-agencia-activa');
@@ -662,7 +655,7 @@ try {
 await fetch(SUPABASE_CENTRAL_URL, {
 method: "POST",
 headers: { "Content-Type": "application/json", "apikey": SUPABASE_CENTRAL_KEY, "Authorization": `Bearer ${SUPABASE_CENTRAL_KEY}`, "Prefer": "return=representation" },
-body: JSON.stringify({ comercio: nuevaOrden.nombre || "Mr Santos", comercio_nombre: nuevaOrden.nombre || "Mr Santos", comercio_direccion: "HVX5+G5H, Mérida", productos: nuevaOrden.detalles || "Pedido", costo_delivery: 0.00, coordenadas_gps: "N/A", estado: "Pendiente" })
+body: JSON.stringify({ comercio: nuevaOrden.nombre || "Mr Santos", comercio_nombre: nuevaOrden.nombre || "Mr Santos", comercio_direccion: "Valencia, Carabobo", productos: nuevaOrden.detalles || "Pedido", costo_delivery: 0.00, coordenadas_gps: "N/A", estado: "Pendiente" })
 });
 } catch (error) {}
 }
@@ -689,21 +682,21 @@ if (!datosDePago['binance']) datosDePago['binance'] = `<p class="text-white font
 }
 window.cambiarPantalla = async function(nombre) {
 if (!almacenDunig.getItem('dunig_cliente_registrado')) { verificarClienteRegistrado(); return; }
-['vitrina', 'detalle', 'carrito'].forEach(v => {
+['detalle', 'carrito'].forEach(v => {
 const el = document.getElementById(`vista-${v}`);
 if(el) el.classList.add('hidden');
 });
 const target = document.getElementById(`vista-${nombre}`);
-if(target) target.classList.remove('hidden');
+if(target && nombre !== 'vitrina') target.classList.remove('hidden');
+document.body.classList.toggle('lock', nombre !== 'vitrina');
 if (nombre === 'carrito') renderizarCarrito();
-window.scrollTo({ top: 0, behavior: 'smooth' });
 setTimeout(() => lucide.createIcons(), 50);
 }
 async function descargarCatalogoDeSupabase() {
 const grid = document.getElementById('grid-productos-vitrina');
 if(!grid) return;
 const { data, error } = await supabaseClient.from('productos').select('*');
-if (error) { grid.innerHTML = `<div class="col-span-2 text-center text-xs text-red-400">Error al conectar con base de datos.</div>`; return; }
+if (error) { grid.innerHTML = `<div class="estado err">Error al conectar con base de datos.</div>`; return; }
 if (data && data.length > 0) {
 baseProductos = data;
 grid.innerHTML = "";
@@ -713,22 +706,18 @@ const precio = parseFloat(p.precio || p.valor || 0);
 const imagen = p.imagen_url || p.imagen || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600';
 const categoria = p.categoria || 'ESPECIALIDAD';
 grid.innerHTML += `
-<div onclick="verDetalleDeProducto(${p.id})" class="bg-[#141414] rounded-2xl overflow-hidden border border-[#262626] flex flex-col justify-between shadow-xs cursor-pointer hover:border-white transition-all group">
-<div class="aspect-square bg-[#1a1a1a] overflow-hidden relative">
-<img src="${imagen}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
-<span class="absolute top-2 left-2 bg-black/70 backdrop-blur-md text-[8px] font-bold uppercase text-white px-2 py-0.5 rounded">${categoria}</span>
-</div>
-<div class="p-3 space-y-1.5">
-<h3 class="font-bold text-xs text-white uppercase truncate">${titulo}</h3>
-<div class="flex justify-between items-center">
-<span class="font-mono text-xs text-white font-extrabold">$${precio.toFixed(2)}</span>
-<span class="text-[10px] text-amber-400 font-bold underline">Ver</span>
-</div>
+<div onclick="verDetalleDeProducto(${p.id})" class="pc reveal">
+<span class="tag">${categoria}</span>
+<div class="ph"><img src="${imagen}" alt="${titulo}" loading="lazy"></div>
+<div class="bd">
+<h3>${titulo}</h3>
+<div class="pr gtxt">$${precio.toFixed(2)}</div>
+<span class="btn sm full">Ver y agregar</span>
 </div>
 </div>`;
 });
 } else {
-grid.innerHTML = `<div class="col-span-2 text-center text-xs text-gray-400">Sin productos disponibles.</div>`;
+grid.innerHTML = `<div class="estado">Sin productos disponibles.</div>`;
 }
 lucide.createIcons();
 }
@@ -758,15 +747,17 @@ if (fotosSlider.length === 0 && imgInicial) fotosSlider.push(imgInicial);
 const containerMiniaturas = document.getElementById('detalle-contenedor-miniaturas');
 containerMiniaturas.innerHTML = "";
 fotosSlider.forEach(img => {
-if(img) containerMiniaturas.innerHTML += `<div onclick="actualizarVisorFoto('${img}')" class="aspect-square rounded-lg bg-[#1a1a1a] border border-[#262626] overflow-hidden cursor-pointer"><img src="${img}" class="w-full h-full object-cover"></div>`;
+if(img) containerMiniaturas.innerHTML += `<div onclick="actualizarVisorFoto('${img}')"><img src="${img}" alt=""></div>`;
 });
 renderizarAdicionales();
 cambiarPantallaDetalleDirecto();
 }
 function cambiarPantallaDetalleDirecto() {
-['vitrina', 'carrito'].forEach(v => document.getElementById(`vista-${v}`).classList.add('hidden'));
-document.getElementById('vista-detalle').classList.remove('hidden');
-window.scrollTo({ top: 0, behavior: 'smooth' });
+document.getElementById('vista-carrito').classList.add('hidden');
+const vistaDetalle = document.getElementById('vista-detalle');
+vistaDetalle.classList.remove('hidden');
+document.body.classList.add('lock');
+const cajaDetalle = vistaDetalle.querySelector('.bx'); if (cajaDetalle) cajaDetalle.scrollTop = 0;
 setTimeout(() => lucide.createIcons(), 50);
 }
 window.actualizarVisorFoto = function(url) {
@@ -792,16 +783,13 @@ if(contenedor) contenedor.innerHTML = "";
 return;
 }
 contenedor.innerHTML = `
-<details class="group bg-[#1a1a1a] border border-[#262626] rounded-xl overflow-hidden">
-<summary class="list-none p-3 text-[10px] font-bold text-gray-300 cursor-pointer flex justify-between items-center">
-<span>SELECCIONAR ADICIONALES / EXTRAS</span>
-<i data-lucide="chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform"></i>
-</summary>
-<div class="p-2 border-t border-[#262626] space-y-1">
+<details class="adic">
+<summary><span>✨ Seleccionar adicionales / extras</span><span>⌄</span></summary>
+<div>
 ${window.listaAdicionales.map(ad => `
-<label class="flex items-center gap-2 cursor-pointer p-1.5 hover:bg-[#222222] rounded-lg">
-<input type="checkbox" class="check-adicional w-4 h-4 accent-white" data-nombre="${ad.nombre}" data-precio="${ad.precio}">
-<span class="text-xs text-white font-medium">${ad.nombre}</span>                                 <span class="text-xs text-gray-400 font-mono ml-auto">+$${parseFloat(ad.precio).toFixed(2)}</span>
+<label class="op">
+<input type="checkbox" class="check-adicional" data-nombre="${ad.nombre}" data-precio="${ad.precio}">
+<span>${ad.nombre}</span><small>+$${parseFloat(ad.precio).toFixed(2)}</small>
 </label>
 `).join('')}
 </div>
@@ -824,6 +812,7 @@ const imagenFinal = productoSeleccionado.imagen_url || productoSeleccionado.imag
 carrito.push({ titulo: tituloFinal, precio: precioFinal, imagen_url: imagenFinal });
 document.getElementById('contador-carrito-badge').innerText = carrito.length;
 cambiarPantalla('vitrina');
+if (window.toastMS) window.toastMS('Agregado a tu bolsa 🛍️');
 }
 window.eliminarDelCarrito = function(idx) {
 carrito.splice(idx, 1);
@@ -840,22 +829,20 @@ cont.innerHTML = "";
 let subtotalProductos = 0;
 if(contAbajo) contAbajo.innerText = carrito.length;
 if(carrito.length === 0) {
-cont.innerHTML = `<div class="p-6 text-center text-gray-500 text-xs">Tu bolsa está vacía.</div>`;
+cont.innerHTML = `<div class="vacio">Tu bolsa está vacía 🍬</div>`;
 document.getElementById('carrito-monto-total').innerText = "$0.00";
 return;
 }
 carrito.forEach((item, idx) => {
 subtotalProductos += item.precio;
 cont.innerHTML += `
-<div class="flex justify-between items-center py-3">
-<div class="flex items-center gap-3">
-<img src="${item.imagen_url}" class="w-10 h-10 object-cover rounded-lg border border-[#262626]">
+<div class="li">
+<img src="${item.imagen_url}" alt="">
 <div>
-<h4 class="text-xs font-bold text-white uppercase">${item.titulo}</h4>
-<button onclick="eliminarDelCarrito(${idx})" class="text-[10px] text-red-400 hover:underline">Eliminar</button>
+<h4>${item.titulo}</h4>
+<button onclick="eliminarDelCarrito(${idx})" class="del">Eliminar</button>
 </div>
-</div>
-<span class="font-mono text-white font-bold text-xs">$${item.precio.toFixed(2)}</span>
+<span class="mon gtxt">$${item.precio.toFixed(2)}</span>
 </div>`;
 });
 document.getElementById('carrito-monto-total').innerText = `$${subtotalProductos.toFixed(2)}`;
@@ -979,7 +966,6 @@ tiendaIniciada = true;
 try { aplicarYFijarCodigoReferido(); } catch (e) { console.log(e); }
 try { await detectarReferidoPorDeepLink(); } catch (e) { console.log(e); }
 verificarClienteRegistrado();
-iniciarCarrusel();
 descargarCatalogoDeSupabase();
 descargarAdicionalesDeSupabase();
 try { await cargarEmpresasEncomiendaSupabase(); } catch (e) { console.log(e); }
@@ -1080,19 +1066,6 @@ cambiarPantalla('vitrina');
 window.open(`https://api.whatsapp.com/send?phone=${wsNum}&text=${encodeURIComponent(mensaje)}`, '_blank');
 }
 </script>
-<canvas id="lux-particulas" aria-hidden="true"></canvas>
-<script>
-(function(){
-var c=document.getElementById('lux-particulas'),x=c.getContext('2d'),p=[],W,H;
-function r(){W=c.width=innerWidth;H=c.height=innerHeight;}
-addEventListener('resize',r);r();
-for(var i=0;i<38;i++)p.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()*1.8+.4,v:Math.random()*.35+.08,a:Math.random()*6.28});
-(function f(){x.clearRect(0,0,W,H);p.forEach(function(o){o.y-=o.v;o.a+=.03;if(o.y<-5){o.y=H+5;o.x=Math.random()*W;}var al=.25+.25*Math.sin(o.a);x.beginPath();x.arc(o.x,o.y,o.s,0,6.28);x.fillStyle='rgba(245,215,122,'+al+')';x.shadowBlur=8;x.shadowColor='#D4AF37';x.fill();});requestAnimationFrame(f);})();
-// Inclinación 3D de tarjetas de producto
-document.addEventListener('pointermove',function(e){var t=e.target.closest&&e.target.closest('#grid-productos-vitrina>div');if(!t)return;var b=t.getBoundingClientRect(),px=(e.clientX-b.left)/b.width-.5,py=(e.clientY-b.top)/b.height-.5;t.style.transform='perspective(700px) rotateY('+(px*8)+'deg) rotateX('+(-py*8)+'deg) translateY(-4px)';});
-document.addEventListener('pointerout',function(e){var t=e.target.closest&&e.target.closest('#grid-productos-vitrina>div');if(t&&!t.contains(e.relatedTarget))t.style.transform='';});
-})();
-</script>
 <script>
 // App Android Mr Santos: tomar el número de la SIM con Google (Phone Number Hint)
 (function(){
@@ -1104,12 +1077,72 @@ document.addEventListener('pointerout',function(e){var t=e.target.closest&&e.tar
   function init(){
     if (!plugin()) return;
     const b = document.getElementById('btn-numero-auto'); if (b) b.classList.remove('hidden');
-    const inp = document.getElementById('reg-whatsapp');
-    if (false) { let pedido = false; inp.addEventListener('focus', function(){ if (!pedido && !inp.value) { pedido = true; pedirNumeroTelefono(); } }); }
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 </script>
+<script>
+const MAYOR=[
+{n:'Docena',d:'12 bolsitas de 80 g · revendes en $12',p:7.5,img:'vend-dinero.jpg',g:'Ganas $4,50'},
+{n:'Paquete de 24',d:'24 bolsitas de 80 g · revendes en $24',p:13.2,img:'vend-paquete24.jpg',g:'Ganas $10,80',tag:'Más ganancia'},
+{n:'6 cajas con ventana',d:'160 g c/u · al público $2',p:7.8,img:'pres-caja-ventana.jpg',g:'Ganas $4,20'},
+{n:'6 cajas de regalo',d:'200 g c/u · al público $2,50',p:10.2,img:'pres-caja-regalo.jpg',g:'Ganas $4,80'},
+{n:'6 cajas de 4 sabores',d:'240 g c/u · al público $3',p:12,img:'pres-caja-4-sabores.jpg',g:'Ganas $6'},
+{n:'Bolsas doypack (docena)',d:'12 × 80 g con cierre',p:7.5,img:'pres-doypack.jpg',g:'Ganas $4,50'},
+{n:'Celofán con lazo (docena)',d:'12 × 80 g para piñatas',p:7.5,img:'pres-celofan-lazo.jpg',g:'Ganas $4,50'},
+{n:'Bolsitas con cartoncito (docena)',d:'12 × 80 g para colgar',p:7.5,img:'pres-cartoncito.jpg',g:'Ganas $4,50'}];
+const BASE_IMG='https://dunigshop.github.io/dunig7/nueva/';
+(function(){const g=document.getElementById('prods-mayor');if(!g)return;
+g.innerHTML=MAYOR.map((m,i)=>`<div class="pc">${m.tag?`<span class="tag">${m.tag}</span>`:''}<div class="ph"><img src="${m.img}" alt="${m.n}" loading="lazy"></div><div class="bd"><h3 style="white-space:normal">${m.n}</h3><small>${m.d}</small><div class="pr gtxt">$${m.p.toFixed(2)}</div><div class="gana">${m.g}</div><button class="btn sm full" onclick="agregarMayor(${i})">Agregar</button></div></div>`).join('');})();
+window.agregarMayor=function(i){const m=MAYOR[i];if(!window.__pushCarrito)return;const n=window.__pushCarrito({titulo:'AL MAYOR · '+m.n,precio:m.p,imagen_url:BASE_IMG+m.img});const b=document.getElementById('contador-carrito-badge');if(b)b.innerText=n;if(window.toastMS)window.toastMS('Agregado a tu bolsa 🛍️');};
+</script>
+<style>
+.holo{position:fixed;inset:0;z-index:90;background:linear-gradient(to bottom,rgba(0,0,0,.05),rgba(0,0,0,.45));opacity:0;pointer-events:none;transition:opacity .3s}
+.holo.on{opacity:1;pointer-events:auto}
+.holo video{position:absolute;left:50%;bottom:-2vh;height:min(88vh,150vw);width:auto;max-width:none;transform:translateX(-50%) translateY(40px) scale(.85);opacity:0;transition:transform .6s cubic-bezier(.2,1.3,.3,1),opacity .4s;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));pointer-events:none}
+.holo.on video{transform:translateX(-50%) translateY(0) scale(1);opacity:1}
+.holo video.full{left:0;top:0;bottom:auto;width:100%;height:100%;object-fit:contain;transform:scale(.9)}
+.holo.on video.full{transform:scale(1)}
+.holo .ht{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:4;padding:8px 18px;border-radius:30px;background:rgba(0,0,0,.6);border:1px solid #d4af37;font-weight:800;font-size:18px;color:#fff;white-space:nowrap}
+.pasobig{display:flex;align-items:center;gap:16px;width:100%;max-width:520px;margin:6px auto 0;padding:18px 22px;border-radius:22px;border:1.5px solid #d4af37;background:linear-gradient(135deg,rgba(212,175,55,.22),rgba(212,175,55,.06));color:#fff;font:700 19px Poppins,sans-serif;text-align:left;cursor:pointer;box-shadow:0 10px 30px rgba(212,175,55,.18)}
+.pasobig .pb-play{flex:none;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#f5d97a,#d4af37);color:#111;font-size:24px;padding-left:4px;animation:pbp 1.8s infinite}
+.pasobig small{display:block;font-weight:500;font-size:13px;color:#f5d97a;margin-top:3px}
+@keyframes pbp{0%{box-shadow:0 0 0 0 rgba(212,175,55,.6)}70%{box-shadow:0 0 0 16px rgba(212,175,55,0)}100%{box-shadow:0 0 0 0 rgba(212,175,55,0)}}
+#holoC{position:absolute;inset:0;width:100%;height:100%;display:none;pointer-events:none}
+.holo.sb #holoC{display:block}.holo.sb #holoV{display:none}
+.pasobtn{margin-top:10px;padding:7px 14px;border-radius:30px;border:1px solid #d4af37;background:rgba(212,175,55,.12);color:#f5d97a;font:600 13px Poppins,sans-serif;cursor:pointer}
+.pasoall{display:block;margin:12px auto 0}
+.holo .hx{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:1px solid #d4af37;background:rgba(0,0,0,.6);color:#fff;font-size:20px;z-index:5}
+</style>
+<div class="holo" id="holo" onclick="cerrarHolo()"><button class="hx" onclick="cerrarHolo()" aria-label="Cerrar">✕</button><div class="ht" id="holoT"></div><video id="holoV" playsinline preload="none"></video><canvas id="holoC"></canvas><video id="holoS" playsinline webkit-playsinline preload="auto" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none"></video></div>
+<script>
+window.abrirHolo=function(n,k){const o=document.getElementById('holo'),v=document.getElementById('holoV');document.getElementById('holoT').textContent=n;v.src='pj-'+k+'.webm';v.classList.toggle('full',k==='menta');v.onended=cerrarHolo;v.muted=false;o.classList.add('on');const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});};
+(function(){let gl,prog,tex,raf=0,ok=null;
+function initGL(c){try{gl=c.getContext('webgl',{premultipliedAlpha:true,alpha:true})||c.getContext('experimental-webgl',{premultipliedAlpha:true,alpha:true});}catch(e){gl=null}if(!gl)return false;
+const vs='attribute vec2 p;varying vec2 u;void main(){u=vec2((p.x+1.)*.5,(1.-p.y)*.5);gl_Position=vec4(p,0.,1.);}';
+const fs='precision mediump float;varying vec2 u;uniform sampler2D t;void main(){vec3 c=texture2D(t,vec2(u.x*.5,u.y)).rgb;float a=texture2D(t,vec2(u.x*.5+.5,u.y)).r;a=clamp((a-.04)/.92,0.,1.);gl_FragColor=vec4(c*a,a);}';
+function sh(t,src){const s=gl.createShader(t);gl.shaderSource(s,src);gl.compileShader(s);return s;}
+prog=gl.createProgram();gl.attachShader(prog,sh(gl.VERTEX_SHADER,vs));gl.attachShader(prog,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(prog);gl.useProgram(prog);
+const bf=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,bf);gl.bufferData(gl.ARRAY_BUFFER,new Float32Array([-1,-1,1,-1,-1,1,1,1]),gl.STATIC_DRAW);
+const l=gl.getAttribLocation(prog,'p');gl.enableVertexAttribArray(l);gl.vertexAttribPointer(l,2,gl.FLOAT,false,0,0);
+tex=gl.createTexture();gl.bindTexture(gl.TEXTURE_2D,tex);[gl.TEXTURE_WRAP_S,gl.TEXTURE_WRAP_T].forEach(k=>gl.texParameteri(gl.TEXTURE_2D,k,gl.CLAMP_TO_EDGE));gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);return true;}
+function fit(c,v){const dpr=Math.min(window.devicePixelRatio||1,2),W=innerWidth,H=innerHeight,ar=(v.videoWidth/2)/v.videoHeight||0.5625;let w=W,h=W/ar;if(h>H){h=H;w=H*ar;}c.style.width=w+'px';c.style.height=h+'px';c.style.left=((W-w)/2)+'px';c.style.top=((H-h)/2)+'px';c.style.inset='auto';const pw=Math.round(w*dpr),ph=Math.round(h*dpr);if(c.width!==pw||c.height!==ph){c.width=pw;c.height=ph;}gl.viewport(0,0,pw,ph);}
+function loop(c,v){if(v.readyState>=2){fit(c,v);gl.texImage2D(gl.TEXTURE_2D,0,gl.RGB,gl.RGB,gl.UNSIGNED_BYTE,v);gl.clearColor(0,0,0,0);gl.clear(gl.COLOR_BUFFER_BIT);gl.drawArrays(gl.TRIANGLE_STRIP,0,4);}raf=requestAnimationFrame(()=>loop(c,v));}
+window.verPasos=function(n){const o=document.getElementById('holo'),c=document.getElementById('holoC');
+if(ok===null)ok=initGL(c);
+if(!ok){o.classList.remove('sb');const vv=document.getElementById('holoV');document.getElementById('holoT').textContent='Paso '+n;vv.src='pj-paso'+n+'.webm';vv.classList.add('full');vv.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};vv.muted=false;o.classList.add('on');const p=vv.play();if(p&&p.catch)p.catch(()=>{vv.muted=true;vv.play().catch(()=>{})});return;}
+document.getElementById('holoT').textContent='Paso '+n+' de 4';o.classList.add('sb','on');
+if(!window.__pv){window.__pv=[];for(let i=1;i<=4;i++){const e=document.createElement('video');e.playsInline=true;e.setAttribute('webkit-playsinline','');e.preload='auto';e.src='ct-paso'+i+'.mp4';e.style.cssText='position:absolute;width:1px;height:1px;opacity:0;pointer-events:none';o.appendChild(e);e.load();window.__pv[i]=e;}}
+const old=document.getElementById('holoS');if(old){old.pause();old.onended=null;}
+o.querySelectorAll('video[data-cur]').forEach(e=>{e.pause();e.onended=null;e.removeAttribute('data-cur');});
+const v=window.__pv[n];v.setAttribute('data-cur','1');v.currentTime=0;
+v.onended=()=>{n<4?verPasos(n+1):cerrarHolo()};v.onerror=()=>{v.onerror=null;n<4?verPasos(n+1):cerrarHolo()};v.muted=false;
+const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{})});
+cancelAnimationFrame(raf);loop(c,v);};
+window.__stopSB=function(){cancelAnimationFrame(raf);document.querySelectorAll('#holo video').forEach(e=>{e.pause();e.onended=null;});document.getElementById('holo').classList.remove('sb');};
+})();
+window.cerrarHolo=function(){const o=document.getElementById('holo'),v=document.getElementById('holoV');o.classList.remove('on');v.pause();if(window.__stopSB)__stopSB();};
+document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarHolo();});
+</script>
 </body>
 </html>
-

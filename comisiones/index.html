@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Mr Santos | Ranking de vendedores</title>
+<link rel="icon" type="image/jpeg" href="vendedores/logo-ms.jpg">
+    <!-- Importar Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <meta name="theme-color" content="#07070a">
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #020202;
+            --card-bg: #0d0d0d;
+            --card-border: #222222;
+            --text-color: #ededed;
+            --text-muted: #a3a3a3;
+            --accent-orange: #f5a300;
+            --accent-orange-glow: rgba(245, 163, 0, 0.25);
+            --success-color: #00ff66;
+            
+            /* Colores de Podio */
+            --gold-color: #ffd700;
+            --gold-glow: rgba(255, 215, 0, 0.35);
+            --silver-color: #e0e0e0;
+            --silver-glow: rgba(224, 224, 224, 0.25);
+            --bronze-color: #cd7f32;
+            --bronze-glow: rgba(205, 127, 50, 0.25);
+        }
+        
+        body {
+            font-family: 'Poppins', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            /* Fondo negro brillante con reflejos sutiles de alta gama */
+            background-image: 
+                radial-gradient(circle at 50% -20%, rgba(245, 163, 0, 0.12) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, #111111 0%, #030303 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0;
+            padding: 0 0 40px 0;
+            box-sizing: border-box;
+        }
+
+        /* Cabecera / Portada fija (Sticky) de lado a lado */
+        header {
+            text-align: center;
+            padding: 35px 20px;
+            border-radius: 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            overflow: hidden;
+            border: none;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+            background: transparent;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Fondo con GIF animado de borde a borde sin márgenes y efecto sutil de difuminado inferior */
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(3, 3, 3, 0.85), rgba(3, 3, 3, 0.85)), 
+                        url('https://gifgifs.com/animations/other-animations/money/dollars.gif') center/cover no-repeat;
+            z-index: 1;
+            border-bottom: 1px solid rgba(245, 163, 0, 0.2);
+        }
+
+        header * {
+            position: relative;
+            z-index: 2;
+        }
+
+        h2 {
+            color: var(--accent-orange);
+            font-size: 2.2rem;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin: 0 0 8px 0;
+            text-shadow: 0 0 20px var(--accent-orange-glow), 0 2px 4px rgba(0,0,0,0.9);
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 1rem;
+            letter-spacing: 1.2px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.9);
+        }
+
+        /* Contenedor interno para dar espacio estético controlado en el contenido principal */
+        .content-wrapper {
+            padding: 25px 16px 0 16px;
+            width: 100%;
+            box-sizing: border-box;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        /* Podio general de lado a lado del contenedor */
+        .podium-container {
+            background: rgba(13, 13, 13, 0.95);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 150, 0.05);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .podium-title {
+            color: var(--gold-color);
+            font-size: 1.15rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 15px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .podium-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+            width: 100%;
+        }
+
+        /* Tarjetas de Podio Individuales (Oro, Plata, Bronce) */
+        .podium-card {
+            background: rgba(18, 18, 18, 0.9);
+            border-radius: 10px;
+            padding: 16px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            transition: transform 0.2s;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .podium-card:hover {
+            transform: scale(1.01);
+        }
+
+        /* Estilo 1er Lugar: Oro */
+        .podium-card.gold {
+            border: 1px solid rgba(255, 215, 0, 0.6);
+            border-left: 6px solid var(--gold-color);
+            background: linear-gradient(135deg, rgba(60, 45, 5, 0.5) 0%, rgba(15, 15, 15, 0.95) 100%);
+            box-shadow: 0 0 25px var(--gold-glow);
+        }
+        .podium-card.gold .podium-rank { color: var(--gold-color); }
+        .podium-card.gold .podium-badge-codigo {
+            background-color: rgba(255, 215, 0, 0.15);
+            color: var(--gold-color);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+        }
+
+        /* Estilo 2do Lugar: Plata */
+        .podium-card.silver {
+            border: 1px solid rgba(224, 224, 224, 0.5);
+            border-left: 6px solid var(--silver-color);
+            background: linear-gradient(135deg, rgba(50, 50, 50, 0.5) 0%, rgba(15, 15, 15, 0.95) 100%);
+            box-shadow: 0 0 20px var(--silver-glow);
+        }
+        .podium-card.silver .podium-rank { color: var(--silver-color); }
+        .podium-card.silver .podium-badge-codigo {
+            background-color: rgba(224, 224, 224, 0.12);
+            color: var(--silver-color);
+            border: 1px solid rgba(224, 224, 224, 0.35);
+        }
+
+        /* Estilo 3er Lugar: Bronce */
+        .podium-card.bronze {
+            border: 1px solid rgba(205, 127, 50, 0.5);
+            border-left: 6px solid var(--bronze-color);
+            background: linear-gradient(135deg, rgba(60, 30, 10, 0.5) 0%, rgba(15, 15, 15, 0.95) 100%);
+            box-shadow: 0 0 20px var(--bronze-glow);
+        }
+        .podium-card.bronze .podium-rank { color: var(--bronze-color); }
+        .podium-card.bronze .podium-badge-codigo {
+            background-color: rgba(205, 127, 50, 0.12);
+            color: var(--bronze-color);
+            border: 1px solid rgba(205, 127, 50, 0.35);
+        }
+
+        .podium-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .podium-rank {
+            font-size: 0.8rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .podium-main-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .podium-name {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: #ffffff;
+        }
+
+        .podium-badge-codigo {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .podium-stats {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+        .podium-earnings {
+            color: #00ff88;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        }
+
+        /* Banner de Bonos de lado a lado */
+        .banner-bonos {
+            background: linear-gradient(135deg, rgba(245, 163, 0, 0.15) 0%, rgba(13, 13, 13, 0.95) 100%);
+            border: 1px solid rgba(245, 163, 0, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px var(--accent-orange-glow);
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .banner-bonos::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background-color: var(--accent-orange);
+        }
+
+        .banner-titulo {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .banner-texto {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        /* Controles superiores (Buscador y Botón debajo de él) */
+        .controls-wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 25px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .search-box {
+            width: 100%;
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 10px;
+            padding: 14px 18px;
+            color: var(--text-color);
+            font-size: 1rem;
+            outline: none;
+            box-sizing: border-box;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        .search-box:focus {
+            border-color: var(--accent-orange);
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px var(--accent-orange-glow);
+        }
+
+        /* Botón Actualizar con Moneda Dorada Giratoria (Diseño de ancho completo debajo) */
+        .btn-actualizar {
+            width: 100%;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(30, 25, 5, 0.95) 100%);
+            color: var(--gold-color);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            border-radius: 10px;
+            padding: 14px 20px;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .btn-actualizar:hover {
+            border-color: var(--gold-color);
+            box-shadow: 0 0 20px var(--gold-glow);
+            transform: translateY(-1px);
+        }
+
+        .btn-actualizar:active {
+            transform: translateY(0);
+        }
+
+        /* Animación de la moneda dorada 3D */
+        .spinning-coin {
+            width: 24px;
+            height: 24px;
+            background: radial-gradient(circle at 30% 30%, #fff6a1 0%, #ffd700 50%, #b8860b 100%);
+            border: 1px solid #ffea75;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 900;
+            color: #5c4000;
+            box-shadow: inset 0 1px 2px rgba(255,255,255,0.8), 0 2px 5px rgba(0,0,0,0.5);
+            animation: coinSpin 2s infinite linear;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes coinSpin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+        }
+
+        .section-title {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--card-border);
+            padding-bottom: 6px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Contenedor en lista vertical hacia abajo */
+        #lista-afiliados {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        /* Tarjeta futurista individual de lado a lado */
+        .afiliado-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-left: 5px solid var(--accent-orange);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .afiliado-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent-orange);
+            box-shadow: 0 12px 30px var(--accent-orange-glow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #1a1a1a;
+            padding-bottom: 10px;
+        }
+
+        .afiliado-nombre {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #ffffff;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-codigo {
+            background-color: rgba(245, 163, 0, 0.1);
+            color: var(--accent-orange);
+            border: 1px solid rgba(245, 163, 0, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: monospace;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .card-body {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            font-size: 0.95rem;
+        }
+
+        .info-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            color: var(--text-color);
+            font-weight: 600;
+        }
+
+        .comision-value {
+            color: var(--success-color);
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-shadow: 0 0 10px rgba(0, 245, 163, 0.2);
+        }
+
+        .loading, .mensaje-vacio {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            font-size: 1rem;
+            width: 100%;
+            box-sizing: border-box;
+            box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
+        }
+
+        .mensaje-error {
+            color: #ff4444;
+            background: rgba(255, 68, 68, 0.1);
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        /* ===== Estilo lujo (combina con la tienda) ===== */
+        :root{--bg-color:#07070a;--card-bg:#14141b;--card-border:#2a2a33;--text-color:#fbf8ef;--text-muted:#a9a6b3;--success-color:#2ee59d;
+          --lux:linear-gradient(110deg,#f5a300 0%,#ffd23f 25%,#fff3b0 50%,#ffd23f 75%,#f5a300 100%)}
+        @keyframes shine{to{background-position:200% center}}
+        body{background-image:radial-gradient(ellipse at 50% -10%,rgba(255,210,63,.14) 0%,transparent 55%),radial-gradient(circle at 50% 60%,#0f0f14 0%,#07070a 100%)!important}
+        header::before{background:linear-gradient(rgba(7,7,10,.82),rgba(7,7,10,.92)),url('https://gifgifs.com/animations/other-animations/money/dollars.gif') center/cover no-repeat!important;border-bottom:1px solid rgba(255,210,63,.35)!important}
+        h2{background:var(--lux);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent!important;animation:shine 4s linear infinite;text-shadow:none!important;font-weight:800;letter-spacing:1px!important;text-transform:none!important;font-size:2.3rem!important}
+        .podium-container,.afiliado-card,.banner-bonos{background:#14141b!important;border:1px solid #2a2a33!important;border-radius:18px!important;position:relative}
+        .podium-container::before,.banner-bonos::before{content:'';position:absolute;inset:-1px;border-radius:inherit;padding:1px;background:var(--lux);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:.45;pointer-events:none}
+        .afiliado-card:hover{border-color:rgba(255,210,63,.5)!important;box-shadow:0 20px 50px rgba(255,180,0,.15)!important}
+        .banner-titulo,.podium-title,.section-title{color:#ffd23f!important;text-shadow:none!important}
+        .btn-actualizar{background:var(--lux)!important;background-size:200% auto!important;color:#1a1200!important;border:0!important;border-radius:999px!important;font-family:inherit;font-weight:700!important;box-shadow:0 8px 30px rgba(255,190,0,.35)!important;animation:shine 5s linear infinite}
+        .search-box{background:#0a0a0e!important;border:1px solid #2a2a33!important;border-radius:999px!important;color:#fbf8ef!important;font-family:inherit}
+        .search-box:focus{border-color:#f5a300!important}
+        .comision-value{color:#2ee59d!important}
+        .badge-codigo,.podium-badge-codigo{background:rgba(255,210,63,.12)!important;color:#ffd23f!important;border:1px solid rgba(255,210,63,.4)!important;border-radius:999px!important}
+        .volver{display:inline-block;margin-top:14px;padding:8px 16px;border-radius:999px;border:1px solid rgba(255,210,63,.5);color:#ffd23f;font-size:13px;font-weight:600;text-decoration:none}
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Portada / Cabecera fija (Sticky) de lado a lado -->
+        <header>
+            <h2><img src="vendedores/logo-ms.jpg" alt="" style="width:34px;height:34px;border-radius:9px;vertical-align:middle;margin-right:8px">Mr Santos</h2>
+            <div class="subtitle">Ranking de vendedores y ganancias</div>
+            <a class="volver" href="vendedores/">← Volver a la tienda</a>
+            <div style="margin-top:8px"><a href="https://www.instagram.com/mr.santos_ve/" target="_blank" style="color:#ffd23f;margin:0 6px">Instagram</a>·<a href="https://www.tiktok.com/@mr.santos_ve" target="_blank" style="color:#ffd23f;margin:0 6px">TikTok</a>·<a href="https://www.youtube.com/@mr.santos_ve" target="_blank" style="color:#ffd23f;margin:0 6px">YouTube</a></div>
+        </header>
+
+        <div class="content-wrapper">
+            <!-- Podio de los 3 Mejores Afiliados -->
+            <div class="podium-container" id="podium-section" style="display: none;">
+                <div class="podium-title">
+                    👑 Top 3 del mes
+                </div>
+                <div class="podium-grid" id="podium-list">
+                    <!-- Se llena dinámicamente con clases gold, silver y bronze -->
+                </div>
+            </div>
+
+            <!-- Portada / Anuncio de Bonos por Mayor Esfuerzo -->
+            <div class="banner-bonos">
+                <div class="banner-titulo">
+                    🏆 Bono del mes: premio sorpresa
+                </div>
+                <p class="banner-texto">
+                    Cada mes, los 3 vendedores con más ventas ganan un premio sorpresa. Cada venta que haces queda registrada y sube tu puesto. ¡Sigue vendiendo!
+                </p>
+            </div>
+
+            <!-- Controles: Buscador y Botón de Actualizar Debajo -->
+            <div class="controls-wrapper">
+                <input type="text" id="input-buscar" class="search-box" placeholder="Buscar por nombre o código..." oninput="filtrarAfiliados()">
+                <button class="btn-actualizar" onclick="cargarAfiliadosGanancias()">
+                    <span class="spinning-coin">$</span> Actualizar
+                </button>
+            </div>
+            
+            <div id="loading" class="loading">Cargando ranking...</div>
+            
+            <div class="section-title">Todos los vendedores</div>
+            <div id="lista-afiliados">
+                <!-- Las tarjetas verticales se inyectarán aquí automáticamente -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tus credenciales oficiales de Supabase
+        const SUPABASE_URL = 'https://mkewwlmeikixpvfayisj.supabase.co';
+        const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rZXd3bG1laWtpeHB2ZmF5aXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3Mzg5NTAsImV4cCI6MjEwNTMxNDk1MH0.xUm7b8j4EGjHtsrBP9DgBURKRhrsPwOxhwKLCAMxZ1o';
+
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        // Variable global para almacenar los datos de afiliados obtenidos
+        let afiliadosGlobal = [];
+
+        async function cargarAfiliadosGanancias() {
+            const containerEl = document.getElementById('lista-afiliados');
+            const loadingEl = document.getElementById('loading');
+            const btnActualizar = document.querySelector('.btn-actualizar');
+            const podiumSection = document.getElementById('podium-section');
+
+            // Feedback visual en el botón durante la recarga
+            btnActualizar.style.opacity = '0.6';
+            loadingEl.style.display = 'block';
+            containerEl.innerHTML = '';
+            podiumSection.style.display = 'none';
+
+            try {
+                // Consultamos directamente la vista creada en Supabase
+                const { data, error } = await supabaseClient
+                    .from('vista_afiliados_ganancias')
+                    .select('*')
+                    .order('total_comisiones_acumuladas', { ascending: false });
+
+                if (error) {
+                    throw error;
+                }
+
+                afiliadosGlobal = data || [];
+                loadingEl.style.display = 'none';
+                btnActualizar.style.opacity = '1';
+
+                renderizarPodio(afiliadosGlobal);
+                renderizarAfiliados(afiliadosGlobal);
+
+            } catch (err) {
+                console.error('Error al conectar con Supabase:', err.message);
+                loadingEl.style.display = 'none';
+                btnActualizar.style.opacity = '1';
+                containerEl.innerHTML = `<div class="mensaje-vacio mensaje-error">Error de conexión: No se pudieron cargar los datos de la red. Revisa la consola.</div>`;
+            }
+        }
+
+        function renderizarPodio(data) {
+            const podiumSection = document.getElementById('podium-section');
+            const podiumList = document.getElementById('podium-list');
+            podiumList.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                podiumSection.style.display = 'none';
+                return;
+            }
+
+            podiumSection.style.display = 'block';
+            const top3 = data.slice(0, 3); // Tomar los primeros 3
+
+            // Clases CSS específicas de color para oro, plata y bronce
+            const estilosPodio = [
+                { clase: 'gold', etiqueta: '🥇 1er Lugar (Oro)' },
+                { clase: 'silver', etiqueta: '🥈 2do Lugar (Plata)' },
+                { clase: 'bronze', etiqueta: '🥉 3er Lugar (Bronce)' }
+            ];
+
+            top3.forEach((afiliado, index) => {
+                const card = document.createElement('div');
+                const config = estilosPodio[index];
+                card.className = `podium-card ${config.clase}`;
+                
+                const totalGanancias = Number(afiliado.total_comisiones_acumuladas || 0).toFixed(2);
+
+                card.innerHTML = `
+                    <div class="podium-info">
+                        <span class="podium-rank">${config.etiqueta}</span>
+                        <div class="podium-main-info">
+                            <span class="podium-name">${afiliado.nombre}</span>
+                            <span class="podium-badge-codigo">${afiliado.codigo_referido}</span>
+                        </div>
+                    </div>
+                    <div class="podium-stats">
+                        <span class="info-label">Ganancias</span>
+                        <span class="podium-earnings">$${totalGanancias}</span>
+                    </div>
+                `;
+                podiumList.appendChild(card);
+            });
+        }
+
+        function renderizarAfiliados(data) {
+            const containerEl = document.getElementById('lista-afiliados');
+            containerEl.innerHTML = '';
+
+            if (!data || data.length === 0) {
+                containerEl.innerHTML = `<div class="mensaje-vacio">No se encontraron registros de afiliados activos en la red.</div>`;
+                return;
+            }
+
+            // Generar tarjetas verticales hacia abajo para cada afiliado
+            data.forEach(afiliado => {
+                const card = document.createElement('div');
+                card.className = 'afiliado-card';
+                
+                const ciudadTexto = afiliado.ciudad || 'No especificada';
+                const totalOrdenes = afiliado.total_ordenes_referidas || 0;
+                const totalGanancias = Number(afiliado.total_comisiones_acumuladas || 0).toFixed(2);
+
+                card.innerHTML = `
+                    <div class="card-header">
+                        <span class="afiliado-nombre">${afiliado.nombre}</span>
+                        <span class="badge-codigo">${afiliado.codigo_referido}</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="info-group">
+                            <span class="info-label">Ubicación</span>
+                            <span class="info-value">${ciudadTexto}</span>
+                        </div>
+                        <div class="info-group">
+                            <span class="info-label">Órdenes Referidas</span>
+                            <span class="info-value">${totalOrdenes}</span>
+                        </div>
+                        <div class="info-group" style="grid-column: span 2; margin-top: 6px;">
+                            <span class="info-label">Ganancias Totales Acumuladas</span>
+                            <span class="comision-value">$${totalGanancias}</span>
+                        </div>
+                    </div>
+                `;
+                containerEl.appendChild(card);
+            });
+        }
+
+        // Función para filtrar en tiempo real por nombre o código
+        function filtrarAfiliados() {
+            const textoBusqueda = document.getElementById('input-buscar').value.toLowerCase().trim();
+            
+            const filtrados = afiliadosGlobal.filter(afiliado => {
+                const nombreMatch = afiliado.nombre && afiliado.nombre.toLowerCase().includes(textoBusqueda);
+                const codigoMatch = afiliado.codigo_referido && afiliado.codigo_referido.toLowerCase().includes(textoBusqueda);
+                return nombreMatch || codigoMatch;
+            });
+
+            renderizarAfiliados(filtrados);
+        }
+
+        // Ejecutar la carga al iniciar la interfaz
+        cargarAfiliadosGanancias();
+    </script>
+</body>
+</html>

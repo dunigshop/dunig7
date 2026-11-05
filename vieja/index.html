@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+window.alert=function(m){try{var d=document.createElement('div');d.setAttribute('style','position:fixed;inset:0;z-index:2147483647;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;padding:24px');d.innerHTML='<div style="background:#141414;border:1px solid rgba(245,158,11,.5);border-radius:18px;max-width:360px;width:100%;padding:22px;font-family:system-ui,sans-serif;color:#f5f5f5;text-align:center"><div style="color:#f59e0b;font-weight:800;letter-spacing:2px;font-size:13px;margin-bottom:10px">MR SANTOS</div><div style="font-size:15px;line-height:1.45;white-space:pre-line"></div><button style="margin-top:18px;background:#f59e0b;color:#111;border:0;border-radius:12px;padding:10px 26px;font-weight:800;font-size:14px">Aceptar</button></div>';d.querySelector('div div:nth-child(2)').textContent=String(m);d.querySelector('button').onclick=function(){d.remove()};(document.body||document.documentElement).appendChild(d);}catch(e){}};
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mr Santos - Tienda online con envíos a toda Venezuela</title>
+<link rel="icon" type="image/png" href="favicon-ms.png">
+<link rel="apple-touch-icon" href="favicon-ms.png">
+<meta name="description" content="Mr Santos: gorras, franelas, calzado, gafas y más. Envíos a toda Venezuela por MRW, Domesa y Tealca, cobro a destino.">
+<meta name="theme-color" content="#0a0907">
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<script>
+// Almacenamiento seguro: si el navegador bloquea localStorage (vista previa, archivo abierto local, modo restringido) usa memoria
+(function(){
+var mem={},ok=false;
+try{var k='__dunig_test';window.localStorage.setItem(k,'1');window.localStorage.removeItem(k);ok=true;}catch(e){ok=false;}
+window.almacenDunig={
+getItem:function(k){try{if(ok)return window.localStorage.getItem(k);}catch(e){}return Object.prototype.hasOwnProperty.call(mem,k)?mem[k]:null;},
+setItem:function(k,v){mem[k]=String(v);try{if(ok)window.localStorage.setItem(k,String(v));}catch(e){}},
+removeItem:function(k){delete mem[k];try{if(ok)window.localStorage.removeItem(k);}catch(e){}}
+};
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Librería para generar códigos QR de forma automática -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&display=swap">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@200;300;400;500;600;700;800&display=swap');
+body {
+font-family: 'Plus Jakarta Sans', sans-serif;
+background-color: #0b0b0b;
+color: #f3f4f6;
+overflow-x: hidden;
+padding-bottom: 70px;
+}
+.glass-panel {
+background: #141414;
+border: 1px solid #262626;
+}
+.btn-oro-flotante {
+background: linear-gradient(135deg, #1f1f1f 0%, #2f2f2f 100%);
+box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+transition: all 0.3s ease;
+}
+.btn-oro-flotante:hover { transform: scale(1.05); }
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-thumb { background: #333333; border-radius: 10px; }
+.category-pill { transition: all 0.2s ease; }
+.category-pill:hover { transform: translateY(-2px); }
+.carrusel-contenedor {
+display: flex;
+transition: transform 0.5s ease-in-out;
+width: 100%;
+}
+.carrusel-slide {
+min-width: 100%;
+box-sizing: border-box;
+}
+/* ===== TEMA LUJO Mr Santos (negro y oro) ===== */
+:root{--oro1:#F5D77A;--oro2:#D4AF37;--oro3:#9C7A1C;--naranja:#F57C00;--oro-borde:rgba(212,175,55,.28);}
+body{background:radial-gradient(1200px 600px at 50% -10%,rgba(212,175,55,.10),transparent 60%),radial-gradient(800px 500px at 100% 100%,rgba(245,124,0,.07),transparent 60%),#0a0907 !important;}
+h1,h2,h3{letter-spacing:.01em}
+h2.text-xl,h2.text-lg,#detalle-titulo{font-family:'Playfair Display',serif !important;}
+.lux-gold-text,.lux-brand{background:linear-gradient(110deg,var(--oro3) 0%,var(--oro1) 25%,#fff6d6 40%,var(--oro2) 55%,var(--oro3) 75%,var(--oro1) 100%);background-size:250% auto;-webkit-background-clip:text;background-clip:text;color:var(--oro2);-webkit-text-fill-color:transparent;animation:luxShine 5s linear infinite;}
+.lux-brand{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:800;letter-spacing:.06em;}
+.lux-brand-accent{background:inherit;-webkit-background-clip:text;background-clip:text;}
+@keyframes luxShine{to{background-position:-250% center}}
+/* Paneles y tarjetas */
+.bg-\[\#141414\],.bg-\[\#121212\]{background:linear-gradient(160deg,rgba(28,24,16,.92),rgba(14,13,11,.95)) !important;}
+.border-\[\#262626\],.border-\[\#222222\],.border-\[\#333333\],.border-\[\#3d3d3d\]{border-color:var(--oro-borde) !important;}
+header{box-shadow:0 1px 0 rgba(212,175,55,.35),0 10px 30px rgba(0,0,0,.6);backdrop-filter:blur(10px);}
+.sticky.top-0{background:rgba(10,9,7,.92) !important;backdrop-filter:blur(12px);}
+.text-amber-400,.text-amber-500{color:var(--oro1) !important;}
+.bg-amber-400{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;}
+input:focus,select:focus{border-color:var(--oro2) !important;box-shadow:0 0 0 3px rgba(212,175,55,.18) !important;}
+/* Botones 3D dorados */
+button.bg-white,button.bg-amber-400{position:relative;overflow:hidden;background:linear-gradient(180deg,#FFE9A3 0%,var(--oro2) 55%,#B8901F 100%) !important;color:#1a1305 !important;border:1px solid #f7dd8a !important;box-shadow:0 6px 0 #7a5d12,0 12px 24px rgba(212,175,55,.35),inset 0 1px 0 rgba(255,255,255,.7) !important;transform:translateY(0);transition:transform .15s ease,box-shadow .15s ease,filter .2s !important;text-shadow:0 1px 0 rgba(255,255,255,.4);}
+button.bg-white:hover,button.bg-amber-400:hover{filter:brightness(1.08);transform:translateY(-2px);box-shadow:0 8px 0 #7a5d12,0 18px 34px rgba(212,175,55,.45),inset 0 1px 0 rgba(255,255,255,.7) !important;}
+button.bg-white:active,button.bg-amber-400:active{transform:translateY(5px);box-shadow:0 1px 0 #7a5d12,0 4px 10px rgba(212,175,55,.3),inset 0 1px 0 rgba(255,255,255,.5) !important;}
+button.bg-white::after,button.bg-amber-400::after{content:"";position:absolute;top:0;left:-75%;width:50%;height:100%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.65),transparent);transform:skewX(-20deg);animation:luxSweep 3.2s ease-in-out infinite;}
+@keyframes luxSweep{0%,60%{left:-75%}100%{left:130%}}
+/* Botones redondos del header */
+header button{box-shadow:0 3px 0 rgba(0,0,0,.6),0 0 0 1px rgba(212,175,55,.25),0 6px 16px rgba(0,0,0,.5);transition:transform .15s,box-shadow .2s !important;}
+header button:hover{box-shadow:0 3px 0 rgba(0,0,0,.6),0 0 0 1px var(--oro2),0 0 18px rgba(212,175,55,.35);}
+header button:active{transform:translateY(2px);}
+header .bg-white.p-2{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;box-shadow:0 4px 14px rgba(212,175,55,.4);}
+#contador-carrito-badge{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;color:#1a1305 !important;}
+/* Carrusel con movimiento */
+#carrusel-slider-track img{animation:luxKen 12s ease-in-out infinite alternate;transform-origin:center;}
+@keyframes luxKen{from{transform:scale(1)}to{transform:scale(1.14) translate(-2%,-2%)}}
+#carrusel-slider-track h2{font-family:'Playfair Display',serif;text-shadow:0 2px 12px rgba(0,0,0,.7);}
+#carrusel-puntos button{background:rgba(245,215,122,.45) !important;}
+#carrusel-puntos button.bg-white{background:var(--oro1) !important;box-shadow:0 0 10px var(--oro2) !important;border:none !important;}
+#carrusel-puntos button::after{display:none}
+#carrusel-puntos button.bg-white{transform:none !important;}
+.rounded-2xl.overflow-hidden.relative.bg-black{box-shadow:0 0 0 1px rgba(212,175,55,.35),0 20px 40px rgba(0,0,0,.6),0 0 40px rgba(212,175,55,.08);}
+/* Tarjetas de producto con efecto 3D */
+#grid-productos-vitrina>div{transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s !important;transform-style:preserve-3d;animation:luxUp .6s ease backwards;}
+#grid-productos-vitrina>div:hover{border-color:var(--oro2) !important;box-shadow:0 18px 40px rgba(0,0,0,.6),0 0 24px rgba(212,175,55,.25);}
+#grid-productos-vitrina .font-mono{color:var(--oro1) !important;}
+#grid-productos-vitrina h3{letter-spacing:.04em}
+@keyframes luxUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+#detalle-precio{color:var(--oro1) !important;}
+.encomienda-card.border-white{border-color:var(--oro2) !important;box-shadow:0 0 16px rgba(212,175,55,.35);background:rgba(212,175,55,.08) !important;}
+.encomienda-card:hover{border-color:var(--oro2) !important;}
+/* Navegación inferior */
+nav[aria-label="Navegación inferior"]{background:rgba(14,12,9,.92) !important;backdrop-filter:blur(14px);box-shadow:0 -1px 0 rgba(212,175,55,.35),0 -10px 30px rgba(0,0,0,.6);}
+nav[aria-label="Navegación inferior"] button:hover,nav[aria-label="Navegación inferior"] a:hover{color:var(--oro1) !important;}
+nav[aria-label="Navegación inferior"] button::after{display:none}
+/* Destellos dorados de fondo */
+#lux-particulas{position:fixed;inset:0;pointer-events:none;z-index:0;}
+/* Modal de registro y QR */
+#modal-registro-cliente>div,#modal-qr>div{box-shadow:0 0 0 1px rgba(212,175,55,.35),0 30px 60px rgba(0,0,0,.7),0 0 60px rgba(212,175,55,.12) !important;}
+#modal-registro-cliente h2{font-family:'Playfair Display',serif;}
+#modal-registro-cliente .bg-white.w-12{background:linear-gradient(180deg,var(--oro1),var(--oro2)) !important;}
+::-webkit-scrollbar-thumb{background:var(--oro3) !important;}
+@media (prefers-reduced-motion:reduce){*{animation:none !important}}
+.registro-logo{box-shadow:0 0 0 2px rgba(212,175,55,.55),0 14px 40px rgba(255,140,0,.35),0 0 30px rgba(212,175,55,.25);animation:logoFlota 3.2s ease-in-out infinite;}
+@keyframes logoFlota{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-6px) scale(1.03)}}
+</style>
+</head>
+<body class="antialiased min-h-screen flex flex-col justify-between relative">
+<!-- MODAL PARA MOSTRAR EL CÓDIGO QR -->
+<div id="modal-qr" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-[99999] hidden flex items-center justify-center p-4">
+<div class="bg-[#1f1f1f] border border-[#333333] w-full max-w-xs rounded-2xl p-6 text-center shadow-2xl space-y-4">
+<h3 class="text-white font-bold text-base flex items-center justify-center gap-2">
+<i data-lucide="qr-code" class="w-5 h-5 text-amber-400"></i> Escanea para descargar
+</h3>
+<p class="text-xs text-gray-400">Apunta con la cámara de tu teléfono para descargar la app de Mr Santos.</p>
+<!-- Contenedor donde se dibuja el QR -->
+<div id="contenedor-qr" class="bg-white p-4 rounded-xl flex items-center justify-center mx-auto w-fit"></div>
+<button onclick="cerrarModalQr()" class="w-full bg-amber-400 text-black font-bold py-2.5 rounded-xl text-xs hover:bg-amber-300 transition-colors cursor-pointer">
+Cerrar
+</button>
+</div>
+</div>
+<!-- MODAL / PANTALLA DE REGISTRO INICIAL Y EDICIÓN OBLIGATORIOS -->
+<div id="modal-registro-cliente" class="fixed inset-0 bg-black/90 backdrop-blur-md z-[9999] flex items-center justify-center p-4">
+<div class="bg-[#141414] w-full max-w-md p-8 rounded-3xl shadow-2xl space-y-6 relative border border-[#262626]">
+<button type="button" onclick="cerrarModalRegistroSiEsValido()" id="btn-cerrar-modal" class="hidden absolute top-4 right-4 text-gray-400 hover:text-white cursor-pointer">
+<i data-lucide="x" class="w-5 h-5"></i>
+</button>
+<div class="text-center space-y-2">
+<img src="logo-mrsantos.jpg" alt="Mr Santos" class="registro-logo w-28 h-28 mx-auto rounded-3xl object-cover">
+<h2 class="text-xl font-extrabold text-white tracking-tight">¡REGISTRO OBLIGATORIO VIP!</h2>
+<p class="text-xs text-gray-400">Debes ingresar tus datos obligatoriamente para poder continuar y guardar tu progreso.</p>
+</div>
+<div id="form-registro-cliente" class="space-y-4">
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Nombre y Apellido *</label>
+<input type="text" id="reg-nombre" name="name" autocomplete="name" required placeholder="Ej. Carlos Pérez" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white">
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Número de WhatsApp *</label>
+<input type="tel" id="reg-whatsapp" name="tel" autocomplete="tel" inputmode="tel" required placeholder="Ej. +584120000000" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
+<div class="flex gap-2 items-start p-2.5 mt-1 bg-amber-500/10 border border-amber-500/40 rounded-xl"><span class="text-base leading-none">⚠️</span><p class="text-[10px] text-amber-300 leading-relaxed"><b>Revisa bien tu número de WhatsApp.</b> Por ahí te llega la verificación de tu pedido y todos los avisos de envío. Si está mal escrito, no podremos contactarte. Escríbelo con el código del país, ej. +58 412 000 0000.</p></div>
+</div>
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-wider text-gray-400">Correo Electrónico *</label>
+<input type="email" id="reg-correo" name="email" autocomplete="email" required placeholder="tucorreo@dominio.com" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3.5 rounded-xl focus:outline-none focus:border-white font-mono">
+</div>
+<!-- CAMPO DE REFERIDO EDITABLE -->
+<div class="space-y-1">
+<label class="text-[10px] font-bold uppercase tracking-wider text-amber-400 flex items-center gap-1">
+<i data-lucide="gift" class="w-3.5 h-3.5"></i> Código de Referido (Editable)
+</label>
+<input type="text" id="input-referido" placeholder="Ej. REF-123456 o NINGUNO" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-amber-400 p-3.5 rounded-xl font-mono focus:outline-none focus:border-white">
+</div>
+<p id="registro-mensaje" class="hidden text-[11px] text-center font-semibold text-red-400"></p>
+<button type="button" id="btn-registro-guardar" onclick="registrarClienteUnico(event)" class="w-full bg-white hover:bg-gray-200 text-black font-bold py-4 rounded-xl text-xs uppercase tracking-widest cursor-pointer shadow-lg transition-all">
+GUARDAR Y CONTINUAR 🚀
+</button>
+<p class="text-[10px] text-center text-gray-500 leading-relaxed">Al continuar aceptas los <a href="https://mrsantos-ve.github.io/dunig7/terminos.html" target="_blank" rel="noopener" class="underline text-amber-400">Términos y Condiciones y la Política de privacidad</a> de Mr Santos.</p>
+</div>
+</div>
+</div>
+<!-- CONTENEDOR FIJO AL ESCROLEAR (HEADER + BUSCADOR MÓVIL + PORTADA) -->
+<div class="sticky top-0 z-50 bg-[#0b0b0b] shadow-md">
+<!-- HEADER ESTILO APP MODERNA -->
+<header class="bg-[#121212] border-b border-[#222222] px-4">
+<div class="max-w-7xl mx-auto h-16 flex items-center justify-between gap-2">
+<div class="flex items-center gap-2 cursor-pointer" onclick="cambiarPantalla('vitrina')">
+<div class="bg-white p-2 rounded-xl text-black shadow-sm">
+<i data-lucide="store" class="w-5 h-5"></i>
+</div>
+<div>
+<h1 class="text-sm font-black tracking-tight text-white">
+<span class="lux-brand">MR <span class="lux-brand-accent">SANTOS</span></span>
+</h1>
+<p class="text-[8px] text-gray-400 uppercase tracking-widest font-semibold">VENEZUELA</p>
+</div>
+</div>
+<!-- BUSCADOR SUPERIOR COMPACTO (DESKTOP) -->
+<div class="flex-1 max-w-md mx-2 hidden md:flex items-center bg-[#1b1b1b] rounded-full px-3 py-1.5 border border-[#333333] focus-within:border-white transition-all">
+<i data-lucide="search" class="w-4 h-4 text-gray-400 mr-2"></i>
+<input type="text" id="input-buscador-vitrina-desktop" placeholder="Buscar productos..." oninput="document.getElementById('input-buscador-vitrina').value=this.value;filtrarProductosVitrina();" class="w-full bg-transparent text-xs text-white focus:outline-none">
+</div>
+<div class="flex items-center gap-2">
+<!-- BOTÓN DE CÓDIGO QR PARA EL APK -->
+<button onclick="mostrarQrApk()" class="bg-[#2a2a2a] border border-[#3d3d3d] hover:border-white text-amber-400 text-xs font-bold py-2 px-3 rounded-xl flex items-center justify-center gap-2 cursor-pointer transition-all" title="Ver Código QR para descargar APK">
+<i data-lucide="qr-code" class="w-4 h-4"></i>
+<span class="text-[10px] uppercase hidden sm:inline">Código QR</span>
+</button>
+<button onclick="abrirModalEdicionDatos()" class="bg-[#1b1b1b] border border-[#333333] hover:border-white p-2 rounded-full flex items-center justify-center cursor-pointer transition-all text-gray-300" title="Editar mis datos">
+<i data-lucide="settings" class="w-4 h-4"></i>
+</button>
+<button onclick="cambiarPantalla('carrito')" class="relative bg-[#1b1b1b] border border-[#333333] p-2 rounded-full flex items-center justify-center hover:border-white cursor-pointer">
+<i data-lucide="shopping-bag" class="w-4 h-4 text-gray-200"></i>
+<span id="contador-carrito-badge" class="absolute -top-1 -right-1 bg-white text-black font-mono text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+</button>
+</div>
+</div>
+</header>
+<!-- ZONA FIJA SUPERIOR: BUSCADOR MÓVIL Y CARRUSEL / PORTADA -->
+<div class="max-w-7xl w-full mx-auto px-4 py-3 space-y-3 bg-[#0b0b0b] border-b border-[#222222]">
+<!-- BARRA DE BÚSQUEDA MÓVIL -->
+<div class="w-full md:hidden">
+<div class="relative flex items-center bg-[#141414] border border-[#262626] rounded-full px-4 py-2 shadow-xs">
+<i data-lucide="search" class="w-4 h-4 text-gray-400 mr-2"></i>
+<input type="text" id="input-buscador-vitrina" placeholder="Buscar especialidades o categorías..." oninput="filtrarProductosVitrina()" class="w-full bg-transparent text-xs text-white focus:outline-none">
+<button onclick="limpiarBuscadorVitrina()" class="text-gray-400 hover:text-white">
+<i data-lucide="x" class="w-4 h-4"></i>
+</button>
+</div>
+</div>
+<!-- CARRUSEL DE IMÁGENES EN MOVIMIENTO (PORTADA CORREGIDA) -->
+<div class="w-full rounded-2xl overflow-hidden shadow-sm relative bg-black text-white border border-[#262626]">
+<div class="w-full h-40 sm:h-56 relative overflow-hidden">
+<div id="carrusel-slider-track" class="carrusel-contenedor h-full">
+<div class="carrusel-slide relative h-full flex-shrink-0">
+<img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1000&auto=format&fit=crop" alt="Banner 1" class="w-full h-full object-cover opacity-75">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-4 space-y-1">
+<span class="text-[9px] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full w-max font-bold uppercase tracking-widest text-amber-400">Exclusivo VIP</span>
+<h2 class="text-lg sm:text-2xl font-extrabold tracking-tight uppercase lux-gold-text">Mr Santos</h2>
+<p class="text-[11px] text-gray-300">Tu tienda preferida, con envíos a toda Venezuela.</p>
+</div>
+</div>
+<div class="carrusel-slide relative h-full flex-shrink-0">
+<img src="https://images.unsplash.com/photo-1526738549149-8e07eca6c147?q=80&w=1000&auto=format&fit=crop" alt="Banner 2" class="w-full h-full object-cover opacity-75">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-4 space-y-1">
+<span class="text-[9px] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full w-max font-bold uppercase tracking-widest text-amber-400">Envíos Nacionales</span>
+<h2 class="text-lg sm:text-2xl font-extrabold tracking-tight uppercase">MRW, DOMESA Y TEALCA</h2>
+<p class="text-[11px] text-gray-300">Despachos seguros a nivel nacional con cobro a destino.</p>
+</div>
+</div>
+<div class="carrusel-slide relative h-full flex-shrink-0">
+<img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?q=80&w=1000&auto=format&fit=crop" alt="Banner 3" class="w-full h-full object-cover opacity-75">
+<div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent flex flex-col justify-end p-4 space-y-1">
+<span class="text-[9px] bg-white/20 backdrop-blur-md px-2.5 py-0.5 rounded-full w-max font-bold uppercase tracking-widest text-amber-400">Calidad Garantizada</span>
+<h2 class="text-lg sm:text-2xl font-extrabold tracking-tight uppercase">HECHAS A MANO</h2>
+<p class="text-[11px] text-gray-300">Gomitas artesanales en cinco sabores, empacadas con guantes.</p>
+</div>
+</div>
+</div>
+<div class="absolute bottom-3 right-4 flex gap-1.5 z-10" id="carrusel-puntos">
+<button onclick="irASlide(0)" class="w-2 h-2 rounded-full bg-white/50 cursor-pointer transition-all"></button>
+<button onclick="irASlide(1)" class="w-2 h-2 rounded-full bg-white/50 cursor-pointer transition-all"></button>
+<button onclick="irASlide(2)" class="w-2 h-2 rounded-full bg-white/50 cursor-pointer transition-all"></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- VISTA VITRINA -->
+<main id="vista-vitrina" class="max-w-7xl w-full mx-auto px-4 py-4 flex-grow space-y-4 relative z-10">
+<div id="grid-productos-vitrina" class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4"></div>
+</main>
+<!-- VISTA DETALLE -->
+<main id="vista-detalle" class="hidden max-w-5xl w-full mx-auto px-4 py-6 flex-grow relative z-10">
+<button onclick="cambiarPantalla('vitrina')" class="mb-4 flex items-center gap-1 text-xs font-bold text-gray-400 hover:text-white cursor-pointer transition-colors">
+<i data-lucide="arrow-left" class="w-4 h-4"></i> Volver
+</button>
+<div class="bg-[#141414] border border-[#262626] rounded-2xl overflow-hidden shadow-sm grid grid-cols-1 md:grid-cols-2 gap-6 p-4 sm:p-6">
+<div class="space-y-3">
+<div class="relative rounded-xl overflow-hidden bg-[#1f1f1f] aspect-square flex items-center justify-center border border-[#262626]">
+<div id="contenedor-media-principal" class="w-full h-full flex items-center justify-center bg-[#1a1a1a] cursor-zoom-in" onclick="amplificarFotoActual()">
+<img id="detalle-visor-principal" src="" alt="Visor Principal" class="w-full h-full object-cover">
+</div>
+<button onclick="amplificarFotoActual()" class="absolute bottom-3 right-3 bg-black/80 backdrop-blur-md text-white p-2 rounded-full text-xs shadow-md cursor-pointer hover:bg-black">
+<i data-lucide="maximize-2" class="w-4 h-4"></i>
+</button>
+</div>
+<div id="detalle-contenedor-miniaturas" class="grid grid-cols-5 gap-2"></div>
+</div>
+<div class="space-y-4 flex flex-col justify-between">
+<div class="space-y-3">
+<span id="detalle-categoria" class="text-[9px] uppercase tracking-wider font-bold bg-[#222222] text-gray-300 px-2.5 py-1 rounded-md">CATEGORÍA</span>
+<h2 id="detalle-titulo" class="text-xl sm:text-2xl font-black text-white tracking-tight">Título del Producto</h2>
+<p id="detalle-precio" class="text-xl font-mono text-white font-extrabold">$0.00</p>
+<div class="border-t border-[#262626] pt-3 space-y-1">
+<h4 class="text-[9px] uppercase tracking-wider text-gray-400 font-bold">Descripción:</h4>
+<p id="detalle-descripcion" class="text-xs text-gray-400 leading-relaxed">Cargando...</p>
+</div>
+<div id="contenedor-adicionales" class="w-full pt-2"></div>
+</div>
+<button onclick="agregarDetalleAlCarritoYVolver()" class="w-full bg-white hover:bg-gray-200 text-black font-bold py-3.5 px-6 rounded-xl text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer shadow-md transition-all">
+<i data-lucide="shopping-bag" class="w-4 h-4"></i> AÑADIR A LA BOLSA VIP
+</button>
+</div>
+</div>
+</main>
+<!-- VISTA CARRITO -->
+<main id="vista-carrito" class="hidden max-w-5xl w-full mx-auto px-4 py-6 flex-grow relative z-10 grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+<section class="lg:col-span-2 bg-[#141414] border border-[#262626] p-5 rounded-2xl space-y-4 shadow-xs">
+<h2 class="text-base font-extrabold text-white uppercase tracking-tight flex items-center gap-2 border-b border-[#262626] pb-3">
+<i data-lucide="shopping-basket" class="w-5 h-5 text-amber-500"></i> Bolsa de Pedidos VIP
+</h2>
+<div id="lista-items-carrito" class="divide-y divide-[#262626]"></div>
+<div class="space-y-3 pt-4 border-t border-[#262626] bg-[#1a1a1a] p-4 rounded-xl">
+<h3 class="text-xs font-bold text-white uppercase flex items-center gap-1.5">
+<i data-lucide="map-pin" class="w-4 h-4 text-amber-500"></i> Destino y Logística de Encomienda
+</h3>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+<div class="space-y-1">
+<label class="text-[9px] font-bold uppercase text-gray-400">País</label>
+<select id="pais" name="pais" onchange="actualizarCiudades()" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
+<option value="">Seleccione...</option>
+<option value="venezuela">Venezuela</option>
+</select>
+</div>
+<div class="space-y-1">
+<label class="text-[9px] font-bold uppercase text-gray-400">Ciudad</label>
+<select id="ciudad" name="ciudad" onchange="actualizarRegiones()" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
+<option value="">Seleccione país...</option>
+</select>
+</div>
+<div id="bloque-region" class="space-y-1">
+<label class="text-[9px] font-bold uppercase text-gray-400">Región / Sector</label>
+<input type="text" id="region" name="region" placeholder="Urbanización / Sector" required class="w-full bg-[#141414] border border-[#333333] text-xs text-white p-2.5 rounded-lg focus:outline-none focus:border-white">
+</div>
+</div>
+</div>
+<div id="bloque-delivery-local" class="hidden space-y-2 pt-2 p-3 bg-amber-500/10 border border-amber-500/30 rounded-xl">
+<p class="text-xs font-bold text-amber-400 uppercase">🛵 Delivery en <span id="nombre-ciudad-local">tu ciudad</span></p>
+<p class="text-[11px] text-gray-300">Estás en nuestra ciudad: te lo llevamos a tu puerta, sin agencia de envío. Pega aquí tu ubicación exacta de Google Maps.</p>
+<input type="text" id="input-ubicacion-maps" placeholder="Enlace de Google Maps (Compartir ubicación)" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
+<button type="button" onclick="usarMiUbicacion()" class="w-full bg-[#1f1f1f] border border-amber-500/40 text-amber-400 text-xs font-bold py-2.5 rounded-xl">📍 Usar mi ubicación actual</button>
+</div>
+<div id="bloque-empresas-envio" class="space-y-2 pt-2">
+<label class="text-[10px] uppercase text-white font-bold tracking-wider block">Selecciona Empresa de Encomiendas</label>
+<div id="grid-empresas-encomienda" class="grid grid-cols-3 gap-2"></div>
+<div id="badge-empresa-seleccionada" class="text-xs font-mono text-amber-400 bg-amber-500/10 p-2 rounded-lg border border-amber-500/20 hidden">
+Agencia: <span id="texto-agencia-activa" class="font-bold">Ninguna</span>
+</div>
+</div>
+</section>
+<section class="bg-[#141414] border border-[#262626] p-5 rounded-2xl shadow-xs space-y-4">
+<h3 class="text-sm font-extrabold text-white uppercase border-b border-[#262626] pb-2">Resumen de Orden</h3>
+<div class="flex justify-between items-center text-xs text-gray-400">
+<span>Total Productos (<span id="cantidad-items-abajo" class="font-bold font-mono">0</span>):</span>
+<span class="text-white font-extrabold font-mono text-base" id="carrito-monto-total">$0.00</span>
+</div>
+<div class="space-y-3 pt-2 border-t border-[#262626]">
+<div class="space-y-1">
+<label class="text-[9px] uppercase text-gray-400 font-bold block">Método de Pago</label>
+<select id="tipoMetodoPago" onchange="gestionarCamposPagoCart()" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl focus:outline-none focus:border-white">
+<option value="">Seleccione...</option>
+<option value="zelle">Zelle</option>
+<option value="pago_movil">Pago Móvil</option>
+<option value="binance">Binance</option>
+</select>
+</div>
+<div id="info-metodo-pago" class="hidden p-3 bg-[#1a1a1a] border border-[#262626] rounded-xl space-y-1 text-xs font-mono">
+<div class="flex items-center justify-between font-bold text-white border-b border-[#333333] pb-1 mb-1">
+<span id="titulo-metodo-pago">Datos</span>
+</div>
+<div id="detalle-datos-pago" class="text-gray-300 space-y-0.5"></div>
+</div>
+<div id="contenedorNumeroMesaCart" class="space-y-1 hidden">
+<label class="text-[9px] uppercase text-white font-bold block">Observación del pago en efectivo</label>
+<input type="text" id="input-num-mesa" placeholder="Ej. Pago en efectivo en dólares" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
+</div>
+<div id="contenedorReferenciaCart" class="space-y-1 hidden">
+<label class="text-[9px] uppercase text-white font-bold block">Número de Referencia</label>
+<input type="text" id="input-ref-pago" placeholder="Código de referencia" class="w-full bg-[#1f1f1f] border border-[#333333] text-xs text-white p-3 rounded-xl font-mono">
+</div>
+<button onclick="enviarPedidoWhatsApp()" class="w-full bg-white hover:bg-gray-200 text-black font-bold py-3.5 rounded-xl text-xs uppercase tracking-wider cursor-pointer shadow-md flex items-center justify-center gap-2 transition-all">
+<i data-lucide="send" class="w-4 h-4"></i> Enviar por WhatsApp
+</button>
+</div>
+</section>
+</main>
+<!-- NAVEGACIÓN INFERIOR FIJA -->
+<nav aria-label="Navegación inferior" class="fixed bottom-0 left-0 right-0 bg-[#121212] border-t border-[#222222] z-40 px-6 py-2 flex items-center justify-around shadow-lg">
+<button onclick="cambiarPantalla('vitrina')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white cursor-pointer">
+<i data-lucide="home" class="w-5 h-5"></i>
+<span class="text-[10px] font-bold uppercase tracking-wide">Comprar</span>
+</button>
+<button onclick="cambiarPantalla('carrito')" class="flex flex-col items-center gap-1 text-gray-400 hover:text-white cursor-pointer relative">
+<i data-lucide="shopping-cart" class="w-5 h-5"></i>
+<span class="text-[10px] font-bold uppercase tracking-wide">Cesta</span>
+</button>
+</nav>
+<!-- LIGHTBOX -->
+<div id="modal-lightbox" class="hidden fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 cursor-zoom-out" onclick="cerrarAmplificacion()">
+<button class="absolute top-4 right-4 text-white p-2">
+<i data-lucide="x" class="w-6 h-6"></i>
+</button>
+<img id="lightbox-imagen-completa" src="" class="max-w-full max-h-full object-contain rounded-lg">
+</div>
+<script type="module">
+let App = null;
+try {
+const capacitorApp = await import('@capacitor/app');
+App = capacitorApp.App;
+} catch (e) {
+console.log("Capacitor App module not found, running in standard web mode.");
+}
+const SUPABASE_URL = "https://mkewwlmeikixpvfayisj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rZXd3bG1laWtpeHB2ZmF5aXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3Mzg5NTAsImV4cCI6MjEwNTMxNDk1MH0.xUm7b8j4EGjHtsrBP9DgBURKRhrsPwOxhwKLCAMxZ1o";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storage: window.almacenDunig } });
+let carrito = [];
+let baseProductos = [];
+let productoSeleccionado = null;
+let fotoSeleccionadaForLightbox = "";
+let empresaEncomiendaSeleccionada = "MRW (Por Defecto)";
+let datosDePago = {};
+let slideActual = 0;
+const totalSlides = 3;
+let intervaloCarrusel = null;
+function iniciarCarrusel() {
+intervaloCarrusel = setInterval(() => {
+slideActual = (slideActual + 1) % totalSlides;
+actualizarPosicionCarrusel();
+}, 3000);
+}
+window.irASlide = function(i){ return irASlide(i); };
+function irASlide(indice) {
+slideActual = indice;
+actualizarPosicionCarrusel();
+clearInterval(intervaloCarrusel);
+iniciarCarrusel();
+}
+function actualizarPosicionCarrusel() {
+const track = document.getElementById('carrusel-slider-track');
+const puntos = document.getElementById('carrusel-puntos');
+if (!track || !puntos) return;
+track.style.transform = `translateX(-${slideActual * 100}%)`;
+const botones = puntos.getElementsByTagName('button');
+for (let i = 0; i < botones.length; i++) {
+if (i === slideActual) {
+botones[i].className = "w-4 h-2 rounded-full bg-white cursor-pointer transition-all";
+} else {
+botones[i].className = "w-2 h-2 rounded-full bg-white/40 cursor-pointer transition-all";
+}
+}
+}
+const datosUbicaciones = {
+venezuela: {
+"Amazonas": ["Puerto Ayacucho"],
+"Anzoátegui": ["Barcelona", "Puerto La Cruz", "El Tigre", "Anaco"],
+"Apure": ["San Fernando de Apure", "Guasdualito"],
+"Aragua": ["Maracay", "Turmero", "La Victoria", "Cagua"],
+"Barinas": ["Barinas", "Barinitas"],
+"Bolívar": ["Ciudad Bolívar", "Puerto Ordaz", "San Félix", "Upata"],
+"Carabobo": ["Valencia", "Puerto Cabello", "Guacara"],
+"Cojedes": ["San Carlos", "Tinaquillo"],
+"Delta Amacuro": ["Tucupita"],
+"Distrito Capital": ["Caracas"],
+"Falcón": ["Coro", "Punto Fijo", "Tucacas"],
+"Guárico": ["San Juan de los Morros", "Calabozo", "Altagracia de Orituco", "Valle de la Pascua"],
+"Lara": ["Barquisimeto", "Carora", "El Tocuyo"],
+"Mérida": ["Mérida", "El Vigía", "Tovar"],
+"Miranda": ["Los Teques", "Guarenas", "Guatire"],
+"Monagas": ["Maturín", "Punta de Mata"],
+"Nueva Esparta": ["La Asunción", "Porlamar", "Pampatar", "Juan Griego"],
+"Portuguesa": ["Guanare", "Acarigua", "Araure"],
+"Sucre": ["Cumaná", "Carúpano"],
+"Táchira": ["San Cristóbal", "Rubio", "San Antonio del Táchira"],
+"Trujillo": ["Trujillo", "Valera", "Boconó"],
+"Vargas (La Guaira)": ["La Guaira", "Maiquetía", "Catia La Mar"],
+"Yaracuy": ["San Felipe", "Yaritagua"],
+"Zulia": ["Maracaibo", "Cabimas", "Ciudad Ojeda", "Machiques"]
+}
+};
+window.actualizarCiudades = function() {
+const paisSelect = document.getElementById('pais').value;
+const ciudadSelect = document.getElementById('ciudad');
+const regionInput = document.getElementById('region');
+if (regionInput) regionInput.value = '';
+ciudadSelect.innerHTML = '<option value="">Seleccione una ciudad...</option>';
+if (paisSelect && datosUbicaciones[paisSelect]) {
+let listaCiudades = [];
+for (let estado in datosUbicaciones[paisSelect]) {
+listaCiudades = listaCiudades.concat(datosUbicaciones[paisSelect][estado]);
+}
+listaCiudades.sort().forEach(c => {
+ciudadSelect.innerHTML += `<option value="${c}">${c}</option>`;
+});
+} else {
+ciudadSelect.innerHTML = '<option value="">Seleccione primero un país...</option>';
+}
+}
+// Ciudad donde hacemos delivery propio (cámbiala aquí si te mudas)
+const CIUDAD_LOCAL = "Mérida";
+let esEntregaLocal = false;
+window.actualizarRegiones = function() {
+const regionInput = document.getElementById('region');
+if (regionInput) regionInput.value = '';
+actualizarModoEntrega();
+}
+window.actualizarModoEntrega = function() {
+const ciudad = document.getElementById('ciudad').value;
+esEntregaLocal = ciudad === CIUDAD_LOCAL;
+document.getElementById('nombre-ciudad-local').innerText = CIUDAD_LOCAL;
+document.getElementById('bloque-delivery-local').classList.toggle('hidden', !esEntregaLocal);
+document.getElementById('bloque-empresas-envio').classList.toggle('hidden', esEntregaLocal);
+document.getElementById('bloque-region').classList.toggle('hidden', esEntregaLocal);
+}
+window.usarMiUbicacion = function() {
+if (!navigator.geolocation) { alert("Tu teléfono no permite compartir la ubicación desde aquí. Pega el enlace de Google Maps."); return; }
+const poner = pos => { const { latitude, longitude } = pos.coords; document.getElementById('input-ubicacion-maps').value = `https://maps.google.com/?q=${latitude.toFixed(6)},${longitude.toFixed(6)}`; };
+const fallo = err => { if (err && err.code === 1) alert("Activa el permiso de ubicación para Mr Santos (y el GPS del teléfono) y vuelve a tocar el botón. También puedes pegar el enlace de Google Maps."); else alert("No pudimos leer tu ubicación. Revisa que el GPS esté encendido o pega el enlace de Google Maps."); };
+navigator.geolocation.getCurrentPosition(poner, err => { if (err && err.code === 1) return fallo(err); navigator.geolocation.getCurrentPosition(poner, fallo, { enableHighAccuracy: false, timeout: 20000, maximumAge: 600000 }); }, { enableHighAccuracy: true, timeout: 12000 });
+}
+async function cargarEmpresasEncomiendaSupabase() {
+const grid = document.getElementById('grid-empresas-encomienda');
+if (!grid) return;
+try {
+const { data, error } = await supabaseClient.from('empresas_encomienda').select('*').eq('activo', true);
+if (!error && data && data.length > 0) {
+grid.innerHTML = "";
+data.forEach(emp => {
+grid.innerHTML += `
+<div onclick="seleccionarEmpresaEncomienda('${emp.codigo}', '${emp.nombre_largo}')" id="encomienda-${emp.codigo.toLowerCase()}" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
+<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]">
+<img src="${emp.imagen_url}" alt="${emp.codigo}" class="w-full h-full object-cover">
+</div>
+<span class="text-[10px] font-bold text-white uppercase">${emp.codigo}</span>
+</div>`;
+});
+} else {
+renderizarEmpresasFallback(grid);
+}
+} catch (err) {
+renderizarEmpresasFallback(grid);
+}
+seleccionarEmpresaEncomienda('MRW', '📦 MRW (Cobro a Destino)');
+}
+function renderizarEmpresasFallback(grid) {
+grid.innerHTML = `
+<div onclick="seleccionarEmpresaEncomienda('MRW', '📦 MRW (Cobro a Destino)')" id="encomienda-mrw" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
+<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=200&auto=format&fit=crop" alt="MRW" class="w-full h-full object-cover"></div>
+<span class="text-[10px] font-bold text-white uppercase">MRW</span>
+</div>
+<div onclick="seleccionarEmpresaEncomienda('DOMESA', '🏢 DOMESA')" id="encomienda-domesa" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
+<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]"><img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?q=80&w=200&auto=format&fit=crop" alt="DOMESA" class="w-full h-full object-cover"></div>
+<span class="text-[10px] font-bold text-white uppercase">DOMESA</span>
+</div>
+<div onclick="seleccionarEmpresaEncomienda('TEALCA', '🚚 Tealca Express')" id="encomienda-tealca" class="encomienda-card cursor-pointer bg-[#1a1a1a] border border-[#262626] hover:border-white p-2 rounded-xl flex flex-col items-center text-center transition-all">
+<div class="w-full h-12 rounded-lg overflow-hidden bg-black mb-1 flex items-center justify-center border border-[#333333]"><img src="https://images.unsplash.com/photo-1616401784845-180882ba9ba8?q=80&w=200&auto=format&fit=crop" alt="TEALCA" class="w-full h-full object-cover"></div>
+<span class="text-[10px] font-bold text-white uppercase">TEALCA</span>
+</div>
+`;
+}
+window.seleccionarEmpresaEncomienda = function(codigo, nombreLargo) {
+empresaEncomiendaSeleccionada = nombreLargo;
+document.querySelectorAll('.encomienda-card').forEach(el => {
+el.classList.remove('border-white', 'bg-white/10');
+el.classList.add('border-[#262626]', 'bg-[#1a1a1a]');
+});
+const cardActiva = document.getElementById(`encomienda-${codigo.toLowerCase()}`);
+if (cardActiva) {
+cardActiva.classList.remove('border-[#262626]', 'bg-[#1a1a1a]');
+cardActiva.classList.add('border-white', 'bg-white/10');
+}
+const badge = document.getElementById('badge-empresa-seleccionada');
+const textoAgencia = document.getElementById('texto-agencia-activa');
+if (badge && textoAgencia) {
+textoAgencia.textContent = nombreLargo;
+badge.classList.remove('hidden');
+}
+}
+window.registrarClienteUnico = async function(event) {
+if (event && event.preventDefault) event.preventDefault();
+const nombre = document.getElementById('reg-nombre').value.trim();
+const whatsapp = document.getElementById('reg-whatsapp').value.trim();
+const correo = document.getElementById('reg-correo').value.trim().toLowerCase();
+const inputRef = document.getElementById('input-referido');
+const codigoReferido = inputRef ? inputRef.value.trim().toUpperCase() : 'NINGUNO';
+const msgReg = document.getElementById('registro-mensaje');
+const mostrarErrorRegistro = (t) => { if (msgReg) { msgReg.textContent = t; msgReg.classList.remove('hidden'); } };
+if (!nombre || !whatsapp || !correo) { mostrarErrorRegistro("Completa nombre, WhatsApp y correo para continuar."); return; }
+if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo)) { mostrarErrorRegistro("Revisa tu correo, parece incompleto."); return; }
+if (msgReg) msgReg.classList.add('hidden');
+const btnReg = document.getElementById('btn-registro-guardar');
+if (btnReg) { btnReg.disabled = true; btnReg.textContent = 'ENTRANDO...'; }
+const datosCliente = { nombre, whatsapp, correo, codigo_referido: codigoReferido || 'NINGUNO' };
+if (codigoReferido && codigoReferido !== 'NINGUNO') {
+almacenDunig.setItem('dunig_ref_code', codigoReferido);
+almacenDunig.setItem('codigo_referido_activo', codigoReferido);
+}
+const clienteAnterior = (() => { try { return JSON.parse(almacenDunig.getItem('dunig_cliente_registrado') || '{}') || {}; } catch (e) { return {}; } })();
+// 1) Entrar a la vitrina de inmediato
+almacenDunig.setItem('dunig_cliente_registrado', JSON.stringify(datosCliente));
+document.getElementById('modal-registro-cliente').style.display = 'none';
+if (btnReg) { btnReg.disabled = false; btnReg.textContent = 'GUARDAR Y CONTINUAR 🚀'; }
+cambiarPantalla('vitrina');
+if (!baseProductos || baseProductos.length === 0) descargarCatalogoDeSupabase();
+// 2) Guardar en Supabase en segundo plano (sin trancar la entrada)
+(async () => {
+try {
+const conRef = { nombre, whatsapp, correo, codigo_referido: codigoReferido || 'NINGUNO' };
+const sinRef = { nombre, whatsapp, correo };
+// Una sola cuenta por correo: si el correo ya existe, se actualiza en vez de crear otra
+let correoExistente = null;
+try { const q = await supabaseClient.from('clientes_vip').select('correo').ilike('correo', correo).limit(1); if (!q.error && q.data && q.data.length) correoExistente = q.data[0].correo; } catch (e) {}
+if (correoExistente) {
+let r = await supabaseClient.from('clientes_vip').update(conRef).eq('correo', correoExistente);
+if (r.error) await supabaseClient.from('clientes_vip').update(sinRef).eq('correo', correoExistente);
+} else if (clienteAnterior.correo) {
+let r = await supabaseClient.from('clientes_vip').update(conRef).eq('correo', clienteAnterior.correo);
+if (r.error) r = await supabaseClient.from('clientes_vip').update(sinRef).eq('correo', clienteAnterior.correo);
+if (r.error) { r = await supabaseClient.from('clientes_vip').insert([conRef]); if (r.error) await supabaseClient.from('clientes_vip').insert([sinRef]); }
+} else {
+const r = await supabaseClient.from('clientes_vip').insert([conRef]);
+if (r.error) await supabaseClient.from('clientes_vip').insert([sinRef]);
+}
+} catch (err) { console.log(err); }
+})();
+}
+function verificarClienteRegistrado() {
+aplicarYFijarCodigoReferido();
+const clienteGuardado = almacenDunig.getItem('dunig_cliente_registrado');
+const modal = document.getElementById('modal-registro-cliente');
+const btnCerrar = document.getElementById('btn-cerrar-modal');
+if (clienteGuardado) {
+if (modal) modal.style.display = 'none';
+} else {
+if (modal) modal.style.display = 'flex';
+if (btnCerrar) btnCerrar.classList.add('hidden');
+}
+}
+window.abrirModalEdicionDatos = function() {
+const clienteGuardado = JSON.parse(almacenDunig.getItem('dunig_cliente_registrado') || '{}');
+if (clienteGuardado.nombre) {
+document.getElementById('reg-nombre').value = clienteGuardado.nombre;
+document.getElementById('reg-whatsapp').value = clienteGuardado.whatsapp || '';
+document.getElementById('reg-correo').value = clienteGuardado.correo || '';
+}
+aplicarYFijarCodigoReferido();
+const modal = document.getElementById('modal-registro-cliente');
+const btnCerrar = document.getElementById('btn-cerrar-modal');
+if (modal) modal.style.display = 'flex';
+if (btnCerrar) btnCerrar.classList.remove('hidden');
+}
+window.cerrarModalRegistroSiEsValido = function() {
+if (!almacenDunig.getItem('dunig_cliente_registrado')) { alert("Debes registrarte para continuar."); return; }
+document.getElementById('modal-registro-cliente').style.display = 'none';
+cambiarPantalla('vitrina');
+if (!baseProductos || baseProductos.length === 0) descargarCatalogoDeSupabase();
+}
+async function guardarOrdenEnCentral(nuevaOrden) {
+const SUPABASE_CENTRAL_URL = "https://cmaishgahyzlhszwaozg.supabase.co/rest/v1/ordenes_central";
+const SUPABASE_CENTRAL_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNtYWlzaGdhaHl6bGhzendhb3pnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQ5MjMxMzEsImV4cCI6MjEwMDQ5OTEzMX0.8JVrpQKocnyZa3qLxsX9ZxjygYy4QY3kp_VSvrL1qNQ";
+try {
+await fetch(SUPABASE_CENTRAL_URL, {
+method: "POST",
+headers: { "Content-Type": "application/json", "apikey": SUPABASE_CENTRAL_KEY, "Authorization": `Bearer ${SUPABASE_CENTRAL_KEY}`, "Prefer": "return=representation" },
+body: JSON.stringify({ comercio: nuevaOrden.nombre || "Mr Santos", comercio_nombre: nuevaOrden.nombre || "Mr Santos", comercio_direccion: "HVX5+G5H, Mérida", productos: nuevaOrden.detalles || "Pedido", costo_delivery: 0.00, coordenadas_gps: "N/A", estado: "Pendiente" })
+});
+} catch (error) {}
+}
+async function cargarCuentasPagoSupabase() {
+try {
+const { data, error } = await supabaseClient.from('cuentas_pago').select('*');
+if (!error && data) {
+data.forEach(cuenta => {
+let htmlDetalle = '';
+if (cuenta.plataforma === 'efectivo') {
+htmlDetalle = `<p class="text-white font-bold">💵 Efectivo: coordina el pago por WhatsApp.</p>`;
+} else {
+if (cuenta.banco) htmlDetalle += `<p><strong>Banco:</strong> ${cuenta.banco}</p>`;
+if (cuenta.telefono) htmlDetalle += `<p><strong>Teléfono:</strong> ${cuenta.telefono}</p>`;
+if (cuenta.ci) htmlDetalle += `<p><strong>Cédula:</strong> ${cuenta.ci}</p>`;
+if (cuenta.titular) htmlDetalle += `<p><strong>Titular:</strong> ${cuenta.titular}</p>`;
+}
+datosDePago[cuenta.plataforma] = htmlDetalle;
+});
+}
+} catch (err) {}
+if (!datosDePago['efectivo']) datosDePago['efectivo'] = `<p class="text-white font-bold">💵 Efectivo: coordina el pago por WhatsApp.</p>`;
+if (!datosDePago['binance']) datosDePago['binance'] = `<p class="text-white font-bold">🟡 Binance: te enviamos los datos por WhatsApp.</p>`;
+}
+window.cambiarPantalla = async function(nombre) {
+if (!almacenDunig.getItem('dunig_cliente_registrado')) { verificarClienteRegistrado(); return; }
+['vitrina', 'detalle', 'carrito'].forEach(v => {
+const el = document.getElementById(`vista-${v}`);
+if(el) el.classList.add('hidden');
+});
+const target = document.getElementById(`vista-${nombre}`);
+if(target) target.classList.remove('hidden');
+if (nombre === 'carrito') renderizarCarrito();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+setTimeout(() => lucide.createIcons(), 50);
+}
+async function descargarCatalogoDeSupabase() {
+const grid = document.getElementById('grid-productos-vitrina');
+if(!grid) return;
+const { data, error } = await supabaseClient.from('productos').select('*');
+if (error) { grid.innerHTML = `<div class="col-span-2 text-center text-xs text-red-400">Error al conectar con base de datos.</div>`; return; }
+if (data && data.length > 0) {
+baseProductos = data;
+grid.innerHTML = "";
+data.forEach(p => {
+const titulo = p.titulo || p.nombre || "Producto";
+const precio = parseFloat(p.precio || p.valor || 0);
+const imagen = p.imagen_url || p.imagen || 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600';
+const categoria = p.categoria || 'ESPECIALIDAD';
+grid.innerHTML += `
+<div onclick="verDetalleDeProducto(${p.id})" class="bg-[#141414] rounded-2xl overflow-hidden border border-[#262626] flex flex-col justify-between shadow-xs cursor-pointer hover:border-white transition-all group">
+<div class="aspect-square bg-[#1a1a1a] overflow-hidden relative">
+<img src="${imagen}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+<span class="absolute top-2 left-2 bg-black/70 backdrop-blur-md text-[8px] font-bold uppercase text-white px-2 py-0.5 rounded">${categoria}</span>
+</div>
+<div class="p-3 space-y-1.5">
+<h3 class="font-bold text-xs text-white uppercase truncate">${titulo}</h3>
+<div class="flex justify-between items-center">
+<span class="font-mono text-xs text-white font-extrabold">$${precio.toFixed(2)}</span>
+<span class="text-[10px] text-amber-400 font-bold underline">Ver</span>
+</div>
+</div>
+</div>`;
+});
+} else {
+grid.innerHTML = `<div class="col-span-2 text-center text-xs text-gray-400">Sin productos disponibles.</div>`;
+}
+lucide.createIcons();
+}
+window.filtrarProductosVitrina = function() {
+const textoBusqueda = document.getElementById('input-buscador-vitrina').value.toLowerCase();
+document.querySelectorAll('#grid-productos-vitrina > div').forEach(tarjeta => {
+tarjeta.style.display = tarjeta.innerText.toLowerCase().includes(textoBusqueda) ? 'flex' : 'none';
+});
+}
+window.limpiarBuscadorVitrina = function() {
+const input = document.getElementById('input-buscador-vitrina');
+if (input) { input.value = ''; filtrarProductosVitrina(); }
+}
+window.verDetalleDeProducto = function(idProducto) {
+if (!almacenDunig.getItem('dunig_cliente_registrado')) { verificarClienteRegistrado(); return; }
+productoSeleccionado = baseProductos.find(p => p.id === idProducto);
+if (!productoSeleccionado) return;
+document.getElementById('detalle-titulo').innerText = productoSeleccionado.titulo || productoSeleccionado.nombre;
+document.getElementById('detalle-categoria').innerText = productoSeleccionado.categoria || 'ESPECIALIDAD';
+document.getElementById('detalle-precio').innerText = `$${parseFloat(productoSeleccionado.precio || 0).toFixed(2)}`;
+document.getElementById('detalle-descripcion').innerText = productoSeleccionado.descripcion || "Sin descripción.";
+const imgInicial = productoSeleccionado.imagen_url || productoSeleccionado.imagen || "";
+actualizarVisorFoto(imgInicial);
+let fotosSlider = [];
+try { fotosSlider = JSON.parse(productoSeleccionado.imagenes_slider) || []; } catch(e){}
+if (fotosSlider.length === 0 && imgInicial) fotosSlider.push(imgInicial);
+const containerMiniaturas = document.getElementById('detalle-contenedor-miniaturas');
+containerMiniaturas.innerHTML = "";
+fotosSlider.forEach(img => {
+if(img) containerMiniaturas.innerHTML += `<div onclick="actualizarVisorFoto('${img}')" class="aspect-square rounded-lg bg-[#1a1a1a] border border-[#262626] overflow-hidden cursor-pointer"><img src="${img}" class="w-full h-full object-cover"></div>`;
+});
+renderizarAdicionales();
+cambiarPantallaDetalleDirecto();
+}
+function cambiarPantallaDetalleDirecto() {
+['vitrina', 'carrito'].forEach(v => document.getElementById(`vista-${v}`).classList.add('hidden'));
+document.getElementById('vista-detalle').classList.remove('hidden');
+window.scrollTo({ top: 0, behavior: 'smooth' });
+setTimeout(() => lucide.createIcons(), 50);
+}
+window.actualizarVisorFoto = function(url) {
+fotoSeleccionadaForLightbox = url;
+document.getElementById('detalle-visor-principal').src = url;
+}
+window.amplificarFotoActual = function() {
+if(!fotoSeleccionadaForLightbox) return;
+document.getElementById('lightbox-imagen-completa').src = fotoSeleccionadaForLightbox;
+document.getElementById('modal-lightbox').classList.remove('hidden');
+}
+window.cerrarAmplificacion = function() {
+document.getElementById('modal-lightbox').classList.add('hidden');
+}
+async function descargarAdicionalesDeSupabase() {
+const { data, error } = await supabaseClient.from('adicionales').select('*');
+if (!error && data) window.listaAdicionales = data;
+}
+function renderizarAdicionales() {
+const contenedor = document.getElementById('contenedor-adicionales');
+if (!contenedor || !window.listaAdicionales || window.listaAdicionales.length === 0) {
+if(contenedor) contenedor.innerHTML = "";
+return;
+}
+contenedor.innerHTML = `
+<details class="group bg-[#1a1a1a] border border-[#262626] rounded-xl overflow-hidden">
+<summary class="list-none p-3 text-[10px] font-bold text-gray-300 cursor-pointer flex justify-between items-center">
+<span>SELECCIONAR ADICIONALES / EXTRAS</span>
+<i data-lucide="chevron-down" class="w-4 h-4 group-open:rotate-180 transition-transform"></i>
+</summary>
+<div class="p-2 border-t border-[#262626] space-y-1">
+${window.listaAdicionales.map(ad => `
+<label class="flex items-center gap-2 cursor-pointer p-1.5 hover:bg-[#222222] rounded-lg">
+<input type="checkbox" class="check-adicional w-4 h-4 accent-white" data-nombre="${ad.nombre}" data-precio="${ad.precio}">
+<span class="text-xs text-white font-medium">${ad.nombre}</span>                                 <span class="text-xs text-gray-400 font-mono ml-auto">+$${parseFloat(ad.precio).toFixed(2)}</span>
+</label>
+`).join('')}
+</div>
+</details>`;
+lucide.createIcons();
+}
+window.agregarDetalleAlCarritoYVolver = function() {
+if (!almacenDunig.getItem('dunig_cliente_registrado')) { verificarClienteRegistrado(); return; }
+if (!productoSeleccionado) return;
+let adicionalesSeleccionados = [];
+let extraTotal = 0;
+document.querySelectorAll('.check-adicional:checked').forEach(cb => {
+adicionalesSeleccionados.push(cb.getAttribute('data-nombre'));
+extraTotal += parseFloat(cb.getAttribute('data-precio') || 0);
+});
+const tituloBase = productoSeleccionado.titulo || productoSeleccionado.nombre;
+const tituloFinal = `${tituloBase} ${adicionalesSeleccionados.length > 0 ? '(+ ' + adicionalesSeleccionados.join(', ') + ')' : ''}`;
+const precioFinal = parseFloat(productoSeleccionado.precio || 0) + extraTotal;
+const imagenFinal = productoSeleccionado.imagen_url || productoSeleccionado.imagen || '';
+carrito.push({ titulo: tituloFinal, precio: precioFinal, imagen_url: imagenFinal });
+document.getElementById('contador-carrito-badge').innerText = carrito.length;
+cambiarPantalla('vitrina');
+}
+window.eliminarDelCarrito = function(idx) {
+carrito.splice(idx, 1);
+renderizarCarrito();
+const badge = document.getElementById('contador-carrito-badge');
+if (badge) badge.innerText = carrito.length;
+setTimeout(() => { try { lucide.createIcons(); } catch (e) {} }, 30);
+}
+function renderizarCarrito() {
+const cont = document.getElementById('lista-items-carrito');
+const contAbajo = document.getElementById('cantidad-items-abajo');
+if(!cont) return;
+cont.innerHTML = "";
+let subtotalProductos = 0;
+if(contAbajo) contAbajo.innerText = carrito.length;
+if(carrito.length === 0) {
+cont.innerHTML = `<div class="p-6 text-center text-gray-500 text-xs">Tu bolsa está vacía.</div>`;
+document.getElementById('carrito-monto-total').innerText = "$0.00";
+return;
+}
+carrito.forEach((item, idx) => {
+subtotalProductos += item.precio;
+cont.innerHTML += `
+<div class="flex justify-between items-center py-3">
+<div class="flex items-center gap-3">
+<img src="${item.imagen_url}" class="w-10 h-10 object-cover rounded-lg border border-[#262626]">
+<div>
+<h4 class="text-xs font-bold text-white uppercase">${item.titulo}</h4>
+<button onclick="eliminarDelCarrito(${idx})" class="text-[10px] text-red-400 hover:underline">Eliminar</button>
+</div>
+</div>
+<span class="font-mono text-white font-bold text-xs">$${item.precio.toFixed(2)}</span>
+</div>`;
+});
+document.getElementById('carrito-monto-total').innerText = `$${subtotalProductos.toFixed(2)}`;
+}
+window.gestionarCamposPagoCart = function() {
+const metodo = document.getElementById('tipoMetodoPago').value;
+const contenedorRef = document.getElementById('contenedorReferenciaCart');
+const contenedorMesa = document.getElementById('contenedorNumeroMesaCart');
+const contenedorInfoPago = document.getElementById('info-metodo-pago');
+const detalleDatosPago = document.getElementById('detalle-datos-pago');
+if (datosDePago[metodo]) {
+detalleDatosPago.innerHTML = datosDePago[metodo];
+contenedorInfoPago.classList.remove('hidden');
+} else { contenedorInfoPago.classList.add('hidden'); }
+if (metodo === 'efectivo') {
+contenedorRef.classList.add('hidden');
+contenedorMesa.classList.remove('hidden');
+document.getElementById('input-ref-pago').value = 'EFECTIVO';
+} else if (metodo !== '') {
+contenedorRef.classList.remove('hidden');
+contenedorMesa.classList.add('hidden');
+} else {
+contenedorRef.classList.add('hidden');
+contenedorMesa.classList.add('hidden');
+}
+}
+async function detectarReferidoPorDeepLink() {
+if (App) {
+try {
+App.addListener('appUrlOpen', (data) => {
+procesarUrlReferido(data.url);
+});
+const launchUrl = await App.getLaunchUrl();
+if (launchUrl && launchUrl.url) {
+procesarUrlReferido(launchUrl.url);
+}
+} catch (e) {
+console.log('Entorno web puro o Capacitor App sin soporte activo');
+}
+}
+procesarUrlReferido(window.location.href);
+}
+function procesarUrlReferido(urlCompleta) {
+try {
+let refCode = null;
+if (urlCompleta.includes('?')) {
+const queryString = urlCompleta.split('?')[1];
+const urlParams = new URLSearchParams(queryString);
+refCode = urlParams.get('ref') || urlParams.get('referido');
+}
+if (refCode) {
+const codigoLimpio = refCode.trim().toUpperCase();
+if (codigoLimpio && codigoLimpio !== 'NULL' && codigoLimpio !== 'UNDEFINED') {
+almacenDunig.setItem('dunig_ref_code', codigoLimpio);
+almacenDunig.setItem('codigo_referido_activo', codigoLimpio);
+const inputRef = document.getElementById('input-referido');
+if (inputRef) {
+inputRef.value = codigoLimpio;
+}
+let clienteGuardado = JSON.parse(almacenDunig.getItem('dunig_cliente_registrado') || '{}');
+if (clienteGuardado.nombre) {
+clienteGuardado.codigo_referido = codigoLimpio;
+almacenDunig.setItem('dunig_cliente_registrado', JSON.stringify(clienteGuardado));
+}
+}
+}
+} catch (err) {
+console.error('Error procesando referido:', err);
+}
+}
+function aplicarYFijarCodigoReferido() {
+let codigoFinal = '';
+const urlParams = new URLSearchParams(window.location.search);
+const codigoRefUrl = urlParams.get('ref') || urlParams.get('referido');
+const clienteGuardado = JSON.parse(almacenDunig.getItem('dunig_cliente_registrado') || '{}');
+if (codigoRefUrl && codigoRefUrl.trim() !== '') {
+codigoFinal = codigoRefUrl.trim().toUpperCase();
+} else if (clienteGuardado.codigo_referido && clienteGuardado.codigo_referido !== 'NINGUNO' && clienteGuardado.codigo_referido !== '') {
+codigoFinal = clienteGuardado.codigo_referido;
+} else if (almacenDunig.getItem('dunig_ref_code') && almacenDunig.getItem('dunig_ref_code') !== 'NINGUNO') {
+codigoFinal = almacenDunig.getItem('dunig_ref_code');
+} else if (almacenDunig.getItem('codigo_referido_activo') && almacenDunig.getItem('codigo_referido_activo') !== 'NINGUNO') {
+codigoFinal = almacenDunig.getItem('codigo_referido_activo');
+}
+if (codigoFinal) {
+almacenDunig.setItem('dunig_ref_code', codigoFinal);
+almacenDunig.setItem('codigo_referido_activo', codigoFinal);
+}
+const inputRef = document.getElementById('input-referido');
+if (inputRef) {
+inputRef.value = codigoFinal;
+}
+if (clienteGuardado.nombre && codigoFinal) {
+clienteGuardado.codigo_referido = codigoFinal;
+almacenDunig.setItem('dunig_cliente_registrado', JSON.stringify(clienteGuardado));
+}
+}
+window.mostrarQrApk = function() {
+const urlApk = "https://mrsantos-ve.github.io/dunig7/app-debug.apk";
+const modal = document.getElementById('modal-qr');
+const contenedor = document.getElementById('contenedor-qr');
+contenedor.innerHTML = "";
+new QRCode(contenedor, {
+text: urlApk,
+width: 180,
+height: 180,
+colorDark: "#000000",
+colorLight: "#ffffff",
+correctLevel: QRCode.CorrectLevel.H
+});
+modal.classList.remove('hidden');
+}
+window.cerrarModalQr = function() {
+document.getElementById('modal-qr').classList.add('hidden');
+}
+// Arranque seguro: funciona aunque la página ya haya terminado de cargar
+let tiendaIniciada = false;
+async function iniciarTienda() {
+if (tiendaIniciada) return;
+tiendaIniciada = true;
+try { aplicarYFijarCodigoReferido(); } catch (e) { console.log(e); }
+try { await detectarReferidoPorDeepLink(); } catch (e) { console.log(e); }
+verificarClienteRegistrado();
+iniciarCarrusel();
+descargarCatalogoDeSupabase();
+descargarAdicionalesDeSupabase();
+try { await cargarEmpresasEncomiendaSupabase(); } catch (e) { console.log(e); }
+try { await cargarCuentasPagoSupabase(); } catch (e) { console.log(e); }
+lucide.createIcons();
+}
+if (document.readyState === 'loading') {
+window.addEventListener('DOMContentLoaded', iniciarTienda);
+} else {
+iniciarTienda();
+}
+window.enviarPedidoWhatsApp = async function() {
+const clienteRegistradoValidacion = almacenDunig.getItem('dunig_cliente_registrado');
+if (!clienteRegistradoValidacion) {
+verificarClienteRegistrado();
+return;
+}
+if(carrito.length === 0) { alert("Agrega productos primero."); return; }
+const paisVal = document.getElementById('pais').value;
+const ciudadVal = document.getElementById('ciudad').value;
+const regionVal = document.getElementById('region').value.trim();
+if(!paisVal || !ciudadVal || (!regionVal && !esEntregaLocal)) {
+alert("Por favor selecciona el país, la ciudad y escribe tu región o sector de destino.");
+return;
+}
+let ubicacionMaps = '';
+if (esEntregaLocal) {
+ubicacionMaps = document.getElementById('input-ubicacion-maps').value.trim();
+if (!ubicacionMaps) { alert("Por favor pega tu ubicación de Google Maps o toca \"Usar mi ubicación actual\"."); document.getElementById('input-ubicacion-maps').focus(); return; }
+}
+const metodo = document.getElementById('tipoMetodoPago').value;
+if(!metodo) { alert("Por favor selecciona un método de pago."); return; }
+let ref = "";
+let numeroMesa = "";
+if (metodo === 'efectivo') {
+numeroMesa = document.getElementById('input-num-mesa').value.trim();
+if(!numeroMesa) {
+alert("Por favor escribe una observación sobre tu pago en efectivo.");
+document.getElementById('input-num-mesa').focus();
+return;
+}
+ref = `Efectivo (Nota: ${numeroMesa})`;
+} else {
+ref = document.getElementById('input-ref-pago').value.trim();
+if(!ref) { alert("Por favor ingresa el número o código de referencia."); return; }
+}
+const clienteLocal = JSON.parse(clienteRegistradoValidacion);
+const inputRefElem = document.getElementById('input-referido');
+const codigoReferidoCliente = inputRefElem ? inputRefElem.value.trim().toUpperCase() : (clienteLocal.codigo_referido || almacenDunig.getItem('dunig_ref_code') || 'NINGUNO');
+let totalGeneral = carrito.reduce((a, b) => a + b.precio, 0);
+let lista = carrito.map(i => `• ${i.titulo} ($${i.precio.toFixed(2)})`).join('\n');
+let wsNum = "584120000000";
+try {
+const { data, error } = await supabaseClient.from('ajustes_sistema').select('valor').eq('id', 'whatsapp_notificaciones').single();
+if(!error && data && data.valor) {
+wsNum = data.valor.replace(/[^0-9]/g, "");
+}
+} catch (err) {}
+let mensajeMesaExtra = metodo === 'efectivo' ? `📝 *OBSERVACIÓN EFECTIVO:* ${numeroMesa}\n` : '';
+const mensaje = `🍬 *NUEVO PEDIDO - MR SANTOS* 🍬\n\n👤 *CLIENTE:* ${clienteLocal.nombre || 'N/A'}\n📱 *WHATSAPP:* ${clienteLocal.whatsapp || 'N/A'}\n🎁 *REF. CLIENTE:* ${codigoReferidoCliente}\n\n${lista}\n\n💵 *TOTAL PRODUCTOS:* $${totalGeneral.toFixed(2)}\n📍 *DESTINO:* ${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}\n${esEntregaLocal ? `🛵 *ENTREGA:* Delivery en ${CIUDAD_LOCAL}\n🗺️ *UBICACIÓN:* ${ubicacionMaps}\n` : `🚚 *AGENCIA DE ENCOMIENDA:* ${empresaEncomiendaSeleccionada} (Cobro a Destino)\n`}🏦 *MÉTODO DE Pago:* ${metodo.toUpperCase()}\n${mensajeMesaExtra}🔢 *REF:* ${ref}`;
+// Generación de UUID único obligatorio para el campo id (text)
+const generatedId = 'ord-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7);
+// Inserción completa y corregida en Supabase con todos los campos requeridos
+const { error: insertError } = await supabaseClient
+.from('ordenes_vip')
+.insert([
+{
+id: generatedId,
+cliente_nombre: clienteLocal.nombre || 'Nombre del Cliente',
+cliente_telefono: clienteLocal.whatsapp || '0414xxxxxxx',
+detalles_pedido: carrito.map(i => i.titulo), // Envío correcto como formato array/JSONB compatible
+total: totalGeneral,
+monto_total: totalGeneral,
+metodo_pago: metodo,
+ubicacion_entrega: `${paisVal.toUpperCase()} / ${ciudadVal.toUpperCase()} / ${regionVal.toUpperCase()}${esEntregaLocal ? ' / DELIVERY: ' + ubicacionMaps : ' / AGENCIA: ' + empresaEncomiendaSeleccionada}`,
+codigo_referido: codigoReferidoCliente,
+referencia: ref,
+referencia_bancaria: ref,
+estado: "pendiente"
+}
+]);
+if (insertError) {
+console.error("Error al registrar en ordenes_vip:", insertError.message);
+}
+await guardarOrdenEnCentral({
+nombre: esEntregaLocal ? `Mr Santos - Delivery en ${CIUDAD_LOCAL}` : `Mr Santos - Envío por ${empresaEncomiendaSeleccionada}`,
+detalles: carrito.map(i => i.titulo).join(', ')
+});
+carrito = [];
+document.getElementById('contador-carrito-badge').innerText = "0";
+document.getElementById('tipoMetodoPago').value = "";
+document.getElementById('input-ref-pago').value = "";
+document.getElementById('input-num-mesa').value = "";
+document.getElementById('contenedorReferenciaCart').classList.add('hidden');
+document.getElementById('contenedorNumeroMesaCart').classList.add('hidden');
+document.getElementById('info-metodo-pago').classList.add('hidden');
+cambiarPantalla('vitrina');
+window.open(`https://api.whatsapp.com/send?phone=${wsNum}&text=${encodeURIComponent(mensaje)}`, '_blank');
+}
+</script>
+<canvas id="lux-particulas" aria-hidden="true"></canvas>
+<script>
+(function(){
+var c=document.getElementById('lux-particulas'),x=c.getContext('2d'),p=[],W,H;
+function r(){W=c.width=innerWidth;H=c.height=innerHeight;}
+addEventListener('resize',r);r();
+for(var i=0;i<38;i++)p.push({x:Math.random()*W,y:Math.random()*H,s:Math.random()*1.8+.4,v:Math.random()*.35+.08,a:Math.random()*6.28});
+(function f(){x.clearRect(0,0,W,H);p.forEach(function(o){o.y-=o.v;o.a+=.03;if(o.y<-5){o.y=H+5;o.x=Math.random()*W;}var al=.25+.25*Math.sin(o.a);x.beginPath();x.arc(o.x,o.y,o.s,0,6.28);x.fillStyle='rgba(245,215,122,'+al+')';x.shadowBlur=8;x.shadowColor='#D4AF37';x.fill();});requestAnimationFrame(f);})();
+// Inclinación 3D de tarjetas de producto
+document.addEventListener('pointermove',function(e){var t=e.target.closest&&e.target.closest('#grid-productos-vitrina>div');if(!t)return;var b=t.getBoundingClientRect(),px=(e.clientX-b.left)/b.width-.5,py=(e.clientY-b.top)/b.height-.5;t.style.transform='perspective(700px) rotateY('+(px*8)+'deg) rotateX('+(-py*8)+'deg) translateY(-4px)';});
+document.addEventListener('pointerout',function(e){var t=e.target.closest&&e.target.closest('#grid-productos-vitrina>div');if(t&&!t.contains(e.relatedTarget))t.style.transform='';});
+})();
+</script>
+<script>
+// App Android Mr Santos: tomar el número de la SIM con Google (Phone Number Hint)
+(function(){
+  function plugin(){ try { return window.Capacitor && Capacitor.isNativePlatform && Capacitor.isNativePlatform() && Capacitor.Plugins && Capacitor.Plugins.PhoneHint; } catch(e){ return null; } }
+  window.pedirNumeroTelefono = async function(){
+    const p = plugin(); if (!p) return;
+    try { const r = await p.request(); if (r && r.phone) { const inp = document.getElementById('reg-whatsapp'); inp.value = r.phone; inp.dispatchEvent(new Event('input')); } } catch(e) { console.log('PhoneHint', e); }
+  };
+  function init(){
+    if (!plugin()) return;
+    const b = document.getElementById('btn-numero-auto'); if (b) b.classList.remove('hidden');
+    const inp = document.getElementById('reg-whatsapp');
+    if (false) { let pedido = false; inp.addEventListener('focus', function(){ if (!pedido && !inp.value) { pedido = true; pedirNumeroTelefono(); } }); }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+</script>
+</body>
+</html>
+
