@@ -230,12 +230,12 @@ input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd
 </div></section>
 
 <section><div class="wrap">
-<div class="sh reveal"><h2>Así de fácil <span class="gtxt">se pide</span></h2></div>
+<div class="sh reveal"><h2>Así de fácil <span class="gtxt">se pide</span></h2><button class="pasobtn pasoall" data-p="all" hidden onclick="verPasos(1)">▶ Mr Santos te lo explica</button></div>
 <div class="feats">
-<div class="ft reveal"><span class="ic">🛍️</span><h3>1. Elige</h3><p>Toca el producto, mira los detalles y agrégalo a tu bolsa.</p></div>
-<div class="ft reveal"><span class="ic">📍</span><h3>2. Tu destino</h3><p>En Valencia te lo llevamos a tu puerta. Al resto del país, por MRW, Domesa o Tealca con cobro a destino.</p></div>
-<div class="ft reveal"><span class="ic">💳</span><h3>3. Paga</h3><p>Pago móvil, Zelle o Binance. Escribe tu número de referencia.</p></div>
-<div class="ft reveal"><span class="ic">💬</span><h3>4. Confirma</h3><p>Tu pedido se abre en WhatsApp para confirmarlo con nosotros.</p></div>
+<div class="ft reveal"><span class="ic">🛍️</span><h3>1. Elige</h3><button class="pasobtn" data-p="1" hidden onclick="verPasos(1,1)">▶ Ver</button><p>Toca el producto, mira los detalles y agrégalo a tu bolsa.</p></div>
+<div class="ft reveal"><span class="ic">📍</span><h3>2. Tu destino</h3><button class="pasobtn" data-p="2" hidden onclick="verPasos(2,1)">▶ Ver</button><p>En Valencia te lo llevamos a tu puerta. Al resto del país, por MRW, Domesa o Tealca con cobro a destino.</p></div>
+<div class="ft reveal"><span class="ic">💳</span><h3>3. Paga</h3><button class="pasobtn" data-p="3" hidden onclick="verPasos(3,1)">▶ Ver</button><p>Pago móvil, Zelle o Binance. Escribe tu número de referencia.</p></div>
+<div class="ft reveal"><span class="ic">💬</span><h3>4. Confirma</h3><button class="pasobtn" data-p="4" hidden onclick="verPasos(4,1)">▶ Ver</button><p>Tu pedido se abre en WhatsApp para confirmarlo con nosotros.</p></div>
 </div>
 <div class="duo" style="margin-top:22px">
 <div class="ph-card reveal"><img src="elab-1-guantes.jpg" alt="Gomitas hechas a mano con guantes" loading="lazy"><div class="cap"><h3>Hechas a mano, con guantes</h3><p>Receta artesanal Mr Santos con gelatina vegetal (agar), sin gelatina animal.</p></div></div>
@@ -1109,11 +1109,15 @@ window.agregarMayor=function(i){const m=MAYOR[i];if(!window.__pushCarrito)return
 .holo video.full{left:0;top:0;bottom:auto;width:100%;height:100%;object-fit:contain;transform:scale(.9)}
 .holo.on video.full{transform:scale(1)}
 .holo .ht{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:4;padding:8px 18px;border-radius:30px;background:rgba(0,0,0,.6);border:1px solid #d4af37;font-weight:800;font-size:18px;color:#fff;white-space:nowrap}
+.pasobtn{margin-top:10px;padding:7px 14px;border-radius:30px;border:1px solid #d4af37;background:rgba(212,175,55,.12);color:#f5d97a;font:600 13px Poppins,sans-serif;cursor:pointer}
+.pasoall{display:block;margin:12px auto 0}
 .holo .hx{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:1px solid #d4af37;background:rgba(0,0,0,.6);color:#fff;font-size:20px;z-index:5}
 </style>
 <div class="holo" id="holo" onclick="cerrarHolo()"><button class="hx" onclick="cerrarHolo()" aria-label="Cerrar">✕</button><div class="ht" id="holoT"></div><video id="holoV" playsinline preload="none"></video></div>
 <script>
 window.abrirHolo=function(n,k){const o=document.getElementById('holo'),v=document.getElementById('holoV');document.getElementById('holoT').textContent=n;v.src='pj-'+k+'.webm';v.classList.toggle('full',k==='menta');v.onended=cerrarHolo;v.muted=false;o.classList.add('on');const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});};
+window.verPasos=function(n,solo){const o=document.getElementById('holo'),v=document.getElementById('holoV');document.getElementById('holoT').textContent='Paso '+n;v.src='pj-paso'+n+'.webm';v.classList.add('full');v.onended=function(){if(!solo&&n<4)verPasos(n+1);else cerrarHolo();};v.muted=false;o.classList.add('on');const p=v.play();if(p&&p.catch)p.catch(()=>{v.muted=true;v.play().catch(()=>{});});};
+fetch('pj-paso1.webm',{method:'HEAD'}).then(r=>{if(r.ok)document.querySelectorAll('.pasobtn').forEach(b=>{if(b.dataset.p==='all'||true)b.hidden=false;});}).catch(()=>{});
 window.cerrarHolo=function(){const o=document.getElementById('holo'),v=document.getElementById('holoV');o.classList.remove('on');v.pause();};
 document.addEventListener('keydown',e=>{if(e.key==='Escape')cerrarHolo();});
 </script>
