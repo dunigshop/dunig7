@@ -9,7 +9,7 @@ window.alert=function(m){try{var d=document.createElement('div');d.setAttribute(
 <title>Mr Santos · Gomitas artesanales con envíos a toda Venezuela</title>
 <link rel="icon" type="image/png" href="https://dunigshop.github.io/dunig7/favicon-ms.png">
 <link rel="apple-touch-icon" href="https://dunigshop.github.io/dunig7/favicon-ms.png">
-<meta name="description" content="Mr Santos: gomitas artesanales hechas a mano. Delivery en Mérida y envíos a toda Venezuela por MRW, Domesa y Tealca, cobro a destino.">
+<meta name="description" content="Mr Santos: gomitas artesanales hechas a mano. Despachamos desde Valencia: delivery en Valencia y envíos a toda Venezuela por MRW, Domesa y Tealca, cobro a destino.">
 <meta name="theme-color" content="#07070a">
 <meta property="og:image" content="https://dunigshop.github.io/dunig7/nueva/hero-consumidor.jpg">
 <script>
@@ -199,7 +199,7 @@ input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd
 <div class="wrap in">
 <span class="kicker"><b></b> Mr Santos · tienda al detal</span>
 <h1>Gomitas artesanales<br><span class="gtxt">hechas a mano</span></h1>
-<p class="lead">Bolsitas de 80 g con gomitas de muñequitos en cinco sabores. Delivery en Mérida y envíos a toda Venezuela por MRW, Domesa y Tealca.</p>
+<p class="lead">Bolsitas de 80 g con gomitas de muñequitos en cinco sabores. Despachamos desde Valencia: delivery en Valencia y envíos a toda Venezuela por MRW, Domesa y Tealca.</p>
 <div class="ctas"><a class="btn" href="#catalogo">🛍️ Ver catálogo</a><a class="btn ghost" href="#vender">💼 Quiero vender</a></div>
 
 </div>
@@ -233,7 +233,7 @@ input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd
 <div class="sh reveal"><h2>Así de fácil <span class="gtxt">se pide</span></h2></div>
 <div class="feats">
 <div class="ft reveal"><span class="ic">🛍️</span><h3>1. Elige</h3><p>Toca el producto, mira los detalles y agrégalo a tu bolsa.</p></div>
-<div class="ft reveal"><span class="ic">📍</span><h3>2. Tu destino</h3><p>En Mérida te lo llevamos a tu puerta. Al resto del país, por MRW, Domesa o Tealca con cobro a destino.</p></div>
+<div class="ft reveal"><span class="ic">📍</span><h3>2. Tu destino</h3><p>En Valencia te lo llevamos a tu puerta. Al resto del país, por MRW, Domesa o Tealca con cobro a destino.</p></div>
 <div class="ft reveal"><span class="ic">💳</span><h3>3. Paga</h3><p>Pago móvil, Zelle o Binance. Escribe tu número de referencia.</p></div>
 <div class="ft reveal"><span class="ic">💬</span><h3>4. Confirma</h3><p>Tu pedido se abre en WhatsApp para confirmarlo con nosotros.</p></div>
 </div>
@@ -242,16 +242,10 @@ input[type=checkbox]{width:18px;height:18px;margin:0;padding:0;accent-color:#ffd
 </div>
 </div></section>
 
-<section id="vender" style="background:var(--bg2)"><div class="wrap">
-<div class="vender">
-<div class="ph-card reveal"><img src="vend-mercado.jpg" alt="Venta de gomitas en el mercado" loading="lazy"></div>
-<div class="txt reveal">
-<span class="kicker"><b></b> Para emprendedores</span>
-<h2>¿Quieres vender? <span class="gtxt">Compra al mayor</span></h2>
-<p>Compra por docena o por paquete y revende cada bolsita. Mira los precios al mayor, cuánto puedes ganar y el ranking de vendedores.</p>
-<a class="btn" href="https://dunig5.github.io/comisiones/vendedores/">💼 Ver precios al mayor</a>
-</div>
-</div>
+<section id="mayor" style="background:var(--bg2)"><div class="wrap">
+<div class="sh reveal"><span class="kicker"><b></b> Para emprendedores</span><h2>Compra <span class="gtxt">al mayor</span></h2><p>Revende cada bolsita y gana. Se agrega a la misma bolsa y pagas igual que al detal.</p></div>
+<div class="prods" id="prods-mayor"></div>
+<p class="note">Bolsitas de 80 g. Ganancias calculadas revendiendo al precio sugerido.</p>
 </div></section>
 
 <footer><div class="wrap">
@@ -422,6 +416,7 @@ const SUPABASE_URL = "https://mkewwlmeikixpvfayisj.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rZXd3bG1laWtpeHB2ZmF5aXNqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk3Mzg5NTAsImV4cCI6MjEwNTMxNDk1MH0.xUm7b8j4EGjHtsrBP9DgBURKRhrsPwOxhwKLCAMxZ1o";
 const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false, storage: window.almacenDunig } });
 let carrito = [];
+window.__pushCarrito = (it) => { carrito.push(it); return carrito.length; };
 let baseProductos = [];
 let productoSeleccionado = null;
 let fotoSeleccionadaForLightbox = "";
@@ -504,7 +499,7 @@ ciudadSelect.innerHTML = '<option value="">Seleccione primero un país...</optio
 }
 }
 // Ciudad donde hacemos delivery propio (cámbiala aquí si te mudas)
-const CIUDAD_LOCAL = "Mérida";
+const CIUDAD_LOCAL = "Valencia";
 let esEntregaLocal = false;
 window.actualizarRegiones = function() {
 const regionInput = document.getElementById('region');
@@ -665,7 +660,7 @@ try {
 await fetch(SUPABASE_CENTRAL_URL, {
 method: "POST",
 headers: { "Content-Type": "application/json", "apikey": SUPABASE_CENTRAL_KEY, "Authorization": `Bearer ${SUPABASE_CENTRAL_KEY}`, "Prefer": "return=representation" },
-body: JSON.stringify({ comercio: nuevaOrden.nombre || "Mr Santos", comercio_nombre: nuevaOrden.nombre || "Mr Santos", comercio_direccion: "HVX5+G5H, Mérida", productos: nuevaOrden.detalles || "Pedido", costo_delivery: 0.00, coordenadas_gps: "N/A", estado: "Pendiente" })
+body: JSON.stringify({ comercio: nuevaOrden.nombre || "Mr Santos", comercio_nombre: nuevaOrden.nombre || "Mr Santos", comercio_direccion: "Valencia, Carabobo", productos: nuevaOrden.detalles || "Pedido", costo_delivery: 0.00, coordenadas_gps: "N/A", estado: "Pendiente" })
 });
 } catch (error) {}
 }
@@ -1090,6 +1085,21 @@ window.open(`https://api.whatsapp.com/send?phone=${wsNum}&text=${encodeURICompon
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
+</script>
+<script>
+const MAYOR=[
+{n:'Docena',d:'12 bolsitas de 80 g · revendes en $12',p:7.5,img:'vend-dinero.jpg',g:'Ganas $4,50'},
+{n:'Paquete de 24',d:'24 bolsitas de 80 g · revendes en $24',p:13.2,img:'vend-paquete24.jpg',g:'Ganas $10,80',tag:'Más ganancia'},
+{n:'6 cajas con ventana',d:'160 g c/u · al público $2',p:7.8,img:'pres-caja-ventana.jpg',g:'Ganas $4,20'},
+{n:'6 cajas de regalo',d:'200 g c/u · al público $2,50',p:10.2,img:'pres-caja-regalo.jpg',g:'Ganas $4,80'},
+{n:'6 cajas de 4 sabores',d:'240 g c/u · al público $3',p:12,img:'pres-caja-4-sabores.jpg',g:'Ganas $6'},
+{n:'Bolsas doypack (docena)',d:'12 × 80 g con cierre',p:7.5,img:'pres-doypack.jpg',g:'Ganas $4,50'},
+{n:'Celofán con lazo (docena)',d:'12 × 80 g para piñatas',p:7.5,img:'pres-celofan-lazo.jpg',g:'Ganas $4,50'},
+{n:'Bolsitas con cartoncito (docena)',d:'12 × 80 g para colgar',p:7.5,img:'pres-cartoncito.jpg',g:'Ganas $4,50'}];
+const BASE_IMG='https://dunigshop.github.io/dunig7/nueva/';
+(function(){const g=document.getElementById('prods-mayor');if(!g)return;
+g.innerHTML=MAYOR.map((m,i)=>`<div class="pc">${m.tag?`<span class="tag">${m.tag}</span>`:''}<div class="ph"><img src="${m.img}" alt="${m.n}" loading="lazy"></div><div class="bd"><h3 style="white-space:normal">${m.n}</h3><small>${m.d}</small><div class="pr gtxt">$${m.p.toFixed(2)}</div><div class="gana">${m.g}</div><button class="btn sm full" onclick="agregarMayor(${i})">Agregar</button></div></div>`).join('');})();
+window.agregarMayor=function(i){const m=MAYOR[i];if(!window.__pushCarrito)return;const n=window.__pushCarrito({titulo:'AL MAYOR · '+m.n,precio:m.p,imagen_url:BASE_IMG+m.img});const b=document.getElementById('contador-carrito-badge');if(b)b.innerText=n;if(window.toastMS)window.toastMS('Agregado a tu bolsa 🛍️');};
 </script>
 </body>
 </html>
