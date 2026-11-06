@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HoloMensaje · Tu mensaje sale de la pantalla</title>
+<meta name="description" content="Graba tu voz, agrega tu foto y envía un holograma por WhatsApp.">
+<meta property="og:title" content="Te enviaron un HoloMensaje">
+<meta property="og:description" content="Ábrelo: la persona sale en tu pantalla y te habla.">
+<meta name="theme-color" content="#07070c">
+<style>
+:root{--bg:#07070c;--oro:#d4af37;--oro2:#f3d77a;--cian:#5ff6ff;--txt:#f3f3f6;--gris:#a9a9b8;--panel:rgba(255,255,255,.05);--borde:rgba(212,175,55,.35)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(ellipse at 50% 0%,#1d1a2b 0%,#07070c 65%) fixed,var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.45}
+.oculto{display:none!important}
+header{text-align:center;padding:22px 14px 6px}
+.logo{font-weight:800;letter-spacing:5px;font-size:12px;color:var(--oro)}
+h1{margin:6px 0 2px;font-size:25px;color:var(--oro2)}
+header p{margin:0;color:var(--gris);font-size:14px}
+main{max-width:520px;margin:0 auto;padding:10px 14px 30px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:16px;padding:16px;margin:14px 0}
+.paso{font-size:12px;letter-spacing:2px;color:var(--oro);font-weight:700;margin-bottom:6px}
+h2{margin:0 0 10px;font-size:18px}
+input[type=text]{width:100%;padding:12px;border-radius:10px;border:1px solid var(--borde);background:#0d0d14;color:var(--txt);font-size:16px}
+input[type=text]:focus{outline:2px solid var(--oro);border-color:var(--oro)}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border:0;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;margin-top:10px;color:#111;background:linear-gradient(180deg,var(--oro2),var(--oro));text-decoration:none}
+.btn.sec{background:transparent;color:var(--oro2);border:1px solid var(--oro)}
+.btn.rojo{background:linear-gradient(180deg,#ff6f86,#ff2d55);color:#fff}
+.btn.wa{background:linear-gradient(180deg,#4cf08b,#1fbf5f);color:#00210d}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.fotoBox{display:flex;gap:12px;align-items:center}
+.miniatura{width:84px;height:108px;border-radius:12px;border:1px dashed var(--borde);background:#0d0d14 center/contain no-repeat;flex:none;display:flex;align-items:center;justify-content:center;color:var(--gris);font-size:28px;background-image:linear-gradient(45deg,#15151f 25%,transparent 25%,transparent 75%,#15151f 75%),linear-gradient(45deg,#15151f 25%,transparent 25%,transparent 75%,#15151f 75%);background-size:12px 12px;background-position:0 0,6px 6px}
+.miniatura canvas{width:100%;height:100%;object-fit:contain}
+.nota{font-size:13px;color:var(--gris);margin:8px 0 0}
+.estado{font-size:13px;color:var(--cian);margin-top:6px}
+.tiempo{font-variant-numeric:tabular-nums;text-align:center;font-size:30px;font-weight:800;color:var(--oro2);margin:6px 0 0}
+.barra{height:6px;border-radius:6px;background:rgba(212,175,55,.15);overflow:hidden;margin-top:8px}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--oro),var(--oro2))}
+.aviso{font-size:13px;color:#ffd27a;margin-top:8px}
+.ok{font-size:14px;color:#7dffb0;margin-top:8px}
+footer{text-align:center;color:var(--gris);font-size:12px;padding:6px 16px 24px;max-width:520px;margin:0 auto}
+
+/* ===== HOLOGRAMA (sale desde abajo, como en la app de gomitas) ===== */
+.holo{position:fixed;inset:0;z-index:90;background:linear-gradient(to bottom,rgba(0,0,0,.15),rgba(0,0,0,.6));opacity:0;pointer-events:none;transition:opacity .3s}
+.holo.on{opacity:1;pointer-events:auto}
+.holo canvas#holoC{position:absolute;left:50%;bottom:0;transform:translateX(-50%) translateY(60px) scale(.85);opacity:0;transition:transform .7s cubic-bezier(.2,1.3,.3,1),opacity .45s;filter:drop-shadow(0 12px 20px rgba(0,0,0,.55));transform-origin:50% 100%}
+.holo.on canvas#holoC{transform:translateX(-50%) translateY(0) scale(1);opacity:1}
+.holo .ht{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:4;padding:8px 18px;border-radius:30px;background:rgba(0,0,0,.6);border:1px solid var(--oro);font-weight:800;font-size:18px;color:#fff;white-space:nowrap;max-width:80vw;overflow:hidden;text-overflow:ellipsis}
+.holo .hx{position:absolute;top:14px;right:14px;width:42px;height:42px;border-radius:50%;border:1px solid var(--oro);background:rgba(0,0,0,.6);color:#fff;font-size:20px;z-index:5;cursor:pointer}
+.holo .hr{position:absolute;bottom:22px;right:16px;z-index:5;padding:10px 14px;border-radius:30px;border:1px solid var(--oro);background:rgba(0,0,0,.6);color:#fff;font-weight:700;cursor:pointer}
+.brillo{position:absolute;left:50%;bottom:-6vh;width:90vw;max-width:520px;height:14vh;transform:translateX(-50%);background:radial-gradient(ellipse at 50% 50%,rgba(243,215,122,.35),transparent 70%);pointer-events:none}
+
+/* portada del receptor */
+.portada{text-align:center;padding:30px 10px}
+.sobre{width:150px;height:150px;margin:10px auto 18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:56px;background:radial-gradient(circle,#2a2440,#0d0d14);border:2px solid var(--oro);box-shadow:0 0 30px rgba(212,175,55,.35);animation:late 1.8s ease-in-out infinite;cursor:pointer}
+@keyframes late{0%,100%{transform:scale(1)}50%{transform:scale(1.06)}}
+@media (prefers-reduced-motion:reduce){.sobre{animation:none}.holo canvas#holoC{transition:none}}
+</style></head>
+<body>
+<header>
+  <div class="logo">HOLOMENSAJE</div>
+  <h1 id="titulo">Tu mensaje sale de la pantalla</h1>
+  <p id="subtitulo">Graba tu voz, agrega tu foto y envíalo por WhatsApp.</p>
+</header>
+
+<main>
+  <!-- RECEPTOR -->
+  <section id="vistaVer" class="oculto">
+    <div class="portada">
+      <div class="sobre" id="sobre" role="button" aria-label="Abrir mensaje">🔮</div>
+      <button class="btn" id="btnAbrir" style="max-width:340px;margin:0 auto">Abrir mensaje</button>
+      <p class="nota">Sube el volumen.</p>
+      <a class="btn sec" href="./" style="max-width:340px;margin:22px auto 0">Crea tu propio HoloMensaje</a>
+    </div>
+  </section>
+
+  <!-- CREADOR -->
+  <section id="vistaCrear">
+    <div class="card">
+      <div class="paso">PASO 1</div>
+      <h2>Tu nombre</h2>
+      <input type="text" id="nombre" maxlength="30" placeholder="Ej: David" autocomplete="name">
+    </div>
+
+    <div class="card">
+      <div class="paso">PASO 2</div>
+      <h2>Tu foto</h2>
+      <div class="fotoBox">
+        <div class="miniatura" id="mini">👤</div>
+        <div style="flex:1">
+          <label class="btn sec" style="margin:0" for="foto">📷 Elegir o tomar foto</label>
+          <input type="file" id="foto" accept="image/*" class="oculto">
+          <div class="estado oculto" id="estadoFoto"></div>
+          <p class="nota">De frente, de la cintura para arriba y con buena luz. Quitamos el fondo solos. Usa tu propia foto o una con permiso.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="paso">PASO 3</div>
+      <h2>Graba tu mensaje</h2>
+      <div class="tiempo" id="tiempo">0:00 / 0:12</div>
+      <div class="barra"><i id="barra"></i></div>
+      <button class="btn rojo" id="btnGrabar">🎙️ Grabar</button>
+      <audio id="audioPrev" controls class="oculto" style="width:100%;margin-top:10px"></audio>
+      <p class="nota">Máximo 12 segundos.</p>
+      <div class="aviso oculto" id="avisoMic"></div>
+    </div>
+
+    <div class="card">
+      <div class="paso">PASO 4</div>
+      <h2>Míralo y envíalo</h2>
+      <button class="btn sec" id="btnVista" disabled>👁️ Ver cómo queda</button>
+      <button class="btn wa" id="btnWa" disabled>Enviar por WhatsApp</button>
+      <button class="btn sec" id="btnCopiar" disabled>Copiar enlace</button>
+      <div class="ok oculto" id="okCopia">Enlace copiado.</div>
+      <div class="aviso oculto" id="avisoTam"></div>
+    </div>
+  </section>
+</main>
+<footer>El holograma es un efecto animado sobre una foto, no un video real. Tu foto y tu voz viajan dentro del enlace y no se guardan en ningún servidor.</footer>
+
+<div class="holo" id="holo">
+  <div class="brillo"></div>
+  <button class="hx" id="holoX" aria-label="Cerrar">✕</button>
+  <div class="ht" id="holoT"></div>
+  <canvas id="holoC"></canvas>
+  <button class="hr" id="holoR">↻ Otra vez</button>
+</div>
+
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const MAX_SEG=12;
+const MP='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+const M_SEG='https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite';
+const M_CARA='https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/1/face_landmarker.task';
+let fotoData=null, boca=null, audioB64=null, audioTipo=null, grabador=null, trozos=[], t0=0, timer=null, stream=null;
+
+function aB64url(d){return d.replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');}
+function deB64url(s){s=s.replace(/-/g,'+').replace(/_/g,'/');while(s.length%4)s+='=';return s;}
+function base(){return location.href.split('#')[0].split('?')[0];}
+function armarEnlace(){
+  const n=($('nombre').value||'').trim().slice(0,30);
+  const fp=fotoData.split(','), ft=fp[0].replace('data:','').replace(';base64','');
+  const j=boca?('&j='+boca.map(v=>v.toFixed(3)).join(',')):'';
+  return base()+'#m=2&n='+encodeURIComponent(n)+'&f='+encodeURIComponent(ft)+'&t='+encodeURIComponent(audioTipo)+j+'&p='+aB64url(fp[1])+'&a='+aB64url(audioB64);
+}
+
+/* ---------- IA en el teléfono: quitar fondo y ubicar la boca ---------- */
+let visionP=null;
+function cargarVision(){
+  if(!visionP)visionP=(async()=>{
+    const v=await import(MP+'/vision_bundle.mjs');
+    const files=await v.FilesetResolver.forVisionTasks(MP+'/wasm');
+    const seg=await v.ImageSegmenter.createFromOptions(files,{baseOptions:{modelAssetPath:M_SEG},runningMode:'IMAGE',outputConfidenceMasks:true,outputCategoryMask:false});
+    let cara=null;try{cara=await v.FaceLandmarker.createFromOptions(files,{baseOptions:{modelAssetPath:M_CARA},runningMode:'IMAGE',numFaces:1});}catch(e){}
+    return {seg,cara};
+  })();
+  return visionP;
+}
+function estado(t){const e=$('estadoFoto');if(!t){e.classList.add('oculto');return;}e.textContent=t;e.classList.remove('oculto');}
+
+$('foto').addEventListener('change',async e=>{
+  const f=e.target.files&&e.target.files[0]; if(!f)return;
+  fotoData=null;boca=null;listo();
+  const img=await new Promise((ok,no)=>{const i=new Image();i.onload=()=>ok(i);i.onerror=no;i.src=URL.createObjectURL(f);});
+  // lienzo de trabajo
+  const S=Math.min(1,640/Math.max(img.width,img.height));
+  const w=Math.round(img.width*S),h=Math.round(img.height*S);
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(img,0,0,w,h);
+  let recorte=null, bocaAbs=null;
+  try{
+    estado('Quitando el fondo… (la primera vez tarda un poco)');
+    const {seg,cara}=await cargarVision();
+    const r=seg.segment(c); const m=r.confidenceMasks[0]; const conf=m.getAsFloat32Array(); const mw=m.width,mh=m.height;
+    const id=x.getImageData(0,0,w,h); let minX=w,minY=h,maxX=0,maxY=0;
+    for(let yy=0;yy<h;yy++)for(let xx=0;xx<w;xx++){
+      const k=Math.floor(yy*mh/h)*mw+Math.floor(xx*mw/w); let a=conf[k]; a=Math.max(0,Math.min(1,(a-0.35)/0.3));
+      id.data[(yy*w+xx)*4+3]=Math.round(a*255);
+      if(a>0.5){if(xx<minX)minX=xx;if(xx>maxX)maxX=xx;if(yy<minY)minY=yy;if(yy>maxY)maxY=yy;}
+    }
+    if(r.close)r.close();
+    if(maxX>minX&&maxY>minY){
+      x.putImageData(id,0,0);
+      const pad=6;minX=Math.max(0,minX-pad);minY=Math.max(0,minY-pad);maxX=Math.min(w-1,maxX+pad);maxY=h-1;
+      recorte=[minX,minY,maxX-minX+1,maxY-minY+1];
+    }
+    if(cara){estado('Buscando la boca…');
+      const fr=cara.detect(img);
+      if(fr&&fr.faceLandmarks&&fr.faceLandmarks[0]){const L=fr.faceLandmarks[0];
+        const lab=L[13],bajo=L[14],ment=L[152],izq=L[61],der=L[291],mi=L[234],md=L[454];
+        bocaAbs={x:(izq.x+der.x)/2*w,y:(lab.y+bajo.y)/2*h,bw:Math.abs(der.x-izq.x)*w,chin:ment.y*h,fw:Math.abs(md.x-mi.x)*w};
+      }}
+  }catch(err){estado('No pude quitar el fondo en este teléfono; usaré la foto completa.');}
+  if(!recorte)recorte=[0,0,w,h];
+  // escalar el recorte para que el enlace sea liviano
+  const [rx,ry,rw,rh]=recorte; const k=Math.min(1,300/rh,230/rw);
+  const o=document.createElement('canvas');o.width=Math.round(rw*k);o.height=Math.round(rh*k);
+  o.getContext('2d').drawImage(c,rx,ry,rw,rh,0,0,o.width,o.height);
+  let d=o.toDataURL('image/webp',0.6); if(d.indexOf('image/webp')<0)d=o.toDataURL('image/png');
+  fotoData=d;
+  if(bocaAbs){boca=[(bocaAbs.x-rx)/rw,(bocaAbs.y-ry)/rh,bocaAbs.bw/rw,(bocaAbs.chin-ry)/rh,bocaAbs.fw/rw];}
+  const mini=$('mini');mini.textContent='';mini.innerHTML='';const pv=document.createElement('img');pv.src=d;pv.style.cssText='max-width:100%;max-height:100%';mini.appendChild(pv);
+  estado(boca?'Listo: fondo quitado y boca ubicada.':'Listo.');
+  listo();
+});
+
+/* ---------- grabación ---------- */
+function fmt(s){s=Math.floor(s);return Math.floor(s/60)+':'+String(s%60).padStart(2,'0');}
+function tipoSoportado(){const ts=['audio/webm;codecs=opus','audio/ogg;codecs=opus','audio/mp4','audio/webm'];if(!window.MediaRecorder)return null;for(const t of ts){try{if(MediaRecorder.isTypeSupported(t))return t;}catch(e){}}return '';}
+$('btnGrabar').addEventListener('click',async()=>{
+  if(grabador&&grabador.state==='recording'){grabador.stop();return;}
+  const tipo=tipoSoportado();
+  if(tipo===null){avisoMic('Tu navegador no permite grabar audio. Prueba con Chrome.');return;}
+  try{stream=await navigator.mediaDevices.getUserMedia({audio:{channelCount:1,echoCancellation:true,noiseSuppression:true}});}
+  catch(e){avisoMic('No pude usar el micrófono. Revisa el permiso del navegador.');return;}
+  $('avisoMic').classList.add('oculto'); trozos=[];
+  const op={audioBitsPerSecond:10000}; if(tipo)op.mimeType=tipo;
+  try{grabador=new MediaRecorder(stream,op);}catch(e){grabador=new MediaRecorder(stream);}
+  grabador.ondataavailable=e=>{if(e.data&&e.data.size)trozos.push(e.data);};
+  grabador.onstop=()=>{clearInterval(timer);stream.getTracks().forEach(t=>t.stop());
+    $('btnGrabar').textContent='🎙️ Grabar de nuevo';
+    const blob=new Blob(trozos,{type:grabador.mimeType||tipo||'audio/webm'});
+    audioTipo=(blob.type||'audio/webm').split(';')[0];
+    $('audioPrev').src=URL.createObjectURL(blob);$('audioPrev').classList.remove('oculto');
+    const fr=new FileReader();fr.onload=()=>{audioB64=String(fr.result).split(',')[1];listo();};fr.readAsDataURL(blob);};
+  grabador.start(250);t0=Date.now();$('btnGrabar').textContent='⏹️ Detener';
+  timer=setInterval(()=>{const s=(Date.now()-t0)/1000;$('tiempo').textContent=fmt(s)+' / '+fmt(MAX_SEG);$('barra').style.width=Math.min(100,s/MAX_SEG*100)+'%';if(s>=MAX_SEG&&grabador.state==='recording')grabador.stop();},200);
+});
+function avisoMic(t){const a=$('avisoMic');a.textContent=t;a.classList.remove('oculto');}
+
+/* ---------- envío ---------- */
+function listo(){
+  const ok=!!(fotoData&&audioB64);
+  ['btnVista','btnWa','btnCopiar'].forEach(id=>$(id).disabled=!ok);
+  const a=$('avisoTam');
+  if(ok){const L=armarEnlace().length;
+    if(L>60000){a.textContent='El mensaje quedó muy pesado. Graba uno más corto para que WhatsApp lo acepte.';a.classList.remove('oculto');$('btnWa').disabled=true;$('btnCopiar').disabled=true;}
+    else a.classList.add('oculto');}
+}
+$('btnVista').addEventListener('click',()=>{const n=($('nombre').value||'').trim();abrirHolo({n,p:fotoData,a:audioB64,t:audioTipo,j:boca});});
+$('btnWa').addEventListener('click',()=>{const n=($('nombre').value||'').trim();
+  const txt=(n?n+' te envió':'Te enviaron')+' un HoloMensaje. Ábrelo aquí: '+armarEnlace();
+  location.href='https://wa.me/?text='+encodeURIComponent(txt);});
+$('btnCopiar').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(armarEnlace());$('okCopia').classList.remove('oculto');setTimeout(()=>$('okCopia').classList.add('oculto'),2500);}catch(e){prompt('Copia el enlace:',armarEnlace());}});
+
+/* ---------- holograma ---------- */
+let audioEl=null,actx=null,an=null,buf=null,raf=0,figura=null,datos=null,t0h=0;
+function abrirHolo(m){
+  datos=m; $('holoT').textContent=m.n?('Mensaje de '+m.n):'HoloMensaje';
+  if(audioEl){audioEl.pause();}
+  audioEl=new Audio('data:'+(m.t||'audio/webm')+';base64,'+m.a); audioEl.onended=fin;
+  try{if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();
+    const src=actx.createMediaElementSource(audioEl);an=actx.createAnalyser();an.fftSize=256;src.connect(an);an.connect(actx.destination);buf=new Uint8Array(an.frequencyBinCount);
+    if(actx.state==='suspended')actx.resume();}catch(e){an=null;}
+  audioEl.play().then(()=>{audioEl.pause();audioEl.currentTime=0;}).catch(()=>{});
+  figura=new Image(); figura.onload=()=>{
+    $('holo').classList.add('on');
+    setTimeout(()=>{audioEl.currentTime=0;audioEl.play().catch(()=>{});},650);
+    t0h=performance.now();cancelAnimationFrame(raf);dibujar();
+  };
+  figura.src=m.p;
+}
+function fin(){setTimeout(()=>{if(audioEl&&audioEl.paused)cerrar();},900);}
+function cerrar(){$('holo').classList.remove('on');if(audioEl)audioEl.pause();setTimeout(()=>cancelAnimationFrame(raf),500);}
+$('holoX').onclick=cerrar;
+$('holoR').onclick=e=>{e.stopPropagation();if(!audioEl)return;audioEl.currentTime=0;if(actx&&actx.state==='suspended')actx.resume();audioEl.play().catch(()=>{});};
+let suave=0;
+function nivelVoz(){
+  if(!audioEl||audioEl.paused)return 0;
+  if(an){an.getByteFrequencyData(buf);let s=0;for(let i=2;i<30;i++)s+=buf[i];return Math.min(1,s/28/140);}
+  return 0.25+0.35*Math.abs(Math.sin(performance.now()/90));
+}
+function dibujar(){
+  const c=$('holoC'),x=c.getContext('2d'),dpr=Math.min(devicePixelRatio||1,2);
+  const W=innerWidth,H=innerHeight,ar=figura.width/figura.height;
+  let h=Math.min(H*.86,W*1.45),w=h*ar; if(w>W*.98){w=W*.98;h=w/ar;}
+  c.style.width=w+'px';c.style.height=h+'px';
+  const pw=Math.round(w*dpr),ph=Math.round(h*dpr); if(c.width!==pw||c.height!==ph){c.width=pw;c.height=ph;}
+  const v=nivelVoz(); suave+= (v-suave)*0.5;
+  const t=(performance.now()-t0h)/1000;
+  x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,pw,ph);
+  // respiración y leve balanceo al hablar
+  const esc=1+Math.sin(t*1.6)*0.006+suave*0.012, rot=Math.sin(t*0.9)*0.008+(suave*0.01*Math.sin(t*7));
+  x.translate(pw/2,ph);x.rotate(rot);x.scale(esc,esc);x.translate(-pw/2,-ph);
+  x.drawImage(figura,0,0,pw,ph);
+  // boca: abre la mandíbula con la voz
+  const j=datos&&datos.j;
+  if(j&&suave>0.03){
+    const mx=j[0]*pw,my=j[1]*ph,bw=Math.max(j[2]*pw,8),cy=j[3]*ph,fw=j[4]*pw;
+    const abre=Math.min(suave,1)*Math.max(4,(cy-my)*0.22);
+    x.save();x.beginPath();x.ellipse(mx,my+abre*0.5,bw*0.5,abre*0.6+1,0,0,Math.PI*2);x.fillStyle='rgba(45,12,14,.92)';x.fill();x.restore();
+    x.save();x.beginPath();x.ellipse(mx,(my+cy)/2+abre,fw*0.42,(cy-my)/2+abre*0.6,0,0,Math.PI*2);x.clip();
+    const sy=my,sh=(cy-my)*1.15;
+    x.drawImage(figura,(mx-fw*0.45)/pw*figura.width,sy/ph*figura.height,(fw*0.9)/pw*figura.width,sh/ph*figura.height,mx-fw*0.45,sy+abre,fw*0.9,sh);
+    x.restore();
+  }
+  // brillo sutil de holograma en el borde
+  x.setTransform(1,0,0,1,0,0);
+  const g=x.createLinearGradient(0,((t*0.35)%1.4-0.2)*ph,0,((t*0.35)%1.4-0.2)*ph+ph*0.12);
+  g.addColorStop(0,'rgba(255,255,255,0)');g.addColorStop(.5,'rgba(190,250,255,.10)');g.addColorStop(1,'rgba(255,255,255,0)');
+  x.globalCompositeOperation='source-atop';x.fillStyle=g;x.fillRect(0,0,pw,ph);x.globalCompositeOperation='source-over';
+  raf=requestAnimationFrame(dibujar);
+}
+
+/* ---------- ruta ---------- */
+function ruta(){
+  const h=location.hash; if(!/^#m=[12]&/.test(h))return;
+  try{const q={};h.slice(1).split('&').forEach(kv=>{const i=kv.indexOf('=');q[kv.slice(0,i)]=kv.slice(i+1);});
+    if(!q.p||!q.a)throw 0;
+    const m={n:decodeURIComponent(q.n||''),t:decodeURIComponent(q.t||'audio/webm'),p:'data:'+decodeURIComponent(q.f||'image/webp')+';base64,'+deB64url(q.p),a:deB64url(q.a),j:q.j?q.j.split(',').map(Number):null};
+    $('vistaCrear').classList.add('oculto');$('vistaVer').classList.remove('oculto');
+    $('titulo').textContent=m.n?(m.n+' te envió un mensaje'):'Tienes un HoloMensaje';
+    $('subtitulo').textContent='Toca para que aparezca en tu pantalla.';
+    $('sobre').onclick=$('btnAbrir').onclick=()=>abrirHolo(m);
+  }catch(e){$('subtitulo').textContent='Este enlace está incompleto. Pídele a quien te lo envió que lo mande otra vez.';}
+}
+ruta();
+})();
+</script>
+</body></html>
