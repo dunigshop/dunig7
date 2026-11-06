@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HoloLlamada · Llamadas en holograma</title>
+<meta name="description" content="Llamadas en vivo donde la otra persona aparece en tu pantalla como holograma.">
+<meta property="og:title" content="🔮 HoloLlamada">
+<meta property="og:description" content="Llamadas en vivo en holograma. Agrégame como contacto.">
+<meta name="theme-color" content="#07070c">
+<style>
+:root{--bg:#07070c;--oro:#d4af37;--oro2:#f3d77a;--txt:#f3f3f6;--gris:#a9a9b8;--panel:rgba(255,255,255,.05);--borde:rgba(212,175,55,.35)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:radial-gradient(ellipse at 50% 0%,#1d1a2b 0%,#07070c 65%) fixed,var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;line-height:1.45}
+.oculto{display:none!important}
+header{text-align:center;padding:20px 14px 4px}
+.logo{font-weight:800;letter-spacing:5px;font-size:12px;color:var(--oro)}
+h1{margin:6px 0 2px;font-size:24px;color:var(--oro2)}
+header p{margin:0;color:var(--gris);font-size:14px}
+main{max-width:520px;margin:0 auto;padding:8px 14px 26px}
+.card{background:var(--panel);border:1px solid var(--borde);border-radius:16px;padding:14px;margin:12px 0}
+h2{margin:0 0 10px;font-size:18px}
+input[type=text]{width:100%;padding:12px;border-radius:10px;border:1px solid var(--borde);background:#0d0d14;color:var(--txt);font-size:16px;margin-top:6px}
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:14px;border:0;border-radius:12px;font-weight:800;font-size:16px;cursor:pointer;margin-top:10px;color:#111;background:linear-gradient(180deg,var(--oro2),var(--oro));text-decoration:none}
+.btn.sec{background:transparent;color:var(--oro2);border:1px solid var(--oro)}
+.btn.verde{background:linear-gradient(180deg,#4cf08b,#1fbf5f);color:#00210d}
+.btn.rojo{background:linear-gradient(180deg,#ff6f86,#ff2d55);color:#fff}
+.codigo{font-size:30px;font-weight:900;letter-spacing:3px;color:var(--oro2);text-align:center;margin:4px 0}
+.estado{font-size:13px;text-align:center;margin-top:4px;color:var(--gris)}
+.estado.on{color:#7dffb0}.estado.mal{color:#ffd27a}
+.contacto{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.07)}
+.contacto:last-child{border-bottom:0}
+.avatar{width:46px;height:46px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:20px;color:#111;background:linear-gradient(180deg,var(--oro2),var(--oro))}
+.contacto .info{flex:1;min-width:0}
+.contacto .info b{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contacto .info small{color:var(--gris)}
+.llamar{width:50px;height:50px;border-radius:50%;border:0;font-size:22px;cursor:pointer;background:linear-gradient(180deg,#4cf08b,#1fbf5f)}
+.borrar{background:none;border:0;color:var(--gris);font-size:18px;cursor:pointer;padding:6px}
+.nota{font-size:13px;color:var(--gris);margin:8px 0 0}
+.aviso{font-size:13px;color:#ffd27a;margin-top:8px}
+.ok{font-size:14px;color:#7dffb0;margin-top:8px}
+.fila{display:flex;gap:8px}.fila .btn{margin-top:10px}
+footer{text-align:center;color:var(--gris);font-size:12px;padding:6px 16px 24px;max-width:520px;margin:0 auto}
+
+/* timbre */
+.timbre{position:fixed;inset:0;z-index:80;background:rgba(5,5,10,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px}
+.timbre .grande{width:130px;height:130px;font-size:56px;animation:late 1.2s ease-in-out infinite;box-shadow:0 0 40px rgba(212,175,55,.5)}
+@keyframes late{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+.timbre h2{font-size:24px;margin:18px 0 4px}
+.timbre .fila{width:100%;max-width:340px;margin-top:20px}
+
+/* holograma (como en la tienda de gomitas) */
+.holo{position:fixed;inset:0;z-index:90;background:radial-gradient(ellipse at 50% 30%,#1b1830,#030307 75%);opacity:0;pointer-events:none;transition:opacity .3s}
+.holo.on{opacity:1;pointer-events:auto}
+.holo canvas{position:absolute;left:50%;bottom:-2vh;transform:translateX(-50%) translateY(40px) scale(.85);opacity:0;transition:transform .6s cubic-bezier(.2,1.3,.3,1),opacity .4s;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45));transform-origin:50% 100%;pointer-events:none}
+.holo.vivo canvas{transform:translateX(-50%) translateY(0) scale(1);opacity:1}
+.holo .ht{position:absolute;top:18px;left:50%;transform:translateX(-50%);z-index:4;padding:8px 18px;border-radius:30px;background:rgba(0,0,0,.6);border:1px solid var(--oro);font-weight:800;font-size:17px;color:#fff;white-space:nowrap;max-width:80vw;overflow:hidden;text-overflow:ellipsis}
+.holo .yo{position:absolute;left:14px;bottom:24px;width:92px;height:122px;border-radius:14px;object-fit:cover;border:1px solid var(--oro);transform:scaleX(-1);z-index:4;background:#000}
+.holo .colgar{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);width:66px;height:66px;border-radius:50%;border:0;font-size:28px;background:linear-gradient(180deg,#ff6f86,#ff2d55);color:#fff;z-index:5;cursor:pointer}
+.holo .hc{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;text-shadow:0 2px 8px #000;text-align:center;padding:20px}
+</style></head>
+<body>
+<header>
+  <div class="logo">HOLOLLAMADA</div>
+  <h1>Llamadas en holograma</h1>
+  <p>En vivo, de teléfono a teléfono. No se guarda nada.</p>
+</header>
+
+<main>
+  <!-- registro -->
+  <section id="vistaRegistro" class="oculto">
+    <div class="card">
+      <h2>¿Cómo te llamas?</h2>
+      <input type="text" id="miNombre" maxlength="20" placeholder="Ej: David" autocomplete="given-name">
+      <button class="btn" id="btnEntrar">Entrar</button>
+      <p class="nota">Te daremos un código para que tus contactos te llamen.</p>
+    </div>
+  </section>
+
+  <!-- principal -->
+  <section id="vistaApp" class="oculto">
+    <div class="card" style="text-align:center">
+      <div class="nota" style="margin:0">Tu código</div>
+      <div class="codigo" id="miCodigo">—</div>
+      <div class="estado" id="estadoRed">Conectando…</div>
+      <div class="fila"><button class="btn sec" id="btnCompartir">📤 Compartir mi código</button></div>
+    </div>
+
+    <div class="card">
+      <h2>Contactos</h2>
+      <div id="lista"></div>
+      <p class="nota oculto" id="vacio">Aún no tienes contactos. Agrega el código de alguien que tenga HoloLlamada.</p>
+    </div>
+
+    <div class="card">
+      <h2>Agregar contacto</h2>
+      <input type="text" id="cNombre" maxlength="20" placeholder="Nombre (Ej: Pedrito)">
+      <input type="text" id="cCodigo" maxlength="30" placeholder="Código (Ej: PEDRITO-4821)" autocapitalize="characters">
+      <button class="btn sec" id="btnAgregar">➕ Agregar</button>
+      <div class="aviso oculto" id="avisoAgregar"></div>
+    </div>
+    <p class="nota" style="text-align:center">Para recibir llamadas, deja esta app abierta.</p>
+  </section>
+</main>
+<footer>Prototipo. El holograma es un efecto hecho en el teléfono de quien recibe la llamada; nada se graba ni se guarda.</footer>
+
+<!-- llamada entrante -->
+<div class="timbre oculto" id="timbre">
+  <div class="avatar grande" id="timbreAv">?</div>
+  <h2 id="timbreNom">Llamada</h2>
+  <div class="nota">Llamada holográfica entrante</div>
+  <div class="fila"><button class="btn rojo" id="btnRechazar">Rechazar</button><button class="btn verde" id="btnAceptar">Aceptar</button></div>
+</div>
+
+<!-- en llamada -->
+<div class="holo" id="holo">
+  <div class="ht" id="holoT">HoloLlamada</div>
+  <canvas id="holoC"></canvas>
+  <div class="hc" id="holoCarga">Llamando…</div>
+  <video class="yo" id="yo" playsinline muted autoplay></video>
+  <button class="colgar" id="btnColgar" aria-label="Colgar">✆</button>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/peerjs@1.5.4/dist/peerjs.min.js"></script>
+<script>
+(function(){
+const $=id=>document.getElementById(id);
+const PRE='hololl-v1-';
+const MP='https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.14';
+const M_SEG='https://storage.googleapis.com/mediapipe-models/image_segmenter/selfie_segmenter/float16/latest/selfie_segmenter.tflite';
+const ICE={iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun1.l.google.com:19302'}]};
+let peer=null, local=null, llamada=null, entrante=null, miNombre='', miCodigo='', reintentos=0, wake=null;
+
+function slug(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,12)||'HOLO';}
+function contactos(){try{return JSON.parse(localStorage.getItem('holollContactos')||'[]');}catch(e){return [];}}
+function guardarContactos(c){localStorage.setItem('holollContactos',JSON.stringify(c));}
+function nombreDe(codigo){const c=contactos().find(x=>x.codigo===codigo);return c?c.nombre:'';}
+function estadoRed(t,cl){const e=$('estadoRed');e.textContent=t;e.className='estado'+(cl?' '+cl:'');}
+
+/* ---------- inicio ---------- */
+function iniciar(){
+  miNombre=localStorage.getItem('holollNombre')||'';
+  miCodigo=localStorage.getItem('holollCodigo')||'';
+  agregarDesdeEnlace();
+  if(!miNombre||!miCodigo){$('vistaRegistro').classList.remove('oculto');return;}
+  $('vistaRegistro').classList.add('oculto');$('vistaApp').classList.remove('oculto');
+  $('miCodigo').textContent=miCodigo; pintar(); conectar();
+}
+$('btnEntrar').onclick=()=>{
+  const n=($('miNombre').value||'').trim(); if(!n){$('miNombre').focus();return;}
+  localStorage.setItem('holollNombre',n);
+  localStorage.setItem('holollCodigo',slug(n)+'-'+(1000+Math.floor(Math.random()*9000)));
+  iniciar();
+};
+function agregarDesdeEnlace(){
+  const h=location.hash; const m=/agregar=([A-Z0-9-]+)/i.exec(h); if(!m)return;
+  const n=(/[#&]n=([^&]*)/.exec(h)||[])[1];
+  const cod=m[1].toUpperCase(); const c=contactos();
+  if(!c.find(x=>x.codigo===cod)&&cod!==localStorage.getItem('holollCodigo')){c.push({nombre:n?decodeURIComponent(n):cod,codigo:cod});guardarContactos(c);}
+  history.replaceState(null,'',location.pathname);
+}
+
+/* ---------- red (sin servidor propio, sin base de datos) ---------- */
+function conectar(){
+  if(peer){try{peer.destroy();}catch(e){}}
+  estadoRed('Conectando…');
+  peer=new Peer(PRE+miCodigo.toLowerCase(),{config:ICE,debug:0});
+  peer.on('open',()=>{reintentos=0;estadoRed('● En línea: ya pueden llamarte','on');});
+  peer.on('call',c=>{
+    if(llamada){c.close();return;}
+    entrante=c; const n=(c.metadata&&c.metadata.n)||nombreDe(codigoDe(c.peer))||codigoDe(c.peer);
+    $('timbreNom').textContent=n;$('timbreAv').textContent=(n[0]||'?').toUpperCase();
+    $('timbre').classList.remove('oculto'); sonar(true);
+    c.on('close',()=>{if(entrante===c){entrante=null;$('timbre').classList.add('oculto');sonar(false);}});
+  });
+  peer.on('disconnected',()=>{estadoRed('Reconectando…','mal');setTimeout(()=>{try{peer.reconnect();}catch(e){conectar();}},1500);});
+  peer.on('error',e=>{
+    if(e.type==='unavailable-id'){
+      if(++reintentos<3){estadoRed('Tu código está abierto en otra pestaña. Reintentando…','mal');setTimeout(conectar,4000);}
+      else estadoRed('Tu código está abierto en otra pestaña o teléfono. Cierra la otra.','mal');
+    }else if(e.type==='peer-unavailable'){fallo('Esa persona no está en línea ahora. Debe tener HoloLlamada abierta.');}
+    else if(e.type==='network'||e.type==='server-error'||e.type==='socket-error'||e.type==='socket-closed'){estadoRed('Sin conexión. Reintentando…','mal');setTimeout(conectar,4000);}
+    else{fallo('No se pudo conectar ('+e.type+').');}
+  });
+}
+function codigoDe(pid){return pid.replace(PRE,'').toUpperCase();}
+
+/* ---------- contactos ---------- */
+function pintar(){
+  const l=$('lista'),c=contactos(); l.innerHTML='';
+  $('vacio').classList.toggle('oculto',c.length>0);
+  c.forEach((x,i)=>{
+    const d=document.createElement('div');d.className='contacto';
+    d.innerHTML='<div class="avatar"></div><div class="info"><b></b><small></small></div><button class="borrar" aria-label="Borrar">✕</button><button class="llamar" aria-label="Llamar">📞</button>';
+    d.querySelector('.avatar').textContent=(x.nombre[0]||'?').toUpperCase();
+    d.querySelector('b').textContent=x.nombre;d.querySelector('small').textContent=x.codigo;
+    d.querySelector('.llamar').onclick=()=>llamar(x);
+    d.querySelector('.borrar').onclick=()=>{if(confirm('¿Borrar a '+x.nombre+'?')){const cc=contactos();cc.splice(i,1);guardarContactos(cc);pintar();}};
+    l.appendChild(d);
+  });
+}
+$('btnAgregar').onclick=()=>{
+  const n=($('cNombre').value||'').trim(), cod=($('cCodigo').value||'').trim().toUpperCase().replace(/\s+/g,'');
+  const a=$('avisoAgregar');
+  if(!n||!/^[A-Z0-9]+-\d{4}$/.test(cod)){a.textContent='Escribe el nombre y el código completo (Ej: PEDRITO-4821).';a.classList.remove('oculto');return;}
+  if(cod===miCodigo){a.textContent='Ese es tu propio código.';a.classList.remove('oculto');return;}
+  a.classList.add('oculto');
+  const c=contactos().filter(x=>x.codigo!==cod);c.push({nombre:n,codigo:cod});guardarContactos(c);
+  $('cNombre').value='';$('cCodigo').value='';pintar();
+};
+$('btnCompartir').onclick=async()=>{
+  const url=location.origin+location.pathname+'#agregar='+miCodigo+'&n='+encodeURIComponent(miNombre);
+  const t='🔮 Llámame en holograma con HoloLlamada. Mi código es '+miCodigo+'. Ábrelo aquí y quedo agregado: '+url;
+  if(navigator.share){try{await navigator.share({text:t});return;}catch(e){if(e&&e.name==='AbortError')return;}}
+  try{await navigator.clipboard.writeText(t);alert('Copiado. Pégalo donde quieras.');}catch(e){prompt('Copia esto:',t);}
+};
+
+/* ---------- llamada ---------- */
+async function camara(){
+  if(local)return local;
+  local=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:{ideal:480},height:{ideal:640},frameRate:{ideal:20,max:24}},audio:{echoCancellation:true,noiseSuppression:true}});
+  $('yo').srcObject=local; return local;
+}
+async function llamar(x){
+  if(!peer||!peer.open){alert('Aún no estás en línea. Espera un momento.');return;}
+  abrirHolo(x.nombre,'Llamando a '+x.nombre+'…');
+  try{await camara();}catch(e){fallo('No pude usar la cámara o el micrófono. Revisa los permisos.');return;}
+  const c=peer.call(PRE+x.codigo.toLowerCase(),local,{metadata:{n:miNombre}});
+  if(!c){fallo('No se pudo llamar.');return;}
+  enlazar(c,x.nombre);
+  setTimeout(()=>{if(llamada===c&&!remotoActivo)fallo(x.nombre+' no contestó.');},35000);
+}
+$('btnAceptar').onclick=async()=>{
+  const c=entrante; if(!c)return; entrante=null; sonar(false); $('timbre').classList.add('oculto');
+  const n=$('timbreNom').textContent;
+  abrirHolo(n,'Conectando…');
+  try{await camara();}catch(e){c.close();fallo('No pude usar la cámara o el micrófono.');return;}
+  c.answer(local); enlazar(c,n);
+};
+$('btnRechazar').onclick=()=>{if(entrante){entrante.close();entrante=null;}sonar(false);$('timbre').classList.add('oculto');};
+$('btnColgar').onclick=()=>colgar();
+
+let remotoActivo=false;
+function enlazar(c,n){
+  llamada=c; remotoActivo=false;
+  c.on('stream',s=>{remotoActivo=true;mostrarRemoto(s,n);});
+  c.on('close',()=>{if(llamada===c)colgar('Llamada terminada.');});
+  c.on('error',()=>{if(llamada===c)colgar('Se cortó la llamada.');});
+  const pc=c.peerConnection; if(pc)pc.addEventListener('iceconnectionstatechange',()=>{
+    if(pc.iceConnectionState==='failed'&&llamada===c)colgar('No se pudo conectar con esta red. Prueben ambos con datos móviles o con otro Wi-Fi.');
+  });
+}
+function colgar(msg){
+  const c=llamada; llamada=null; remotoActivo=false;
+  if(c){try{c.close();}catch(e){}}
+  if(local){local.getTracks().forEach(t=>t.stop());local=null;}
+  rv.pause();rv.srcObject=null;
+  if(msg){$('holoCarga').textContent=msg;$('holoCarga').classList.remove('oculto');$('holo').classList.remove('vivo');setTimeout(cerrarHolo,1800);}
+  else cerrarHolo();
+}
+function fallo(msg){colgar(msg);}
+
+/* ---------- holograma ---------- */
+const rv=document.createElement('video'); rv.playsInline=true; rv.autoplay=true;
+const mascara=document.createElement('canvas'), mctx=mascara.getContext('2d');
+let segP=null, seg=null, raf=0, ultimoTs=0;
+function cargarSeg(){
+  if(!segP)segP=(async()=>{
+    const v=await import(MP+'/vision_bundle.mjs');
+    const files=await v.FilesetResolver.forVisionTasks(MP+'/wasm');
+    const op=d=>({baseOptions:{modelAssetPath:M_SEG,delegate:d},runningMode:'VIDEO',outputConfidenceMasks:true,outputCategoryMask:false});
+    try{return await v.ImageSegmenter.createFromOptions(files,op('GPU'));}catch(e){return await v.ImageSegmenter.createFromOptions(files,op('CPU'));}
+  })();
+  return segP;
+}
+function abrirHolo(n,txt){
+  $('holoT').textContent=n;$('holoCarga').textContent=txt;$('holoCarga').classList.remove('oculto');
+  $('holo').classList.add('on');$('holo').classList.remove('vivo');
+  if(navigator.wakeLock)navigator.wakeLock.request('screen').then(w=>wake=w).catch(()=>{});
+  cargarSeg().then(s=>seg=s).catch(()=>{seg=null;});
+}
+function cerrarHolo(){$('holo').classList.remove('on','vivo');cancelAnimationFrame(raf);if(wake){wake.release().catch(()=>{});wake=null;}}
+async function mostrarRemoto(s,n){
+  rv.srcObject=s; rv.muted=false;
+  try{await rv.play();}catch(e){rv.muted=true;rv.play().catch(()=>{});}
+  await new Promise(r=>{if(rv.videoWidth)r();else rv.onloadedmetadata=()=>r();});
+  $('holoT').textContent='En llamada con '+n;
+  $('holoCarga').classList.add('oculto');
+  medir(); cancelAnimationFrame(raf); cuadro();
+  setTimeout(()=>$('holo').classList.add('vivo'),100);
+}
+function medir(){
+  const c=$('holoC'),vw=rv.videoWidth||3,vh=rv.videoHeight||4,ar=vw/vh;
+  let h=Math.min(innerHeight*0.86,innerWidth*1.5),w=h*ar; if(w>innerWidth){w=innerWidth;h=w/ar;}
+  c.style.width=w+'px';c.style.height=h+'px';
+  const k=Math.min(1,640/Math.max(vw,vh)); c.width=Math.round(vw*k); c.height=Math.round(vh*k);
+}
+addEventListener('resize',()=>{if(remotoActivo)medir();});
+function cuadro(){
+  const c=$('holoC'),x=c.getContext('2d');
+  if(rv.videoWidth&&(rv.videoWidth/rv.videoHeight).toFixed(2)!==(c.width/c.height).toFixed(2))medir();
+  if(rv.readyState>=2){
+    x.globalCompositeOperation='source-over';x.clearRect(0,0,c.width,c.height);
+    x.save();x.translate(c.width,0);x.scale(-1,1);x.drawImage(rv,0,0,c.width,c.height);x.restore();
+    if(seg){
+      const ts=Math.max(performance.now(),ultimoTs+1);ultimoTs=ts;
+      let r=null;try{r=seg.segmentForVideo(rv,ts);}catch(e){r=null;}
+      if(r&&r.confidenceMasks&&r.confidenceMasks[0]){
+        const m=r.confidenceMasks[0],mw=m.width,mh=m.height,cf=m.getAsFloat32Array();
+        if(mascara.width!==mw||mascara.height!==mh){mascara.width=mw;mascara.height=mh;}
+        const id=mctx.createImageData(mw,mh);
+        for(let i=0;i<cf.length;i++){let a=(cf[i]-0.4)/0.3;a=a<0?0:a>1?1:a;id.data[i*4+3]=a*255;}
+        mctx.putImageData(id,0,0);if(r.close)r.close();
+        x.save();x.globalCompositeOperation='destination-in';x.translate(c.width,0);x.scale(-1,1);x.drawImage(mascara,0,0,c.width,c.height);x.restore();
+      }
+    }else{
+      const g=x.createRadialGradient(c.width/2,c.height*0.5,c.width*0.25,c.width/2,c.height*0.5,c.width*0.6);
+      g.addColorStop(0,'rgba(0,0,0,1)');g.addColorStop(1,'rgba(0,0,0,0)');
+      x.globalCompositeOperation='destination-in';x.fillStyle=g;x.fillRect(0,0,c.width,c.height);x.globalCompositeOperation='source-over';
+    }
+  }
+  raf=requestAnimationFrame(cuadro);
+}
+
+/* ---------- timbre ---------- */
+let actx=null,tono=null;
+function sonar(on){
+  clearInterval(tono);tono=null;
+  if(!on){if(navigator.vibrate)navigator.vibrate(0);return;}
+  const bip=()=>{try{if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();
+    [0,0.25].forEach(d=>{const o=actx.createOscillator(),g=actx.createGain();o.frequency.value=880;g.gain.value=0.15;o.connect(g);g.connect(actx.destination);o.start(actx.currentTime+d);o.stop(actx.currentTime+d+0.18);});}catch(e){}
+    if(navigator.vibrate)navigator.vibrate([300,200,300]);};
+  bip();tono=setInterval(bip,1600);
+}
+document.addEventListener('click',()=>{try{if(!actx)actx=new (window.AudioContext||window.webkitAudioContext)();if(actx.state==='suspended')actx.resume();}catch(e){}},{once:true});
+
+iniciar();
+})();
+</script>
+</body></html>
